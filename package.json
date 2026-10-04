@@ -1,0 +1,17 @@
+{
+  "name": "com.heroscode.toolkit",
+  "version": "0.0.1",
+  "displayName": "HerosCode's Toolkit",
+  "description": "An extrapolated layer on top of Unity handling both foundational and gameplay related game systems.",
+  "unity": "6000.4",
+  "unityRelease": "1f1",
+  "author": {
+    "name": "HerosCode",
+    "url": "https://heroscode.carrd.co/"
+  },
+  "dependencies": {
+    "com.unity.addressables": "2.9.1",
+    "com.unity.nuget.newtonsoft-json": "3.2.2",
+    "com.unity.cinemachine": "3.1.7"
+  }
+}

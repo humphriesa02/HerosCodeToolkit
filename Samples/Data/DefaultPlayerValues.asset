@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccceee92549e8794fa56bb125d6a0609, type: 3}
+  m_Name: DefaultPlayerValues
+  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::PlayerValues
+  moveSpeed: 6
+  jumpHeight: 0.8
+  rollSpeed: 10
+  gravityMultiplier: 1
+  speedDampTime: 0.1
+  velocityDampTime: 0.25
+  rotationDampTime: 0.3
+  airControl: 0.5
+  landingTime: 0.05

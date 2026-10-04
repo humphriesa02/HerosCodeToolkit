@@ -1,0 +1,20 @@
+{
+    "name": "HerosCode.Toolkit.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:44feed9798cf02c4bb8bd4dbb46aab9a",
+        "GUID:69448af7b92c7f342b298e06a37122aa",
+        "GUID:84651a3751eca9349aac36a66bba901b"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
