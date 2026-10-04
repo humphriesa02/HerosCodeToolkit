@@ -1,4 +1,5 @@
 # HerosCode.Toolkit
+A Unity toolkit dedicated to making video games faster and easier.
 
 If this ever has "Set up for AI Context" in it - shoot me.
 
