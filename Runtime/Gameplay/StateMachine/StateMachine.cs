@@ -13,11 +13,6 @@ public class StateMachine
         startingState.Enter();
     }
 
-    public void HandleInput()
-    {
-        currentState.HandleInput();
-    }
-
     public void LogicUpdate()
     {
         currentState.LogicUpdate();

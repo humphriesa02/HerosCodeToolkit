@@ -1,5 +1,16 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+
+/// <summary>
+/// Locomotion states set these,
+/// and are read by actions to determine
+/// which can be done when
+/// </summary>
+public enum PlayerLocomotionTags
+{
+    Grounded,
+    Airborne,
+    Submerged
+}
 
 /// <summary>
 /// A state purely represents locomotion available
@@ -17,20 +28,14 @@ public class PlayerLocomotionState : State
     protected PlayerController player;
     protected StateMachine stateMachine;
     protected PlayerValues values;
+    protected PlayerContext context;
 
-    // Some good 
-    protected Vector3 gravityVelocity;
-    protected Vector3 velocity;
-    protected Vector2 moveInput;
 
-    protected InputAction moveAction; // Movement
-
-    public PlayerLocomotionState(PlayerController _player, StateMachine _stateMachine, PlayerValues _values)
+    public PlayerLocomotionState(PlayerController _player, StateMachine _stateMachine, PlayerValues _values, PlayerContext _context)
     {
         player = _player;
         stateMachine = _stateMachine;
         values = _values;
-
-        moveAction = player.playerInput.actions["Move"];
+        context = _context;
     }
 }

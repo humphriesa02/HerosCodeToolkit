@@ -22,6 +22,13 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public float gravityValue = -9.81f;
     [HideInInspector] public Vector3 playerVelocity;
 
+    // Context
+    private PlayerContext context;
+
+    // Sensors
+    private PlayerInputSensor playerInputSensor;
+    private PlayerWorldSensor playerWorldSensor;
+
     // State Machine
     private StateMachine movementSM;
     public GroundState groundState;
@@ -38,10 +45,18 @@ public class PlayerController : MonoBehaviour
             animator = GetComponentInChildren<Animator>();
         }
         
+        // Context
+        context = new();
+
+        // Sensors
+        playerInputSensor = new(playerInput);
+        playerWorldSensor = new();
+
+        // Locomotion State
         movementSM = new StateMachine();
-        groundState = new GroundState(this, movementSM, playerValues);
-        jumpState = new AirState(this, movementSM, playerValues);
-        landingState = new LandingState(this, movementSM, playerValues);
+        groundState = new GroundState(this, movementSM, playerValues, context);
+        jumpState = new AirState(this, movementSM, playerValues, context);
+        landingState = new LandingState(this, movementSM, playerValues, context);
     }
 
     void Start()
@@ -56,7 +71,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        movementSM.HandleInput();
+        // Set the context via sensors
+        playerInputSensor.CollectData(context);
+        playerWorldSensor.CollectData(context);
+
+        // Action driver
+
+        // Locomotion state machine
         movementSM.LogicUpdate();
     }
 
