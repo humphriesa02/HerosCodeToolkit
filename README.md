@@ -27,3 +27,9 @@ logic into the code myself? Perhaps. But that's where it stays. No "entire chunk
 * Minimaps
 * Camera systems
 * Inventory
+
+## Assets in this repo that are not mine:
+Kenney:
+https://kenney.nl/assets/skyboxes
+https://kenney.nl/assets/fantasy-town-kit
+https://kenney.nl/assets/prototype-kit
