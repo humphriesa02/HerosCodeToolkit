@@ -30,7 +30,6 @@ public class PlayerLocomotionState : State
     protected PlayerValues values;
     protected PlayerContext context;
 
-
     public PlayerLocomotionState(PlayerController _player, StateMachine _stateMachine, PlayerValues _values, PlayerContext _context)
     {
         player = _player;

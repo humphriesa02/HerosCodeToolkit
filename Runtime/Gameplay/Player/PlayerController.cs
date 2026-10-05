@@ -29,10 +29,13 @@ public class PlayerController : MonoBehaviour
     private PlayerInputSensor playerInputSensor;
     private PlayerWorldSensor playerWorldSensor;
 
+    // Motors
+    private PlayerMover playerMover;
+
     // State Machine
     private StateMachine movementSM;
     public GroundState groundState;
-    public AirState jumpState;
+    public AirState airState;
     public LandingState landingState;
 
     void Awake()
@@ -49,13 +52,16 @@ public class PlayerController : MonoBehaviour
         context = new();
 
         // Sensors
-        playerInputSensor = new(playerInput);
-        playerWorldSensor = new();
+        playerInputSensor = new(playerInput, focus);
+        playerWorldSensor = new(controller);
+
+        // Motors
+        playerMover = new(controller, playerValues, gravityValue);
 
         // Locomotion State
         movementSM = new StateMachine();
         groundState = new GroundState(this, movementSM, playerValues, context);
-        jumpState = new AirState(this, movementSM, playerValues, context);
+        airState = new AirState(this, movementSM, playerValues, context);
         landingState = new LandingState(this, movementSM, playerValues, context);
     }
 
@@ -79,6 +85,8 @@ public class PlayerController : MonoBehaviour
 
         // Locomotion state machine
         movementSM.LogicUpdate();
+
+        playerMover.Apply(context);
     }
 
     void LateUpdate()

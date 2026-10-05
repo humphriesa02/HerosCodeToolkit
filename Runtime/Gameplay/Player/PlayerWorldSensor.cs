@@ -10,8 +10,15 @@ public class PlayerWorldSensor : IPlayerSensor
     // wall collider
     // depth guage
     // etc.
-    public void CollectData(PlayerContext player)
+    private readonly CharacterController controller;
+
+    public PlayerWorldSensor(CharacterController _controller)
     {
-        
+        controller = _controller;
+    }
+    
+    public void CollectData(PlayerContext context)
+    {
+        context.isGrounded = controller.isGrounded;
     }
 }

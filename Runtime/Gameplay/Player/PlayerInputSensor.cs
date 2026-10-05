@@ -8,15 +8,17 @@ using UnityEngine.InputSystem;
 public class PlayerInputSensor : IPlayerSensor
 {
     /// Input
-    private PlayerInput playerInput; 
+    private readonly PlayerInput playerInput;
+    private readonly Transform playerFocus;
     
     protected InputAction moveAction; // Movement
     protected InputAction primaryButtonAction;
     protected InputAction secondaryButtonAction;
 
-    public PlayerInputSensor(PlayerInput _playerInput)
+    public PlayerInputSensor(PlayerInput _playerInput, Transform _playerFocus)
     {
         playerInput = _playerInput;
+        playerFocus = _playerFocus;
 
         moveAction = playerInput.actions["Move"];
         primaryButtonAction = playerInput.actions["Primary"];
@@ -28,5 +30,15 @@ public class PlayerInputSensor : IPlayerSensor
         context.moveInput = moveAction.ReadValue<Vector2>();
         context.isPrimaryPressed = primaryButtonAction.WasPressedThisFrame();
         context.isSecondaryPressed = secondaryButtonAction.WasPressedThisFrame();
+
+        Vector3 right = playerFocus.right;
+        right.y = 0f;
+        right.Normalize();
+
+        Vector3 forward = playerFocus.forward;
+        forward.y = 0f;
+        forward.Normalize();
+
+        context.moveDirection = right * context.moveInput.x + forward * context.moveInput.y;
     }
 }
