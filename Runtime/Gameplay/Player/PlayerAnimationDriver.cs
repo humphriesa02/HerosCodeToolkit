@@ -1,15 +1,18 @@
 using UnityEngine;
 
-public class PlayerAnimationDriver : IPlayerDriver
+namespace HerosCode.Toolkit.Gameplay.Player
 {
-    private Animator animator;
-    public PlayerAnimationDriver(Animator _animator)
+    public class PlayerAnimationDriver : IPlayerDriver
     {
-        animator = _animator;
-    }
+        private Animator animator;
+        public PlayerAnimationDriver(Animator _animator)
+        {
+            animator = _animator;
+        }
 
-    public void Apply(PlayerContext context)
-    {
-        animator.SetFloat("speed", context.animParam_speed);
+        public void Apply(PlayerContext context)
+        {
+            animator.SetFloat("speed", context.animParam_speed);
+        }
     }
 }

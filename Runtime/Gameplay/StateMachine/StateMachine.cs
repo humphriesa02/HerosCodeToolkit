@@ -1,39 +1,42 @@
-/// <summary>
-/// A simplified state machine
-/// </summary>
-public class StateMachine
+namespace HerosCode.Toolkit.Gameplay.SM
 {
-    private State currentState;
-
-    public State GetCurrentState() {return currentState;}
-    
-    public void Initialize(State startingState)
+    /// <summary>
+    /// A simplified state machine
+    /// </summary>
+    public class StateMachine
     {
-        currentState = startingState;
-        startingState.Enter();
-    }
+        private State currentState;
 
-    public void LogicUpdate()
-    {
-        currentState.LogicUpdate();
-    }
+        public State GetCurrentState() {return currentState;}
+        
+        public void Initialize(State startingState)
+        {
+            currentState = startingState;
+            startingState.Enter();
+        }
 
-    public void LateUpdate()
-    {
-        currentState.LateUpdate();
-    }
+        public void LogicUpdate()
+        {
+            currentState.LogicUpdate();
+        }
 
-    public void PhysicsUpdate()
-    {
-        currentState.PhysicsUpdate();
-    }
+        public void LateUpdate()
+        {
+            currentState.LateUpdate();
+        }
 
-    public void ChangeState(State newState)
-    {
-        currentState.Exit();
+        public void PhysicsUpdate()
+        {
+            currentState.PhysicsUpdate();
+        }
 
-        currentState = newState;
+        public void ChangeState(State newState)
+        {
+            currentState.Exit();
 
-        newState.Enter();
+            currentState = newState;
+
+            newState.Enter();
+        }
     }
 }

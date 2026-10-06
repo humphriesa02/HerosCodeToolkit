@@ -1,25 +1,29 @@
 using UnityEngine;
+using HerosCode.Toolkit.Gameplay.SM;
 
-public class LandingState : PlayerLocomotionState
+namespace HerosCode.Toolkit.Gameplay.Player
 {
-    private float timePassed;
-    public LandingState(PlayerController _player, StateMachine _stateMachine,  PlayerValues _values, PlayerContext _context) : base(_player, _stateMachine, _values, _context) { }
-
-    public override void Enter()
+    public class LandingState : PlayerLocomotionState
     {
-        base.Enter();
-        timePassed = 0f;
-    }
+        private float timePassed;
+        public LandingState(PlayerController _player, StateMachine _stateMachine,  PlayerValues _values, PlayerContext _context) : base(_player, _stateMachine, _values, _context) { }
 
-    public override void LogicUpdate()
-    {
-        base.LogicUpdate();
-
-        if (timePassed > values.landingTime)
+        public override void Enter()
         {
-            player.animator.SetTrigger("grounded");
-            stateMachine.ChangeState(player.groundState);   
+            base.Enter();
+            timePassed = 0f;
         }
-        timePassed += Time.deltaTime;
+
+        public override void LogicUpdate()
+        {
+            base.LogicUpdate();
+
+            if (timePassed > values.landingTime)
+            {
+                player.animator.SetTrigger("grounded");
+                stateMachine.ChangeState(player.groundState);   
+            }
+            timePassed += Time.deltaTime;
+        }
     }
 }

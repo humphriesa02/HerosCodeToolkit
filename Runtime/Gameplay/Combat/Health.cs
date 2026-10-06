@@ -1,7 +1,7 @@
 using HerosCode.Toolkit.Core;
 using UnityEngine;
 
-namespace HerosCode.Toolkit.Gameplay
+namespace HerosCode.Toolkit.Gameplay.Combat
 {
     public class HealthSaveData : SaveData
     {

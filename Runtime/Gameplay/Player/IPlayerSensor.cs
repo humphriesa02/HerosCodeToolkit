@@ -1,8 +1,11 @@
-/// <summary>
-/// Sensors get information outside the player
-/// and populate the context
-/// </summary>
-public interface IPlayerSensor
+namespace HerosCode.Toolkit.Gameplay.Player
 {
-    void CollectData(PlayerContext player);
+    /// <summary>
+    /// Sensors get information outside the player
+    /// and populate the context
+    /// </summary>
+    public interface IPlayerSensor
+    {
+        void CollectData(PlayerContext player);
+    }
 }

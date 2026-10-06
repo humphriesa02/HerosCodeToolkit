@@ -1,109 +1,114 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-/// <summary>
-/// Based off a series by Jojik (https://www.youtube.com/@jojikYT)
-/// 
-/// A generic player controller that utilizes a state machine
-/// </summary>
-[RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(PlayerInput))]
-public class PlayerController : MonoBehaviour
+using HerosCode.Toolkit.Gameplay.SM;
+
+namespace HerosCode.Toolkit.Gameplay.Player
 {
-    [Header("Player Control")]
-    [SerializeField] private PlayerValues playerValues;
-
-    [Header("References")]
-    public Transform focus;
-    public Animator animator;
-
-    // Static Values
-    [HideInInspector] public CharacterController controller;
-    [HideInInspector] public PlayerInput playerInput;
-    [HideInInspector] public float gravityValue = -9.81f;
-    [HideInInspector] public Vector3 playerVelocity;
-
-    // Context
-    private PlayerContext context;
-
-    // Sensors
-    private PlayerInputSensor playerInputSensor;
-    private PlayerWorldSensor playerWorldSensor;
-
-    // Drivers
-    private PlayerMovementDriver playerMovementDriver;
-    private PlayerAnimationDriver playerAnimationDriver;
-
-    // State Machine
-    private StateMachine movementSM;
-    public GroundState groundState;
-    public AirState airState;
-    public LandingState landingState;
-
-    void Awake()
+    /// <summary>
+    /// Based off a series by Jojik (https://www.youtube.com/@jojikYT)
+    /// 
+    /// A generic player controller that utilizes a state machine
+    /// </summary>
+    [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(PlayerInput))]
+    public class PlayerController : MonoBehaviour
     {
-        controller = GetComponent<CharacterController>();
-        playerInput = GetComponent<PlayerInput>();
-        if (animator == null)
-        {
-            // Assumes "visual" is a child
-            animator = GetComponentInChildren<Animator>();
-        }
-        
+        [Header("Player Control")]
+        [SerializeField] private PlayerValues playerValues;
+
+        [Header("References")]
+        public Transform focus;
+        public Animator animator;
+
+        // Static Values
+        [HideInInspector] public CharacterController controller;
+        [HideInInspector] public PlayerInput playerInput;
+        [HideInInspector] public float gravityValue = -9.81f;
+        [HideInInspector] public Vector3 playerVelocity;
+
         // Context
-        context = new();
+        private PlayerContext context;
 
         // Sensors
-        playerInputSensor = new(playerInput, focus);
-        playerWorldSensor = new(controller);
+        private PlayerInputSensor playerInputSensor;
+        private PlayerWorldSensor playerWorldSensor;
 
-        // Motors
-        playerMovementDriver = new(controller, playerValues, gravityValue);
-        playerAnimationDriver = new(animator);
+        // Drivers
+        private PlayerMovementDriver playerMovementDriver;
+        private PlayerAnimationDriver playerAnimationDriver;
 
-        // Locomotion State
-        movementSM = new StateMachine();
-        groundState = new GroundState(this, movementSM, playerValues, context);
-        airState = new AirState(this, movementSM, playerValues, context);
-        landingState = new LandingState(this, movementSM, playerValues, context);
-    }
+        // State Machine
+        private StateMachine movementSM;
+        public GroundState groundState;
+        public AirState airState;
+        public LandingState landingState;
 
-    void Start()
-    {
-        if (focus == null)
+        void Awake()
         {
-            focus = Camera.main.transform;
+            controller = GetComponent<CharacterController>();
+            playerInput = GetComponent<PlayerInput>();
+            if (animator == null)
+            {
+                // Assumes "visual" is a child
+                animator = GetComponentInChildren<Animator>();
+            }
+            
+            // Context
+            context = new();
+
+            // Sensors
+            playerInputSensor = new(playerInput, focus);
+            playerWorldSensor = new(controller);
+
+            // Motors
+            playerMovementDriver = new(controller, playerValues, gravityValue);
+            playerAnimationDriver = new(animator);
+
+            // Locomotion State
+            movementSM = new StateMachine();
+            groundState = new GroundState(this, movementSM, playerValues, context);
+            airState = new AirState(this, movementSM, playerValues, context);
+            landingState = new LandingState(this, movementSM, playerValues, context);
         }
 
-        movementSM.Initialize(groundState);
-    }
+        void Start()
+        {
+            if (focus == null)
+            {
+                focus = Camera.main.transform;
+            }
 
-    void Update()
-    {
-        // Set the context via sensors
-        playerInputSensor.CollectData(context);
-        playerWorldSensor.CollectData(context);
+            movementSM.Initialize(groundState);
+        }
 
-        // Action driver
+        void Update()
+        {
+            // Set the context via sensors
+            playerInputSensor.CollectData(context);
+            playerWorldSensor.CollectData(context);
 
-        // Locomotion state machine
-        movementSM.LogicUpdate();
+            // Action driver
 
-        playerMovementDriver.Apply(context);
-        playerAnimationDriver.Apply(context);
-    }
+            // Locomotion state machine
+            movementSM.LogicUpdate();
 
-    void LateUpdate()
-    {
-        movementSM.LateUpdate();
-    }
+            playerMovementDriver.Apply(context);
+            playerAnimationDriver.Apply(context);
+        }
 
-    void FixedUpdate()
-    {
-        movementSM.PhysicsUpdate();
-    }
+        void LateUpdate()
+        {
+            movementSM.LateUpdate();
+        }
 
-    void OnGUI()
-    {
-        GUI.Label(new Rect(15, 15, 300, 100), movementSM.GetCurrentState().ToString());
+        void FixedUpdate()
+        {
+            movementSM.PhysicsUpdate();
+        }
+
+        void OnGUI()
+        {
+            GUI.Label(new Rect(15, 15, 300, 100), movementSM.GetCurrentState().ToString());
+        }
     }
 }

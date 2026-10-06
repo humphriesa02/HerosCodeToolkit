@@ -1,44 +1,47 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Collect information from the player -
-/// populate <see cref="PlayerContext"/>
-/// </summary>
-public class PlayerInputSensor : IPlayerSensor
+namespace HerosCode.Toolkit.Gameplay.Player
 {
-    /// Input
-    private readonly PlayerInput playerInput;
-    private readonly Transform playerFocus;
-    
-    protected InputAction moveAction; // Movement
-    protected InputAction primaryButtonAction;
-    protected InputAction secondaryButtonAction;
-
-    public PlayerInputSensor(PlayerInput _playerInput, Transform _playerFocus)
+    /// <summary>
+    /// Collect information from the player -
+    /// populate <see cref="PlayerContext"/>
+    /// </summary>
+    public class PlayerInputSensor : IPlayerSensor
     {
-        playerInput = _playerInput;
-        playerFocus = _playerFocus;
+        /// Input
+        private readonly PlayerInput playerInput;
+        private readonly Transform playerFocus;
+        
+        protected InputAction moveAction; // Movement
+        protected InputAction primaryButtonAction;
+        protected InputAction secondaryButtonAction;
 
-        moveAction = playerInput.actions["Move"];
-        primaryButtonAction = playerInput.actions["Primary"];
-        secondaryButtonAction = playerInput.actions["Secondary"];
-    }
+        public PlayerInputSensor(PlayerInput _playerInput, Transform _playerFocus)
+        {
+            playerInput = _playerInput;
+            playerFocus = _playerFocus;
 
-    public void CollectData(PlayerContext context)
-    {
-        context.moveInput = moveAction.ReadValue<Vector2>();
-        context.isPrimaryPressed = primaryButtonAction.WasPressedThisFrame();
-        context.isSecondaryPressed = secondaryButtonAction.WasPressedThisFrame();
+            moveAction = playerInput.actions["Move"];
+            primaryButtonAction = playerInput.actions["Primary"];
+            secondaryButtonAction = playerInput.actions["Secondary"];
+        }
 
-        Vector3 right = playerFocus.right;
-        right.y = 0f;
-        right.Normalize();
+        public void CollectData(PlayerContext context)
+        {
+            context.moveInput = moveAction.ReadValue<Vector2>();
+            context.isPrimaryPressed = primaryButtonAction.WasPressedThisFrame();
+            context.isSecondaryPressed = secondaryButtonAction.WasPressedThisFrame();
 
-        Vector3 forward = playerFocus.forward;
-        forward.y = 0f;
-        forward.Normalize();
+            Vector3 right = playerFocus.right;
+            right.y = 0f;
+            right.Normalize();
 
-        context.moveDirection = right * context.moveInput.x + forward * context.moveInput.y;
+            Vector3 forward = playerFocus.forward;
+            forward.y = 0f;
+            forward.Normalize();
+
+            context.moveDirection = right * context.moveInput.x + forward * context.moveInput.y;
+        }
     }
 }
