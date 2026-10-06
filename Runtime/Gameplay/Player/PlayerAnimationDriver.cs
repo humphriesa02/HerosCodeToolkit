@@ -13,6 +13,11 @@ namespace HerosCode.Toolkit.Gameplay.Player
         public void Apply(PlayerContext context)
         {
             animator.SetFloat("speed", context.moveInput.magnitude);
+            animator.SetBool("grounded", context.isGrounded);
+            if(context.animTrigger != "")
+            {
+                animator.SetTrigger(context.animTrigger);
+            }
         }
     }
 }

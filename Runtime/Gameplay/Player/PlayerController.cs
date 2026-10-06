@@ -23,7 +23,6 @@ namespace HerosCode.Toolkit.Gameplay.Player
         // Static Values
         [HideInInspector] public CharacterController controller;
         [HideInInspector] public PlayerInput playerInput;
-        [HideInInspector] public float gravityValue = -9.81f;
         [HideInInspector] public Vector3 playerVelocity;
 
         // Context
@@ -36,12 +35,15 @@ namespace HerosCode.Toolkit.Gameplay.Player
         // Drivers
         private PlayerMovementDriver playerMovementDriver;
         private PlayerAnimationDriver playerAnimationDriver;
+        private PlayerActionDriver playerActionDriver;
 
         // State Machine
         private StateMachine movementSM;
         public GroundState groundState;
         public AirState airState;
-        public LandingState landingState;
+
+        // Actions
+        public JumpAction jumpAction;
 
         void Awake()
         {
@@ -61,14 +63,21 @@ namespace HerosCode.Toolkit.Gameplay.Player
             playerWorldSensor = new(controller);
 
             // Motors
-            playerMovementDriver = new(controller, playerValues, gravityValue);
+            playerMovementDriver = new(controller, playerValues);
             playerAnimationDriver = new(animator);
+            playerActionDriver = new();
 
             // Locomotion State
             movementSM = new StateMachine();
             groundState = new GroundState(this, movementSM, playerValues, context);
             airState = new AirState(this, movementSM, playerValues, context);
-            landingState = new LandingState(this, movementSM, playerValues, context);
+
+            // Actions
+            jumpAction = new(playerValues);
+
+            // Action binding
+            // TODO - this should be done via inspector?
+            playerActionDriver.Bind(Keybind.Primary, jumpAction);
         }
 
         void Start()
@@ -83,11 +92,14 @@ namespace HerosCode.Toolkit.Gameplay.Player
 
         void Update()
         {
+            context.ResetFrame();
+
             // Set the context via sensors
             playerInputSensor.CollectData(context);
             playerWorldSensor.CollectData(context);
 
             // Action driver
+            playerActionDriver.Apply(context);
 
             // Locomotion state machine
             movementSM.LogicUpdate();

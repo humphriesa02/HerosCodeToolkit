@@ -10,23 +10,21 @@ namespace HerosCode.Toolkit.Gameplay.Player
     {
         private CharacterController controller;
         private PlayerValues playerValues;
-        private float gravity;
 
-        public PlayerMovementDriver(CharacterController _controller, PlayerValues _playerValues, float _gravity)
+        public PlayerMovementDriver(CharacterController _controller, PlayerValues _playerValues)
         {
             controller = _controller;
             playerValues = _playerValues;
-            gravity = _gravity;
         }
 
         public void Apply(PlayerContext context)
         {
             if (!context.ignoreGravity)
             {
-                context.gravityVelocity.y += gravity * Time.deltaTime;
+                context.gravityVelocity.y += context.gravityValue * Time.deltaTime;
                 if (controller.isGrounded && context.gravityVelocity.y < 0)
                 {
-                    context.gravityVelocity.y = 0f;
+                    context.gravityVelocity.y = -2f; // stick to ground
                 }
             }
 

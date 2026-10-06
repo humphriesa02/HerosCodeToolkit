@@ -13,9 +13,6 @@ namespace HerosCode.Toolkit.Gameplay.Player
         public override void Enter()
         {
             base.Enter();
-            context.gravityVelocity.y = 0;
-
-            Jump();
         }
 
         public override void LogicUpdate()
@@ -25,19 +22,12 @@ namespace HerosCode.Toolkit.Gameplay.Player
             Vector3 blended = context.moveDirection * values.airControl + context.velocity * (1 - values.airControl);
             context.desiredVelocity = blended * values.moveSpeed;
 
-            if (context.isGrounded) stateMachine.ChangeState(player.landingState);
+            if (context.isGrounded) stateMachine.ChangeState(player.groundState);
         }
 
         public override void Exit()
         {
             base.Exit();
-        }
-
-        // TODO: Move to an action
-        private void Jump()
-        {
-            // TODO - dynamic jump amount based on velocity
-            context.gravityVelocity.y += Mathf.Sqrt(values.jumpHeight * -3.0f * player.gravityValue);
         }
     }
 }

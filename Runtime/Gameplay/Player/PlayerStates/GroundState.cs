@@ -34,9 +34,9 @@ namespace HerosCode.Toolkit.Gameplay.Player
             {
                 context.lookDirection = context.moveDirection;
             }
-            
+
             // TODO - move this to actions/world state
-            if (context.isPrimaryPressed) stateMachine.ChangeState(player.airState);
+            if (!context.isGrounded) stateMachine.ChangeState(player.airState);
         }
 
         public override void Exit()
