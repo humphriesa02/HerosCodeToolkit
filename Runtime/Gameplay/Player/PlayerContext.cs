@@ -22,7 +22,6 @@ namespace HerosCode.Toolkit.Gameplay.Player
 
         public Vector3 lookDirection;
         public bool snapLook;
-        public float animParam_speed;
 
         /// World
         public bool isGrounded;

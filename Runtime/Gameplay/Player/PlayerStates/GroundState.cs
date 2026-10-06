@@ -30,11 +30,11 @@ namespace HerosCode.Toolkit.Gameplay.Player
             currentVelocity = Vector3.SmoothDamp(currentVelocity, context.moveDirection, ref smoothVelocityRef, values.velocityDampTime);
             context.desiredVelocity = currentVelocity * values.moveSpeed;
 
-            context.animParam_speed = context.moveInput.magnitude;
             if (context.moveDirection.sqrMagnitude > 0f)
             {
                 context.lookDirection = context.moveDirection;
             }
+            
             // TODO - move this to actions/world state
             if (context.isPrimaryPressed) stateMachine.ChangeState(player.airState);
         }

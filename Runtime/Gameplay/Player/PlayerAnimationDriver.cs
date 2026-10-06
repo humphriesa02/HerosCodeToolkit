@@ -12,7 +12,7 @@ namespace HerosCode.Toolkit.Gameplay.Player
 
         public void Apply(PlayerContext context)
         {
-            animator.SetFloat("speed", context.animParam_speed);
+            animator.SetFloat("speed", context.moveInput.magnitude);
         }
     }
 }
