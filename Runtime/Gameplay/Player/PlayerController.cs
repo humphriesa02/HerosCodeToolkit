@@ -29,8 +29,9 @@ public class PlayerController : MonoBehaviour
     private PlayerInputSensor playerInputSensor;
     private PlayerWorldSensor playerWorldSensor;
 
-    // Motors
-    private PlayerMover playerMover;
+    // Drivers
+    private PlayerMovementDriver playerMovementDriver;
+    private PlayerAnimationDriver playerAnimationDriver;
 
     // State Machine
     private StateMachine movementSM;
@@ -56,7 +57,8 @@ public class PlayerController : MonoBehaviour
         playerWorldSensor = new(controller);
 
         // Motors
-        playerMover = new(controller, playerValues, gravityValue);
+        playerMovementDriver = new(controller, playerValues, gravityValue);
+        playerAnimationDriver = new(animator);
 
         // Locomotion State
         movementSM = new StateMachine();
@@ -86,7 +88,8 @@ public class PlayerController : MonoBehaviour
         // Locomotion state machine
         movementSM.LogicUpdate();
 
-        playerMover.Apply(context);
+        playerMovementDriver.Apply(context);
+        playerAnimationDriver.Apply(context);
     }
 
     void LateUpdate()

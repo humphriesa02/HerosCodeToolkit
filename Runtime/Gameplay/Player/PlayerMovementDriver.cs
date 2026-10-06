@@ -4,13 +4,13 @@ using UnityEngine;
 /// Applies actual movement to the player
 /// via <see cref="PlayerContext"/>
 /// </summary>
-public class PlayerMover
+public class PlayerMovementDriver : IPlayerDriver
 {
     private CharacterController controller;
     private PlayerValues playerValues;
     private float gravity;
 
-    public PlayerMover(CharacterController _controller, PlayerValues _playerValues, float _gravity)
+    public PlayerMovementDriver(CharacterController _controller, PlayerValues _playerValues, float _gravity)
     {
         controller = _controller;
         playerValues = _playerValues;
