@@ -34,6 +34,7 @@ namespace HerosCode.Toolkit.Player
         private PlayerMovementDriver playerMovementDriver;
         private PlayerAnimationDriver playerAnimationDriver;
         private PlayerActionDriver playerActionDriver;
+        private PlayerLocomotionStateDriver playerLocomotionStateDriver;
 
         // State Machine
         private StateMachine movementSM;
@@ -60,15 +61,16 @@ namespace HerosCode.Toolkit.Player
             playerInputSensor = new(playerInput, focus);
             playerWorldSensor = new(controller);
 
+            // Locomotion State
+            movementSM = new StateMachine();
+            groundState = new(playerValues, context);
+            airState = new(playerValues, context);
+
             // Motors
             playerMovementDriver = new(controller, playerValues);
             playerAnimationDriver = new(animator);
             playerActionDriver = new();
-
-            // Locomotion State
-            movementSM = new StateMachine();
-            groundState = new GroundState(this, movementSM, playerValues, context);
-            airState = new AirState(this, movementSM, playerValues, context);
+            playerLocomotionStateDriver = new(movementSM, groundState, airState);
 
             // Actions
             jumpAction = new(playerValues);
@@ -99,9 +101,13 @@ namespace HerosCode.Toolkit.Player
             // Action driver
             playerActionDriver.Apply(context);
 
+            // Determine locomotion
+            playerLocomotionStateDriver.Apply(context);
+
             // Locomotion state machine
             movementSM.LogicUpdate();
 
+            // Apply intent
             playerMovementDriver.Apply(context);
             playerAnimationDriver.Apply(context);
         }

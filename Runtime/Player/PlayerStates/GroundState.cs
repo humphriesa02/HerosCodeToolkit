@@ -11,7 +11,9 @@ namespace HerosCode.Toolkit.Player
         Vector3 currentVelocity;
         Vector3 smoothVelocityRef;
 
-        public GroundState(PlayerController _player, StateMachine _stateMachine, PlayerValues _values, PlayerContext _context) : base(_player, _stateMachine, _values, _context) { }
+        public override bool CanEnter(PlayerContext context) => context.isGrounded;
+
+        public GroundState(PlayerValues _values, PlayerContext _context) : base(_values, _context) { }
 
         public override void Enter()
         {
@@ -34,9 +36,6 @@ namespace HerosCode.Toolkit.Player
             {
                 context.lookDirection = context.moveDirection;
             }
-
-            // TODO - move this to actions/world state
-            if (!context.isGrounded) stateMachine.ChangeState(player.airState);
         }
 
         public override void Exit()

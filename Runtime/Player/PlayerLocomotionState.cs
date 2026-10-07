@@ -23,21 +23,20 @@ namespace HerosCode.Toolkit.Player
     /// or, simply do things within a locomotion state.
     /// (Ground combat vs air combat)
     /// </summary>
-    public class PlayerLocomotionState : State
+    public abstract class PlayerLocomotionState : State
     {
-        // States store ref to player and their owning machine.
-        // They handle swapping themselves to other states
-        protected PlayerController player;
-        protected StateMachine stateMachine;
         protected PlayerValues values;
         protected PlayerContext context;
 
-        public PlayerLocomotionState(PlayerController _player, StateMachine _stateMachine, PlayerValues _values, PlayerContext _context)
+        public PlayerLocomotionState(PlayerValues _values, PlayerContext _context)
         {
-            player = _player;
-            stateMachine = _stateMachine;
             values = _values;
             context = _context;
         }
+
+        /// Consumed by <see cref="PlayerLocomotionStateDriver"/>
+        /// To determine current locomotion state
+        public abstract bool CanEnter(PlayerContext context);
+        public virtual bool CanStay(PlayerContext context) => CanEnter(context);
     }
 }
