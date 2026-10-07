@@ -17,6 +17,8 @@ namespace HerosCode.Toolkit.Player
         /// localized or static, that we derive here
         public float gravityValue = -9.81f;
 
+        private bool wasGrounded = false;
+
         public PlayerWorldSensor(CharacterController _controller)
         {
             controller = _controller;
@@ -26,6 +28,10 @@ namespace HerosCode.Toolkit.Player
         {
             context.isGrounded = controller.isGrounded;
             context.gravityValue = gravityValue;
+
+            if (context.isGrounded && !wasGrounded) context.landingCount++;
+            wasGrounded = context.isGrounded;
+            context.facing = Vector3.ProjectOnPlane(controller.transform.forward, Vector3.up).normalized;
         }
     }
 }

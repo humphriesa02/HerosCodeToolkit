@@ -27,7 +27,16 @@ namespace HerosCode.Toolkit.Player
         public float rotationDampTime = 0.2f;
         [Range(0, 1), Tooltip("The amount of control we have over the player in the air.")]
         public float airControl = 0.5f;
-        [Tooltip("The amount of time we stay 'landed'. After this time ends we can move again")]
-        public float landingTime = 0.5f;
+
+        [Header("Dive")]
+        [Tooltip("Horizontal burst speed at the start of a dive (units/sec).")]
+        public float diveSpeed = 10f;
+        [Tooltip("Upward velocity given by a dive. Compared against the current vertical speed with Max, so it never cuts a rise short.")]
+        public float diveHop = 3f;
+        [Header("Impulse Drag")]
+        [Tooltip("How fast the impulse burst decays while grounded (units/sec²).")]
+        public float impulseGroundDrag = 20f;
+        [Tooltip("How fast the impulse burst decays in the air (units/sec²). Lower means the dive carries further.")]
+        public float impulseAirDrag = 6f;
     }
 }

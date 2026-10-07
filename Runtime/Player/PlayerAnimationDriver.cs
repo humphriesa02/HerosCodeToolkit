@@ -14,7 +14,7 @@ namespace HerosCode.Toolkit.Player
         {
             animator.SetFloat("speed", context.moveInput.magnitude);
             animator.SetBool("grounded", context.isGrounded);
-            if(context.animTrigger != "")
+            if (!string.IsNullOrEmpty(context.animTrigger))
             {
                 animator.SetTrigger(context.animTrigger);
             }

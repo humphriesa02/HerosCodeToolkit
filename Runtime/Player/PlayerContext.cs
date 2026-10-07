@@ -24,6 +24,10 @@ namespace HerosCode.Toolkit.Player
         public Vector3 lookDirection;
         public bool snapLook;
 
+        public Vector3 impulseVelocity;  // decaying horizontal burst, written by actions
+        public Vector3 facing;           // written by the world sensor (flattened transform.forward)
+        public int landingCount;         // incremented by the world sensor each time we touch down
+
         // animation
         public string animTrigger;
 

@@ -28,9 +28,12 @@ namespace HerosCode.Toolkit.Player
                 }
             }
 
-            Vector3 vel = context.desiredVelocity;
+            Vector3 vel = context.desiredVelocity + context.impulseVelocity;
             vel.y = context.gravityVelocity.y;
             controller.Move(vel * Time.deltaTime);
+
+            float drag = context.isGrounded ? playerValues.impulseGroundDrag : playerValues.impulseAirDrag;
+            context.impulseVelocity = Vector3.MoveTowards(context.impulseVelocity, Vector3.zero, drag * Time.deltaTime);
 
             // rotation
             if (context.lookDirection.sqrMagnitude > 0f)

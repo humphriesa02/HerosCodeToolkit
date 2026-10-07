@@ -43,6 +43,7 @@ namespace HerosCode.Toolkit.Player
 
         // Actions
         public JumpAction jumpAction;
+        public DiveAction diveAction;
 
         void Awake()
         {
@@ -74,10 +75,12 @@ namespace HerosCode.Toolkit.Player
 
             // Actions
             jumpAction = new(playerValues);
+            diveAction = new(playerValues);
 
             // Action binding
             // TODO - this should be done via inspector?
             playerActionDriver.Bind(Keybind.Primary, jumpAction);
+            playerActionDriver.Bind(Keybind.Secondary, diveAction);
         }
 
         void Start()
