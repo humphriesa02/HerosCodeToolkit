@@ -1,6 +1,6 @@
-using HerosCode.Toolkit.Gameplay.SM;
+using HerosCode.Toolkit.Core;
 
-namespace HerosCode.Toolkit.Gameplay.Player
+namespace HerosCode.Toolkit.Player
 {
     /// <summary>
     /// Locomotion states set these,

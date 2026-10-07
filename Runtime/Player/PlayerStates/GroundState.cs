@@ -1,7 +1,7 @@
 using UnityEngine;
-using HerosCode.Toolkit.Gameplay.SM;
+using HerosCode.Toolkit.Core;
 
-namespace HerosCode.Toolkit.Gameplay.Player
+namespace HerosCode.Toolkit.Player
 {
     /// <summary>
     /// Basic grounded movement

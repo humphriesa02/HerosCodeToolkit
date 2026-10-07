@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using HerosCode.Toolkit.Gameplay.SM;
+using HerosCode.Toolkit.Core;
 
-namespace HerosCode.Toolkit.Gameplay.Player
+namespace HerosCode.Toolkit.Player
 {
     /// <summary>
     /// A generic player controller that utilizes a state machine

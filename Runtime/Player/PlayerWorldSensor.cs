@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HerosCode.Toolkit.Gameplay.Player
+namespace HerosCode.Toolkit.Player
 {
     /// <summary>
     /// Collect information from the world -

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HerosCode.Toolkit.Gameplay.Player
+namespace HerosCode.Toolkit.Player
 {
     public class PlayerAnimationDriver : IPlayerDriver
     {

@@ -1,4 +1,4 @@
-namespace HerosCode.Toolkit.Gameplay.Player
+namespace HerosCode.Toolkit.Player
 {
     /// <summary>
     /// Sensors get information outside the player

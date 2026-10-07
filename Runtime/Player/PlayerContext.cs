@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HerosCode.Toolkit.Gameplay.Player
+namespace HerosCode.Toolkit.Player
 {
     /// <summary>
     /// Both player's intent

@@ -1,4 +1,4 @@
-namespace HerosCode.Toolkit.Gameplay.SM
+namespace HerosCode.Toolkit.Core
 {
     /// <summary>
     /// A simplified state machine

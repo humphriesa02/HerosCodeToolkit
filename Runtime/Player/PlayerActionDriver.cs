@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace HerosCode.Toolkit.Gameplay.Player
+namespace HerosCode.Toolkit.Player
 {
     /// <summary>
     /// Keybindings that map to
