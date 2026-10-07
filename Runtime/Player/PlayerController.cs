@@ -5,8 +5,6 @@ using HerosCode.Toolkit.Gameplay.SM;
 namespace HerosCode.Toolkit.Gameplay.Player
 {
     /// <summary>
-    /// Based off a series by Jojik (https://www.youtube.com/@jojikYT)
-    /// 
     /// A generic player controller that utilizes a state machine
     /// </summary>
     [RequireComponent(typeof(CharacterController))]

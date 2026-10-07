@@ -1,4 +1,4 @@
-namespace HerosCode.Toolkit.Core
+namespace HerosCode.Toolkit.Save
 {
     /// <summary>
     /// Provides abstract concepts of saving for individual

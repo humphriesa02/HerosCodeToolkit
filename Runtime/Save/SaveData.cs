@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HerosCode.Toolkit.Core
+namespace HerosCode.Toolkit.Save
 {
     /// <summary>
     /// The actual typing we'll save to in our

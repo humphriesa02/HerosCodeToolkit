@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json.Linq;
 
-namespace HerosCode.Toolkit.Core
+namespace HerosCode.Toolkit.Save
 {
     /// <summary>
     /// Saves data into a JSON file.

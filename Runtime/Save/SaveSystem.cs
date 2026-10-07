@@ -3,7 +3,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace HerosCode.Toolkit.Core
+namespace HerosCode.Toolkit.Save
 {
     /// <summary>
     /// A base SaveData class, for ease of use in
