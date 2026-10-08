@@ -27,10 +27,19 @@ namespace HerosCode.Toolkit.Player
         public void CollectData(PlayerContext context)
         {
             context.isGrounded = controller.isGrounded;
-            context.gravityValue = gravityValue;
 
-            if (context.isGrounded && !wasGrounded) context.landingCount++;
+            if (context.isGrounded)
+            {
+                context.timeSinceLanded += Time.deltaTime;
+            }
+            if (context.isGrounded && !wasGrounded)
+            {
+                context.landingCount++;
+                context.timeSinceLanded = 0;
+            } 
             wasGrounded = context.isGrounded;
+
+            context.gravityValue = gravityValue;
             context.facing = Vector3.ProjectOnPlane(controller.transform.forward, Vector3.up).normalized;
         }
     }

@@ -14,16 +14,28 @@ namespace HerosCode.Toolkit.Player
 
         public bool CanStart(PlayerContext context)
         {
-            var moving = context.moveDirection.sqrMagnitude > 0.01f;
-            if (context.isGrounded) return moving;
-            return lastDiveLanding != context.landingCount;
+            // On the ground and moving
+            if (context.isGrounded && context.moveDirection.sqrMagnitude > 0.01f)
+            {
+                return true;
+            }
+            // In the air and we haven't dove yet (set lastDive landing to whatever context holds to prevent)
+            // multiple dives until we land
+            else if (!context.isGrounded && lastDiveLanding != context.landingCount)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public void Start(PlayerContext context)
         {
-            var dir = context.moveDirection.sqrMagnitude > 0.01f ? context.moveDirection.normalized : context.facing;
-
+            // Pick a direction and add an impulse
+            var dir = context.facing;
             context.impulseVelocity = dir * values.diveSpeed;
+            
+            // Add some air to the dive
             context.gravityVelocity.y = Mathf.Max(context.gravityVelocity.y, values.diveHop);
             context.lookDirection = dir;
             context.snapLook = true;
