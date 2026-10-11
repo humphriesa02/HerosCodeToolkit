@@ -20,4 +20,14 @@ MonoBehaviour:
   velocityDampTime: 0.25
   rotationDampTime: 0.3
   airControl: 0.5
-  landingTime: 0.05
+  inputBuffer: 0.15
+  diveSpeed: 10
+  diveHop: 3
+  impulseGroundDrag: 20
+  impulseAirDrag: 6
+  chainWindow: 1
+  chainHeightsMultipliers:
+  - 1
+  - 1.25
+  - 1.5
+  - 2

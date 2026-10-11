@@ -43,7 +43,9 @@ namespace HerosCode.Toolkit.Player
 
         // Actions
         public JumpAction jumpAction;
+        public TripleJumpAction tripleJumpAction;
         public DiveAction diveAction;
+        public PunchAction punchAction;
 
         void Awake()
         {
@@ -70,17 +72,20 @@ namespace HerosCode.Toolkit.Player
             // Motors
             playerMovementDriver = new(controller, playerValues);
             playerAnimationDriver = new(animator);
-            playerActionDriver = new();
+            playerActionDriver = new(playerValues);
             playerLocomotionStateDriver = new(movementSM, groundState, airState);
 
             // Actions
             jumpAction = new(playerValues);
+            tripleJumpAction = new(playerValues);
             diveAction = new(playerValues);
+            punchAction = new(playerValues);
 
             // Action binding
             // TODO - this should be done via inspector?
-            playerActionDriver.Bind(Keybind.Primary, jumpAction);
+            playerActionDriver.Bind(Keybind.Primary, tripleJumpAction);
             playerActionDriver.Bind(Keybind.Secondary, diveAction);
+            //playerActionDriver.Bind(Keybind.Secondary, punchAction);
         }
 
         void Start()
@@ -127,7 +132,7 @@ namespace HerosCode.Toolkit.Player
 
         void OnGUI()
         {
-            GUI.Label(new Rect(15, 15, 300, 100), movementSM.GetCurrentState().ToString());
+            GUI.Label(new Rect(25, 25, 300, 100), movementSM.GetCurrentState().ToString());
         }
     }
 }

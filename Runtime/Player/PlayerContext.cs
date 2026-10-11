@@ -12,6 +12,8 @@ namespace HerosCode.Toolkit.Player
         #region Movement
         public Vector2 moveInput;           // Direct from controller
         public Vector3 moveDirection;       // camera-relative, unscaled
+        public bool isMoving =>
+        moveDirection.sqrMagnitude > 0.01f; // Quick access to those that want to know
         public Vector3 desiredVelocity;     // Horizontal, world space, units per second
         public Vector3 gravityVelocity;     // Our current player gravity accumulation
         public float gravityValue;          // how much gravity applies each frame
@@ -30,8 +32,11 @@ namespace HerosCode.Toolkit.Player
         /// <summary>
         /// Maps 1:1 with keybindings
         /// </summary>
-        public bool isPrimaryPressed;
-        public bool isSecondaryPressed;
+         
+        // Swapped from bools to floats
+        // to introduce input buffers
+        public float primaryPressedTime;
+        public float secondaryPressedTime;
         #endregion
 
         #region Animation
@@ -51,16 +56,29 @@ namespace HerosCode.Toolkit.Player
         /// </summary>
         /// <param name="keybind"></param>
         /// <returns></returns>
-        public bool WasPressed(Keybind keybind)
+        public bool WasPressed(Keybind keybind, float window)
         {
             switch (keybind)
             {
                 case Keybind.Primary:
-                    return isPrimaryPressed;
+                    return primaryPressedTime <= window;
                 case Keybind.Secondary:
-                    return isSecondaryPressed;
+                    return secondaryPressedTime <= window;
             }
             return false;
+        }
+
+        public void ConsumePress(Keybind keybind)
+        {
+            switch (keybind)
+            {
+                case Keybind.Primary:
+                    primaryPressedTime = 999f;
+                    break;
+                case Keybind.Secondary:
+                    secondaryPressedTime = 999f;
+                    break;
+            }
         }
 
         /// <summary>

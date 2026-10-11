@@ -27,6 +27,8 @@ namespace HerosCode.Toolkit.Player
         public float rotationDampTime = 0.2f;
         [Range(0, 1), Tooltip("The amount of control we have over the player in the air.")]
         public float airControl = 0.5f;
+        [Tooltip("Ensures input isn't dropped immediately when a frame ends. Extends input signals over a few frames instead.")]
+        public float inputBuffer = 0.12f;
 
         [Header("Dive")]
         [Tooltip("Horizontal burst speed at the start of a dive (units/sec).")]
@@ -38,5 +40,10 @@ namespace HerosCode.Toolkit.Player
         public float impulseGroundDrag = 20f;
         [Tooltip("How fast the impulse burst decays in the air (units/sec²). Lower means the dive carries further.")]
         public float impulseAirDrag = 6f;
+
+        [Header("Triple Jump")]
+        [Tooltip("How long since landed you have to chain another jump")]
+        public float chainWindow = 0.15f;
+        public float[] chainHeightsMultipliers = {1.0f, 1.25f, 1.5f, 2.0f};
     }
 }

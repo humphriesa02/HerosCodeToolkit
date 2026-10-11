@@ -15,7 +15,7 @@ namespace HerosCode.Toolkit.Player
         public bool CanStart(PlayerContext context)
         {
             // On the ground and moving
-            if (context.isGrounded && context.moveDirection.sqrMagnitude > 0.01f)
+            if (context.isGrounded && context.isMoving)
             {
                 return true;
             }

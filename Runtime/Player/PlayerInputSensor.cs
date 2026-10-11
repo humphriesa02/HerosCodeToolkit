@@ -17,6 +17,8 @@ namespace HerosCode.Toolkit.Player
         protected InputAction primaryButtonAction;
         protected InputAction secondaryButtonAction;
 
+        private const float MaxPressAge = 999f;
+
         public PlayerInputSensor(PlayerInput _playerInput, Transform _playerFocus)
         {
             playerInput = _playerInput;
@@ -30,8 +32,8 @@ namespace HerosCode.Toolkit.Player
         public void CollectData(PlayerContext context)
         {
             context.moveInput = moveAction.ReadValue<Vector2>();
-            context.isPrimaryPressed = primaryButtonAction.WasPressedThisFrame();
-            context.isSecondaryPressed = secondaryButtonAction.WasPressedThisFrame();
+            context.primaryPressedTime   = primaryButtonAction.WasPressedThisFrame()   ? 0f : Mathf.Min(context.primaryPressedTime + Time.deltaTime, MaxPressAge);
+            context.secondaryPressedTime = secondaryButtonAction.WasPressedThisFrame() ? 0f : Mathf.Min(context.secondaryPressedTime + Time.deltaTime);
 
             Vector3 right = playerFocus.right;
             right.y = 0f;

@@ -32,7 +32,7 @@ namespace HerosCode.Toolkit.Player
             currentVelocity = Vector3.SmoothDamp(currentVelocity, context.moveDirection, ref smoothVelocityRef, values.velocityDampTime);
             context.desiredVelocity = currentVelocity * values.moveSpeed;
 
-            if (context.moveDirection.sqrMagnitude > 0f)
+            if (context.isMoving)
             {
                 context.lookDirection = context.moveDirection;
             }
