@@ -25,7 +25,7 @@ MonoBehaviour:
   diveHop: 3
   impulseGroundDrag: 20
   impulseAirDrag: 6
-  chainWindow: 1
+  chainWindow: 0.25
   chainHeightsMultipliers:
   - 1
   - 1.25

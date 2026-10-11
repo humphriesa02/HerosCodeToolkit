@@ -35,8 +35,8 @@ namespace HerosCode.Toolkit.Player
          
         // Swapped from bools to floats
         // to introduce input buffers
-        public float primaryPressedTime;
-        public float secondaryPressedTime;
+        public float primaryPressedTime = 999f;
+        public float secondaryPressedTime = 999f;
         #endregion
 
         #region Animation

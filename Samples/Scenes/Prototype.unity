@@ -2539,6 +2539,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: wall (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 56346e5461197d243aeee07cdb28c835, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2777,7 +2781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8402241365744015898, guid: ec54b6d09c33e094ab43cf6f2bafe052, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.13
+      value: 0.54
       objectReference: {fileID: 0}
     - target: {fileID: 8402241365744015898, guid: ec54b6d09c33e094ab43cf6f2bafe052, type: 3}
       propertyPath: m_LocalPosition.z
