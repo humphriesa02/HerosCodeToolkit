@@ -2,15 +2,20 @@ using UnityEngine;
 
 namespace HerosCode.Toolkit.Player
 {
-    public class PlayerAnimationDriver : IPlayerDriver
+    public class PlayerAnimationExecutor : PlayerExecutor
     {
+        [SerializeField, Tooltip("Retrieved from child visual object")]
         private Animator animator;
-        public PlayerAnimationDriver(Animator _animator)
+
+        public override void Initialize(PlayerContext context, PlayerValues values)
         {
-            animator = _animator;
+            if (animator == null)
+            {
+                animator = GetComponentInChildren<Animator>();
+            }
         }
 
-        public void Apply(PlayerContext context)
+        public override void Execute(PlayerContext context)
         {
             animator.SetFloat("speed", context.moveInput.magnitude);
             animator.SetBool("grounded", context.isGrounded);

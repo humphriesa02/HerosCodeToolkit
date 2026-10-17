@@ -26,6 +26,11 @@ namespace HerosCode.Toolkit.Player
         public Vector3 facing;              // written by the world sensor (flattened transform.forward)
         public int landingCount;            // incremented by the world sensor each time we touch down
         public float timeSinceLanded;       // reset to 0 on touchdown
+
+        ///Dynamic stuff
+        public Vector3 bodyVelocity;        // set via the rigidbody, if using one
+        public Vector3 xAxis;               // The current x axis, used for inversion
+        public Vector3 zAxis;               // The current z axis
         #endregion
 
         #region Controls

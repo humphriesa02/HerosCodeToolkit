@@ -11,6 +11,16 @@ namespace HerosCode.Toolkit.Player
     [CreateAssetMenu(fileName = "PlayerValue", menuName = "PlayerValues/CreateNewPlayerValues", order = 1)]
     public class PlayerValues : ScriptableObject
     {
+        public enum LocomotionStyle
+        {
+            CharacterController,
+            RigidBody
+        }
+        // Default to CharacterController
+        [Header("Locomotion Style")]
+        public LocomotionStyle locomotionStyle = LocomotionStyle.CharacterController;
+
+        [Header("CharacterController Locomotion")]
         [Tooltip("Base max move speed of the player")]
         public float moveSpeed = 6.0f;
         [Tooltip("Base max jump height of the player")]
@@ -29,6 +39,18 @@ namespace HerosCode.Toolkit.Player
         public float airControl = 0.5f;
         [Tooltip("Ensures input isn't dropped immediately when a frame ends. Extends input signals over a few frames instead.")]
         public float inputBuffer = 0.12f;
+
+        [Header("Rigidbody Locomotion")]
+        [Range(0f, 100f)]
+        public float maxSpeed = 10f;
+        [SerializeField, Range(0f, 100f)]
+        public float maxAcceleration = 10f, maxAirAcceleration = 1f;
+        [SerializeField, Range(0f, 10f)]
+        public float dynamicJumpHeight = 2f;
+        [SerializeField, Range(0, 5)]
+        public int maxAirJumps = 0;
+        [SerializeField, Range(0, 90)]
+        public float maxGroundAngle = 25f;
 
         [Header("Dive")]
         [Tooltip("Horizontal burst speed at the start of a dive (units/sec).")]

@@ -9,12 +9,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8402241365744015898}
-  - component: {fileID: 5544871637584206142}
-  - component: {fileID: 3518843200992128598}
-  - component: {fileID: 5510139994269269295}
-  - component: {fileID: 8979569052238195700}
   - component: {fileID: 4611258342052196460}
   - component: {fileID: 7246548099041581087}
+  - component: {fileID: 5544871637584206142}
+  - component: {fileID: 3518843200992128598}
+  - component: {fileID: 1419592765658732511}
+  - component: {fileID: 7742019943884908879}
+  - component: {fileID: 2322175073668532835}
+  - component: {fileID: 8973885676430987580}
+  - component: {fileID: 8979569052238195700}
   m_Layer: 0
   m_Name: PrototypePlayer
   m_TagString: Player
@@ -39,65 +42,6 @@ Transform:
   - {fileID: 4393634175668301523}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5544871637584206142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 982472581613581291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f630420f130182249860f4b11dd30bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::HerosCode.Toolkit.Core.Actor
-  id: actor_prototype_player
-  persistent: 1
---- !u!114 &3518843200992128598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 982472581613581291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be77d1d73d3a61448ab1ad12342cc1fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::PlayerController
-  playerValues: {fileID: 11400000, guid: 421a931055c306e40aea3580265facea, type: 2}
-  focus: {fileID: 4393634175668301523}
-  animator: {fileID: 226500395158417080}
-  controller: {fileID: 0}
-  playerInput: {fileID: 0}
-  playerVelocity: {x: 0, y: 0, z: 0}
---- !u!114 &5510139994269269295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 982472581613581291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 163529cff5461fb44b9d292f32bcf2d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::PlayerControllerPhysics
-  pushPower: 2
---- !u!114 &8979569052238195700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 982472581613581291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2788683c266aa9140bb64e6b4c2e5ec5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::HerosCode.Toolkit.Gameplay.Health
-  currentHealth: 0
-  maxHealth: 3
 --- !u!143 &4611258342052196460
 CharacterController:
   m_ObjectHideFlags: 0
@@ -153,6 +97,98 @@ MonoBehaviour:
   m_DefaultActionMap: Platformer
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &5544871637584206142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982472581613581291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f630420f130182249860f4b11dd30bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::HerosCode.Toolkit.Core.Actor
+  id: actor_prototype_player
+  persistent: 1
+--- !u!114 &3518843200992128598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982472581613581291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be77d1d73d3a61448ab1ad12342cc1fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::PlayerController
+  playerValues: {fileID: 11400000, guid: 421a931055c306e40aea3580265facea, type: 2}
+--- !u!114 &1419592765658732511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982472581613581291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c220c63050611664b8a916b24802eae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::HerosCode.Toolkit.Player.PlayerInputSensor
+  playerFocus: {fileID: 4393634175668301523}
+--- !u!114 &7742019943884908879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982472581613581291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58c26be02520394f935c1aa31b02e17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::HerosCode.Toolkit.Player.PlayerWorldSensor
+  gravityValue: -9.81
+--- !u!114 &2322175073668532835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982472581613581291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f25c54695d71db6479c6e73993e9f756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::HerosCode.Toolkit.Player.PlayerMovementDriver
+--- !u!114 &8973885676430987580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982472581613581291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 381fce575d37fe849b2e0591a436e94a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::HerosCode.Toolkit.Player.PlayerAnimationDriver
+  animator: {fileID: 226500395158417080}
+--- !u!114 &8979569052238195700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982472581613581291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2788683c266aa9140bb64e6b4c2e5ec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::HerosCode.Toolkit.Gameplay.Health
+  currentHealth: 0
+  maxHealth: 3
 --- !u!1 &8750514548843189408
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,7 +324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305549397789938313, guid: 4b6f494fa27a099489fb757e723e97db, type: 3}
       propertyPath: HorizontalAxis.Value
-      value: 24.247858
+      value: 24.247864
       objectReference: {fileID: 0}
     - target: {fileID: 3878863254105308071, guid: 4b6f494fa27a099489fb757e723e97db, type: 3}
       propertyPath: m_ControllerManager.Controllers.Array.data[1].InputValue
@@ -344,11 +380,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5936667183180429316, guid: 4b6f494fa27a099489fb757e723e97db, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.000000029793014
       objectReference: {fileID: 0}
     - target: {fileID: 5936667183180429316, guid: 4b6f494fa27a099489fb757e723e97db, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -7.4482537e-10
       objectReference: {fileID: 0}
     - target: {fileID: 5936667183180429316, guid: 4b6f494fa27a099489fb757e723e97db, type: 3}
       propertyPath: m_LocalRotation.w

@@ -6,22 +6,23 @@ namespace HerosCode.Toolkit.Player
     /// Collect information from the world -
     /// populate <see cref="PlayerContext"/>
     /// </summary>
-    public class PlayerWorldSensor : IPlayerSensor
+    [RequireComponent(typeof(CharacterController))]
+    public class PlayerWorldSensor : MonoBehaviour, IPlayerSensor
     {
         // ex;
         // wall collider
         // depth guage
         // etc.
-        private readonly CharacterController controller;
+        private CharacterController controller;
         /// TODO - this should come from some world setting,
         /// localized or static, that we derive here
         public float gravityValue = -9.81f;
 
         private bool wasGrounded = false;
 
-        public PlayerWorldSensor(CharacterController _controller)
+        void Awake()
         {
-            controller = _controller;
+            controller = GetComponent<CharacterController>();
         }
 
         public void CollectData(PlayerContext context)

@@ -7,11 +7,12 @@ namespace HerosCode.Toolkit.Player
     /// Collect information from the player -
     /// populate <see cref="PlayerContext"/>
     /// </summary>
-    public class PlayerInputSensor : IPlayerSensor
+    [RequireComponent(typeof(PlayerInput))]
+    public class PlayerInputSensor : MonoBehaviour, IPlayerSensor
     {
         /// Input
-        private readonly PlayerInput playerInput;
-        private readonly Transform playerFocus;
+        private PlayerInput playerInput;
+        [SerializeField] private Transform playerFocus;
         
         protected InputAction moveAction; // Movement
         protected InputAction primaryButtonAction;
@@ -19,11 +20,13 @@ namespace HerosCode.Toolkit.Player
 
         private const float MaxPressAge = 999f;
 
-        public PlayerInputSensor(PlayerInput _playerInput, Transform _playerFocus)
+        void Awake()
         {
-            playerInput = _playerInput;
-            playerFocus = _playerFocus;
-
+            if (playerFocus == null)
+            {
+                playerFocus = Camera.main.transform;
+            }
+            playerInput = GetComponent<PlayerInput>();
             moveAction = playerInput.actions["Move"];
             primaryButtonAction = playerInput.actions["Primary"];
             secondaryButtonAction = playerInput.actions["Secondary"];

@@ -6,18 +6,19 @@ namespace HerosCode.Toolkit.Player
     /// Applies actual movement to the player
     /// via <see cref="PlayerContext"/>
     /// </summary>
-    public class PlayerMovementDriver : IPlayerDriver
+    [RequireComponent(typeof(CharacterController))]
+    public class PlayerMovementExecutor : PlayerExecutor
     {
-        private CharacterController controller;
         private PlayerValues playerValues;
+        private CharacterController controller;
 
-        public PlayerMovementDriver(CharacterController _controller, PlayerValues _playerValues)
+        public override void Initialize(PlayerContext context, PlayerValues values)
         {
-            controller = _controller;
-            playerValues = _playerValues;
+            playerValues = values;
+            controller = GetComponent<CharacterController>();
         }
 
-        public void Apply(PlayerContext context)
+        public override void Execute(PlayerContext context)
         {
             if (!context.ignoreGravity)
             {

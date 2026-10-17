@@ -1,101 +1,54 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using HerosCode.Toolkit.Core;
 
 namespace HerosCode.Toolkit.Player
 {
-    /// <summary>
+     /// <summary>
     /// A generic player controller that utilizes a state machine
     /// </summary>
-    [RequireComponent(typeof(CharacterController))]
-    [RequireComponent(typeof(PlayerInput))]
+    [RequireComponent(typeof(PlayerInputSensor))]
+    [RequireComponent(typeof(PlayerWorldSensor))]
+    [RequireComponent(typeof(PlayerAnimationExecutor))]
+    [RequireComponent(typeof(PlayerMovementExecutor))]
     public class PlayerController : MonoBehaviour
     {
         [Header("Player Control")]
         [SerializeField] private PlayerValues playerValues;
 
-        [Header("References")]
-        public Transform focus;
-        public Animator animator;
-
-        // Static Values
-        [HideInInspector] public CharacterController controller;
-        [HideInInspector] public PlayerInput playerInput;
-        [HideInInspector] public Vector3 playerVelocity;
-
         // Context
         private PlayerContext context;
 
-        // Sensors
+        // Sensors -> Read outside data
         private PlayerInputSensor playerInputSensor;
         private PlayerWorldSensor playerWorldSensor;
 
-        // Drivers
-        private PlayerMovementDriver playerMovementDriver;
-        private PlayerAnimationDriver playerAnimationDriver;
-        private PlayerActionDriver playerActionDriver;
-        private PlayerLocomotionStateDriver playerLocomotionStateDriver;
+        // Updaters -> Update internal data
+        private PlayerActionUpdater playerActionUpdater;
+        private PlayerLocomotionStateUpdater playerLocomotionStateUpdater;
 
-        // State Machine
-        private StateMachine movementSM;
-        public GroundState groundState;
-        public AirState airState;
-
-        // Actions
-        public JumpAction jumpAction;
-        public TripleJumpAction tripleJumpAction;
-        public DiveAction diveAction;
-        public PunchAction punchAction;
+        // Executors -> Execute on the internal data
+        private PlayerMovementExecutor playerMovementExecutor;
+        private PlayerAnimationExecutor playerAnimationExecutor;
+        
 
         void Awake()
         {
-            controller = GetComponent<CharacterController>();
-            playerInput = GetComponent<PlayerInput>();
-            if (animator == null)
-            {
-                // Assumes "visual" is a child
-                animator = GetComponentInChildren<Animator>();
-            }
-            
             // Context
             context = new();
 
             // Sensors
-            playerInputSensor = new(playerInput, focus);
-            playerWorldSensor = new(controller);
+            playerInputSensor = GetComponent<PlayerInputSensor>();
+            playerWorldSensor = GetComponent<PlayerWorldSensor>();
 
-            // Locomotion State
-            movementSM = new StateMachine();
-            groundState = new(playerValues, context);
-            airState = new(playerValues, context);
+            // Updaters
+            playerActionUpdater = new(context, playerValues);
+            playerLocomotionStateUpdater = new(context, playerValues);
 
-            // Motors
-            playerMovementDriver = new(controller, playerValues);
-            playerAnimationDriver = new(animator);
-            playerActionDriver = new(playerValues);
-            playerLocomotionStateDriver = new(movementSM, groundState, airState);
-
-            // Actions
-            jumpAction = new(playerValues);
-            tripleJumpAction = new(playerValues);
-            diveAction = new(playerValues);
-            punchAction = new(playerValues);
-
-            // Action binding
-            // TODO - this should be done via inspector?
-            playerActionDriver.Bind(Keybind.Primary, tripleJumpAction);
-            playerActionDriver.Bind(Keybind.Secondary, diveAction);
-            //playerActionDriver.Bind(Keybind.Secondary, punchAction);
-        }
-
-        void Start()
-        {
-            if (focus == null)
-            {
-                focus = Camera.main.transform;
-            }
-
-            movementSM.Initialize(groundState);
+            // Executors
+            playerAnimationExecutor = GetComponent<PlayerAnimationExecutor>();
+            playerAnimationExecutor.Initialize(context, playerValues);
+            
+            playerMovementExecutor = GetComponent<PlayerMovementExecutor>();
+            playerMovementExecutor.Initialize(context, playerValues);
         }
 
         void Update()
@@ -106,33 +59,33 @@ namespace HerosCode.Toolkit.Player
             playerInputSensor.CollectData(context);
             playerWorldSensor.CollectData(context);
 
-            // Action driver
-            playerActionDriver.Apply(context);
+            // Action updater determines player intent
+            playerActionUpdater.Tick(context);
 
-            // Determine locomotion
-            playerLocomotionStateDriver.Apply(context);
+            // Locomotion updater determines locomotion modifiers
+            playerLocomotionStateUpdater.Tick(context);
 
-            // Locomotion state machine
-            movementSM.LogicUpdate();
-
-            // Apply intent
-            playerMovementDriver.Apply(context);
-            playerAnimationDriver.Apply(context);
+            // Execute animation updates
+            playerAnimationExecutor.Execute(context);
         }
 
         void LateUpdate()
         {
-            movementSM.LateUpdate();
+            playerLocomotionStateUpdater.LateTick(context);
         }
 
         void FixedUpdate()
         {
-            movementSM.PhysicsUpdate();
+            playerLocomotionStateUpdater.FixedTick(context);
+
+            // Ensures movement is always physics driven. Design choice
+            playerMovementExecutor.Execute(context);
         }
 
+        // TODO - dedicated debug component
         void OnGUI()
         {
-            GUI.Label(new Rect(25, 25, 300, 100), movementSM.GetCurrentState().ToString());
+            GUI.Label(new Rect(25, 25, 300, 100), playerLocomotionStateUpdater.GetCurrentState().ToString());
         }
     }
 }
