@@ -6,43 +6,40 @@ namespace HerosCode.Toolkit.Player
     /// Applies actual movement to the player
     /// via <see cref="PlayerContext"/>
     /// </summary>
-    [RequireComponent(typeof(CharacterController))]
-    public class PlayerMovementExecutor : PlayerExecutor
+    [RequireComponent(typeof(Rigidbody))]
+    public class PlayerMovementExecutor : MonoBehaviour, IPlayerExecutor
     {
         private PlayerValues playerValues;
-        private CharacterController controller;
+        private Rigidbody rb;
 
-        public override void Initialize(PlayerContext context, PlayerValues values)
+        public void Initialize(PlayerContext context, PlayerValues values)
         {
             playerValues = values;
-            controller = GetComponent<CharacterController>();
+            rb = GetComponent<Rigidbody>();
         }
 
-        public override void Execute(PlayerContext context)
+        public void Execute(PlayerContext context)
         {
-            if (!context.ignoreGravity)
-            {
-                context.gravityVelocity.y += context.gravityValue * Time.deltaTime;
-                if (controller.isGrounded && context.gravityVelocity.y < 0)
-                {
-                    context.gravityVelocity.y = -2f; // stick to ground
-                }
-            }
+            context.velocity += context.pendingImpulse;
+            if (context.pendingImpulse != Vector3.zero) context.stepsSinceImpulse = 0;
+            context.pendingImpulse = Vector3.zero;
+            rb.linearVelocity = context.velocity;
+            ApplyRotation(context, Time.fixedDeltaTime);
+        }
 
-            Vector3 vel = context.desiredVelocity + context.impulseVelocity;
-            vel.y = context.gravityVelocity.y;
-            controller.Move(vel * Time.deltaTime);
+        void ApplyRotation(PlayerContext c, float dt)
+        {
+            Vector3 dir = c.lookDirection;
+            dir.y = 0f;
+            if (dir.sqrMagnitude < 0.0001f) return;
 
-            float drag = context.isGrounded ? playerValues.impulseGroundDrag : playerValues.impulseAirDrag;
-            context.impulseVelocity = Vector3.MoveTowards(context.impulseVelocity, Vector3.zero, drag * Time.deltaTime);
+            Quaternion target = Quaternion.LookRotation(dir.normalized, Vector3.up);
+            Quaternion next = c.snapLook
+                ? target
+                : Quaternion.RotateTowards(rb.rotation, target, playerValues.turnSpeed * dt);
 
-            // rotation
-            if (context.lookDirection.sqrMagnitude > 0f)
-            {
-                var target = Quaternion.LookRotation(context.lookDirection);
-                controller.transform.rotation = context.snapLook ? target
-                    : Quaternion.Slerp(controller.transform.rotation, target, playerValues.rotationDampTime);
-            }
+            c.snapLook = false;
+            rb.MoveRotation(next);
         }
     }
 }

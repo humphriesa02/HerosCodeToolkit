@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccceee92549e8794fa56bb125d6a0609, type: 3}
   m_Name: DefaultPlayerValues
   m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::PlayerValues
+  locomotionStyle: 0
   moveSpeed: 6
   jumpHeight: 0.8
   rollSpeed: 10
@@ -21,6 +22,12 @@ MonoBehaviour:
   rotationDampTime: 0.3
   airControl: 0.5
   inputBuffer: 0.15
+  maxSpeed: 10
+  maxAcceleration: 10
+  maxAirAcceleration: 1
+  dynamicJumpHeight: 2
+  maxAirJumps: 2
+  maxGroundAngle: 25
   diveSpeed: 10
   diveHop: 3
   impulseGroundDrag: 20

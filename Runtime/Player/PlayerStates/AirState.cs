@@ -15,14 +15,14 @@ namespace HerosCode.Toolkit.Player
         public override void Enter()
         {
             base.Enter();
+            Vector2 input = Vector2.ClampMagnitude(context.moveInput, 1f);
+            context.desiredVelocity = new Vector3(input.x, 0f, input.y) * values.maxSpeed;
         }
 
-        public override void LogicUpdate()
+        public override void PhysicsUpdate()
         {
             base.LogicUpdate();
-            
-            Vector3 blended = context.moveDirection * values.airControl + context.velocity * (1 - values.airControl);
-            context.desiredVelocity = blended * values.moveSpeed;
+            PlayerStateUtil.AdjustVelocity(context, values.maxAirAcceleration);
         }
 
         public override void Exit()

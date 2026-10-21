@@ -20,7 +20,7 @@ namespace HerosCode.Toolkit.Player
 
         private const float MaxPressAge = 999f;
 
-        void Awake()
+        public void Initialize(PlayerContext context, PlayerValues values)
         {
             if (playerFocus == null)
             {
@@ -36,8 +36,8 @@ namespace HerosCode.Toolkit.Player
         {
             context.moveInput = moveAction.ReadValue<Vector2>();
             context.primaryPressedTime   = primaryButtonAction.WasPressedThisFrame()   ? 0f : Mathf.Min(context.primaryPressedTime + Time.deltaTime, MaxPressAge);
-            context.secondaryPressedTime = secondaryButtonAction.WasPressedThisFrame() ? 0f : Mathf.Min(context.secondaryPressedTime + Time.deltaTime);
-
+            context.secondaryPressedTime = secondaryButtonAction.WasPressedThisFrame() ? 0f : Mathf.Min(context.secondaryPressedTime + Time.deltaTime, MaxPressAge);
+            
             Vector3 right = playerFocus.right;
             right.y = 0f;
             right.Normalize();
@@ -48,5 +48,9 @@ namespace HerosCode.Toolkit.Player
 
             context.moveDirection = right * context.moveInput.x + forward * context.moveInput.y;
         }
+
+        public void ClearData(PlayerContext context) { }
+
+        public void FixedCollectData(PlayerContext context){ }
     }
 }

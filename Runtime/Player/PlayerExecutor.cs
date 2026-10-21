@@ -10,9 +10,9 @@ namespace HerosCode.Toolkit.Player
     /// Exposes all possible Unity tick operations,
     /// but they're driven in order by the controller
     /// </summary>
-    public abstract class PlayerExecutor : MonoBehaviour
+    public interface IPlayerExecutor
     {
-        public abstract void Initialize(PlayerContext context, PlayerValues values);
-        public abstract void Execute(PlayerContext context);
+        public void Initialize(PlayerContext context, PlayerValues values);
+        public void Execute(PlayerContext context);
     }
 }

@@ -15,22 +15,17 @@ namespace HerosCode.Toolkit.Player
         public bool isMoving =>
         moveDirection.sqrMagnitude > 0.01f; // Quick access to those that want to know
         public Vector3 desiredVelocity;     // Horizontal, world space, units per second
-        public Vector3 gravityVelocity;     // Our current player gravity accumulation
-        public float gravityValue;          // how much gravity applies each frame
-        public bool ignoreGravity;          // If false - don't apply gravity in Mover
         public Vector3 velocity;            // maintained across each state
-        public Vector3 lookDirection;       // The direction our mover code will try and rotate the player
-        public bool snapLook;               // If true, no lerping to change player rotation, simply snap it
-
-        public Vector3 impulseVelocity;     // decaying horizontal burst, written by actions
-        public Vector3 facing;              // written by the world sensor (flattened transform.forward)
-        public int landingCount;            // incremented by the world sensor each time we touch down
-        public float timeSinceLanded;       // reset to 0 on touchdown
-
-        ///Dynamic stuff
-        public Vector3 bodyVelocity;        // set via the rigidbody, if using one
         public Vector3 xAxis;               // The current x axis, used for inversion
         public Vector3 zAxis;               // The current z axis
+        public Vector3 contactNormal;       // What is "up" depending on how we land
+        public Vector3 pendingImpulse;
+        public int stepsSinceLastGrounded;
+        public int stepsSinceImpulse = 999;
+        public int jumpPhase;               // Double jump access. If phase > 1 we're double jumping
+
+        public Vector3 lookDirection;       // direction we want to face. Persists, so we keep facing it after input stops
+        public bool snapLook;               // one-shot: face lookDirection instantly. Drained by the executor
         #endregion
 
         #region Controls
@@ -93,9 +88,6 @@ namespace HerosCode.Toolkit.Player
         public void ResetFrame()
         {
             desiredVelocity = Vector3.zero;
-            ignoreGravity = false;
-            lookDirection = Vector3.zero;
-            snapLook = false;
             animTrigger = null;
         }
     }

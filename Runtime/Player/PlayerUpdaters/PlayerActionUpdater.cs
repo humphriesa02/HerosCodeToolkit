@@ -31,7 +31,7 @@ namespace HerosCode.Toolkit.Player
             diveAction = new(values);
             punchAction = new(values);
 
-            Bind(Keybind.Primary, tripleJumpAction);
+            Bind(Keybind.Primary, jumpAction);
             Bind(Keybind.Secondary, diveAction);
         }
 

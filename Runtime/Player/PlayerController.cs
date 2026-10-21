@@ -37,7 +37,9 @@ namespace HerosCode.Toolkit.Player
 
             // Sensors
             playerInputSensor = GetComponent<PlayerInputSensor>();
+            playerInputSensor.Initialize(context, playerValues);
             playerWorldSensor = GetComponent<PlayerWorldSensor>();
+            playerWorldSensor.Initialize(context, playerValues);
 
             // Updaters
             playerActionUpdater = new(context, playerValues);
@@ -57,7 +59,6 @@ namespace HerosCode.Toolkit.Player
 
             // Set the context via sensors
             playerInputSensor.CollectData(context);
-            playerWorldSensor.CollectData(context);
 
             // Action updater determines player intent
             playerActionUpdater.Tick(context);
@@ -76,10 +77,10 @@ namespace HerosCode.Toolkit.Player
 
         void FixedUpdate()
         {
+            playerWorldSensor.FixedCollectData(context);
             playerLocomotionStateUpdater.FixedTick(context);
-
-            // Ensures movement is always physics driven. Design choice
             playerMovementExecutor.Execute(context);
+            playerWorldSensor.ClearData(context);
         }
 
         // TODO - dedicated debug component

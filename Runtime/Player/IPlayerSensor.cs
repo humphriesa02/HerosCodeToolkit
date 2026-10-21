@@ -6,6 +6,9 @@ namespace HerosCode.Toolkit.Player
     /// </summary>
     public interface IPlayerSensor
     {
-        void CollectData(PlayerContext player);
+        public abstract void Initialize(PlayerContext context, PlayerValues values);
+        public void CollectData(PlayerContext context);
+        public void FixedCollectData(PlayerContext context);
+        public void ClearData(PlayerContext context);
     }
 }

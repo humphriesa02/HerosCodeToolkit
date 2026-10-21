@@ -8,8 +8,6 @@ namespace HerosCode.Toolkit.Player
     /// </summary>
     public class GroundState : PlayerLocomotionState
     {
-        Vector3 currentVelocity;
-        Vector3 smoothVelocityRef;
 
         public override bool CanEnter(PlayerContext context) => context.isGrounded;
 
@@ -18,35 +16,24 @@ namespace HerosCode.Toolkit.Player
         public override void Enter()
         {
             base.Enter();
-            currentVelocity = Vector3.zero;
-            smoothVelocityRef = Vector3.zero;
-            context.velocity = Vector3.zero;
-            context.gravityVelocity.y = 0f;
         }
 
         public override void LogicUpdate()
         {
             base.LogicUpdate();
-
-            context.velocity = context.moveDirection;
-            currentVelocity = Vector3.SmoothDamp(currentVelocity, context.moveDirection, ref smoothVelocityRef, values.velocityDampTime);
-            context.desiredVelocity = currentVelocity * values.moveSpeed;
-
-            if (context.isMoving)
-            {
-                context.lookDirection = context.moveDirection;
-            }
+            Vector2 input = Vector2.ClampMagnitude(context.moveInput, 1f);
+            context.desiredVelocity = new Vector3(input.x, 0f, input.y) * values.maxSpeed;
         }
 
+        public override void PhysicsUpdate()
+        {
+            base.PhysicsUpdate();
+            PlayerStateUtil.AdjustVelocity(context, values.maxAcceleration);
+        }
+        
         public override void Exit()
         {
             base.Exit();
-
-            if (context.velocity.sqrMagnitude > 0f)
-            {
-                context.lookDirection = context.velocity;
-                context.snapLook = true;
-            }
         }
     }
 }

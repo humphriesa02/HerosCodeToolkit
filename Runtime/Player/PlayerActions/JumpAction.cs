@@ -13,12 +13,18 @@ namespace HerosCode.Toolkit.Player
 
         public bool CanStart(PlayerContext context)
         {
-            return context.isGrounded;
+            return context.isGrounded || context.jumpPhase < values.maxAirJumps;
         }
 
         public void Start(PlayerContext context)
         {
-            context.gravityVelocity.y = Mathf.Sqrt(values.jumpHeight * -3.0f * context.gravityValue);
+            context.jumpPhase += 1;
+			float jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * values.jumpHeight);
+			float alignedSpeed = Vector3.Dot(context.velocity, context.contactNormal);
+			if (alignedSpeed > 0f) {
+				jumpSpeed = Mathf.Max(jumpSpeed - alignedSpeed, 0f);
+			}
+			context.pendingImpulse += context.contactNormal * jumpSpeed;
             context.animTrigger = "jump";
         }
     }
