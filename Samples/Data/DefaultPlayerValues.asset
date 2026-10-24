@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultPlayerValues
   m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::PlayerValues
   inputBuffer: 0.15
-  maxSpeed: 10
+  maxSpeed: 5
   maxAcceleration: 25
   maxAirAcceleration: 1
   maxGroundAngle: 45
@@ -28,7 +28,7 @@ MonoBehaviour:
     m_Bits: 512
   turnSpeed: 720
   speedDampTime: 0.1
-  jumpHeight: 0.8
+  jumpHeight: 2
   maxAirJumps: 2
   chainWindow: 0.25
   chainHeightsMultipliers:
