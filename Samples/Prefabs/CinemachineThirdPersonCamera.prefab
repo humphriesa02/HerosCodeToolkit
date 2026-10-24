@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 3878863254105308071}
   - component: {fileID: 8565946979052992713}
   m_Layer: 0
-  m_Name: ThirdPersonCamera
+  m_Name: CinemachineThirdPersonCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
