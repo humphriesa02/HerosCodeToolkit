@@ -13,29 +13,34 @@ namespace HerosCode.Toolkit.Player
 
         public bool CanStart(PlayerContext context)
         {
-            return context.onGround || context.onSteep || context.jumpPhase < values.maxAirJumps;
+            return context.onGround || context.onSteep || (values.maxAirJumps > 0 && context.jumpPhase <= values.maxAirJumps);;
         }
 
         public void Start(PlayerContext context)
         {
-            Vector3 jumpDirection = context.contactNormal;
+            Vector3 jumpDirection;
 
-            if (context.onSteep)
+            if (context.onGround)
+            {
+                context.jumpPhase = 0;
+                jumpDirection = context.contactNormal;
+            }
+            else if (context.onSteep)
             {
                 jumpDirection = context.steepNormal;
                 context.jumpPhase = 0;
             }
-            else if (values.maxAirJumps > 0 && context.jumpPhase <= values.maxAirJumps)
+            else
             {
                 if (context.jumpPhase == 0) {
 				    context.jumpPhase = 1;
 			    }
                 jumpDirection = context.contactNormal;
             }
-
             context.jumpPhase += 1;
             // vertical bias
             jumpDirection = (jumpDirection + Vector3.up).normalized;
+
 			float jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * values.jumpHeight);
 			float alignedSpeed = Vector3.Dot(context.velocity, jumpDirection);
 			if (alignedSpeed > 0f) {
