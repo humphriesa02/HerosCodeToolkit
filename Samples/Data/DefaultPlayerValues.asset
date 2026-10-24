@@ -12,29 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccceee92549e8794fa56bb125d6a0609, type: 3}
   m_Name: DefaultPlayerValues
   m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::PlayerValues
-  locomotionStyle: 0
-  moveSpeed: 6
-  jumpHeight: 0.8
-  rollSpeed: 10
-  gravityMultiplier: 1
-  speedDampTime: 0.1
-  velocityDampTime: 0.25
-  rotationDampTime: 0.3
-  airControl: 0.5
   inputBuffer: 0.15
   maxSpeed: 10
-  maxAcceleration: 10
+  maxAcceleration: 25
   maxAirAcceleration: 1
-  dynamicJumpHeight: 2
+  maxGroundAngle: 45
+  maxStairsAngle: 50
+  maxSnapSpeed: 100
+  probeDistance: 1
+  probeMask:
+    serializedVersion: 2
+    m_Bits: 627
+  stairsMask:
+    serializedVersion: 2
+    m_Bits: 512
+  turnSpeed: 720
+  speedDampTime: 0.1
+  jumpHeight: 0.8
   maxAirJumps: 2
-  maxGroundAngle: 25
-  diveSpeed: 10
-  diveHop: 3
-  impulseGroundDrag: 20
-  impulseAirDrag: 6
   chainWindow: 0.25
   chainHeightsMultipliers:
   - 1
   - 1.25
   - 1.5
   - 2
+  diveSpeed: 10
+  diveHop: 3

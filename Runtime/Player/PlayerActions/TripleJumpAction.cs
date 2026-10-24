@@ -15,7 +15,7 @@ namespace HerosCode.Toolkit.Player
 
         public bool CanStart(PlayerContext context)
         {
-            return context.isGrounded;
+            return context.onGround;
         }
 
         public void Start(PlayerContext context)

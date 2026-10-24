@@ -18,13 +18,24 @@ namespace HerosCode.Toolkit.Player
         [Header("Movement")]
         [Range(0f, 100f)]
         public float maxSpeed = 10f;
-        [SerializeField, Range(0f, 100f)]
+        [Range(0f, 100f)]
         public float maxAcceleration = 10f, maxAirAcceleration = 1f;
-        [SerializeField, Range(0, 90)]
-        public float maxGroundAngle = 25f;
+
+        /// <summary>
+        /// Ground snapping
+        /// </summary>
+        [Range(0, 90), Tooltip("Max angle of a slope we can still climb")]
+        public float maxGroundAngle = 25f, maxStairsAngle = 50f;
+        [Range(0f, 100f), Tooltip("If we exceed this speed on a slope we won't stick to it")]
+        public float maxSnapSpeed = 100f;
+        [Min(0f), Tooltip("Distance our snap to ground will check downwards")]
+        public float probeDistance = 1f;
+        [Tooltip("Mask used for layers we can snap to.")]
+        public LayerMask probeMask = -1, stairsMask = -1;
 
         /// <summary>Cached by the world sensor or read directly; derived from maxGroundAngle.</summary>
         public float MinGroundDotProduct => Mathf.Cos(maxGroundAngle * Mathf.Deg2Rad);
+        public float MinStairsDotProduct => Mathf.Cos(maxStairsAngle * Mathf.Deg2Rad);
 
         [Tooltip("How fast the player turns toward its look direction (degrees/sec).")]
         public float turnSpeed = 720f;
@@ -32,9 +43,9 @@ namespace HerosCode.Toolkit.Player
         public float speedDampTime = 0.1f;
 
         [Header("Jump")]
-        [SerializeField, Range(0f, 10f)]
+        [Range(0f, 10f)]
         public float jumpHeight = 2f;
-        [SerializeField, Range(0, 5)]
+        [Range(0, 5)]
         public int maxAirJumps = 0;
 
         [Header("Triple Jump")]

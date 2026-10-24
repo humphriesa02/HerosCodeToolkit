@@ -8,7 +8,7 @@ namespace HerosCode.Toolkit.Player
     /// </summary>
     public class AirState : PlayerLocomotionState
     {
-        public override bool CanEnter(PlayerContext context) => !context.isGrounded;
+        public override bool CanEnter(PlayerContext context) => !context.onGround;
 
         public AirState(PlayerValues _values, PlayerContext _context) : base(_values, _context) { }
 

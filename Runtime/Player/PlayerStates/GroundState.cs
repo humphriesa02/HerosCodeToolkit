@@ -9,7 +9,7 @@ namespace HerosCode.Toolkit.Player
     public class GroundState : PlayerLocomotionState
     {
 
-        public override bool CanEnter(PlayerContext context) => context.isGrounded;
+        public override bool CanEnter(PlayerContext context) => context.onGround;
 
         public GroundState(PlayerValues _values, PlayerContext _context) : base(_values, _context) { }
 
@@ -28,6 +28,11 @@ namespace HerosCode.Toolkit.Player
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
+            if (context.onGround && context.stepsSinceImpulse > 1 && context.pendingImpulse == Vector3.zero)
+            {
+                context.jumpPhase = 0;
+            }
+            PlayerStateUtil.ApplyGroundSnap(context);
             PlayerStateUtil.AdjustVelocity(context, values.maxAcceleration);
         }
         

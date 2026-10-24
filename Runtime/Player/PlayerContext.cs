@@ -19,8 +19,9 @@ namespace HerosCode.Toolkit.Player
         public Vector3 xAxis;               // The current x axis, used for inversion
         public Vector3 zAxis;               // The current z axis
         public Vector3 contactNormal;       // What is "up" depending on how we land
+        public Vector3 steepNormal;
         public Vector3 pendingImpulse;
-        public int stepsSinceLastGrounded;
+        public int stepsSinceLastGrounded = 999;
         public int stepsSinceImpulse = 999;
         public int jumpPhase;               // Double jump access. If phase > 1 we're double jumping
 
@@ -44,7 +45,9 @@ namespace HerosCode.Toolkit.Player
         #endregion
 
         #region World
-        public bool isGrounded; // Set by CharacterController natively, passed down
+        public bool onGround;
+        public bool onSteep; // Too steep to be on ground, but not ceiling or overhang
+        public bool snapToGround;
         public bool nearbyWall;
         public bool insideWater;
         public float waterDepth;

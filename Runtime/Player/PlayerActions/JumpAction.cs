@@ -13,7 +13,7 @@ namespace HerosCode.Toolkit.Player
 
         public bool CanStart(PlayerContext context)
         {
-            return context.isGrounded || context.jumpPhase < values.maxAirJumps;
+            return context.onGround || context.onSteep || context.jumpPhase < values.maxAirJumps;
         }
 
         public void Start(PlayerContext context)
