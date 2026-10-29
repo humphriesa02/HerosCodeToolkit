@@ -14,9 +14,10 @@ namespace HerosCode.Toolkit.Player
         private PlayerInput playerInput;
         [SerializeField] private Transform playerFocus;
         
-        protected InputAction moveAction; // Movement
-        protected InputAction primaryButtonAction;
-        protected InputAction secondaryButtonAction;
+        private InputAction moveAction; // Movement
+        private InputAction lookAction; // For camera, mainly 
+        private InputAction primaryButtonAction;
+        private InputAction secondaryButtonAction;
 
         private const float MaxPressAge = 999f;
 
@@ -24,10 +25,11 @@ namespace HerosCode.Toolkit.Player
         {
             if (playerFocus == null)
             {
-                playerFocus = Camera.main.transform;
+                playerFocus = UnityEngine.Camera.main.transform;
             }
             playerInput = GetComponent<PlayerInput>();
             moveAction = playerInput.actions["Move"];
+            lookAction = playerInput.actions["Look"];
             primaryButtonAction = playerInput.actions["Primary"];
             secondaryButtonAction = playerInput.actions["Secondary"];
         }
@@ -35,6 +37,12 @@ namespace HerosCode.Toolkit.Player
         public void CollectData(PlayerContext context)
         {
             context.moveInput = moveAction.ReadValue<Vector2>();
+
+            // Look uses mouse if no controllers are connected
+            // TODO - unify this in settings choices (mouse v keyboard)
+            context.lookInput = lookAction.ReadValue<Vector2>();
+            context.lookViaMouse = lookAction.activeControl?.device is Mouse;
+
             context.primaryPressedTime   = primaryButtonAction.WasPressedThisFrame()   ? 0f : Mathf.Min(context.primaryPressedTime + Time.deltaTime, MaxPressAge);
             context.secondaryPressedTime = secondaryButtonAction.WasPressedThisFrame() ? 0f : Mathf.Min(context.secondaryPressedTime + Time.deltaTime, MaxPressAge);
             

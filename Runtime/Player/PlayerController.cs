@@ -1,4 +1,5 @@
 using UnityEngine;
+using HerosCode.Toolkit.Camera;
 
 namespace HerosCode.Toolkit.Player
 {
@@ -28,7 +29,10 @@ namespace HerosCode.Toolkit.Player
         // Executors -> Execute on the internal data
         private PlayerMovementExecutor playerMovementExecutor;
         private PlayerAnimationExecutor playerAnimationExecutor;
-        
+
+        // Non-player related (but controlled by player)
+        [SerializeField] private OrbitCamera playerCamera; // For player controller camera
+        private bool playerControlledCamera = false;
 
         void Awake()
         {
@@ -51,6 +55,8 @@ namespace HerosCode.Toolkit.Player
             
             playerMovementExecutor = GetComponent<PlayerMovementExecutor>();
             playerMovementExecutor.Initialize(context, playerValues);
+
+            if (playerCamera != null) playerControlledCamera = true;
         }
 
         void Update()
@@ -73,6 +79,9 @@ namespace HerosCode.Toolkit.Player
         void LateUpdate()
         {
             playerLocomotionStateUpdater.LateTick(context);
+
+            // Apply rotations to player if player controlled camera
+            if (playerControlledCamera) playerCamera.UpdateCamera(context.lookInput, context.lookViaMouse);
         }
 
         void FixedUpdate()

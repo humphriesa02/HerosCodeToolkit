@@ -11840,6 +11840,11 @@ MonoBehaviour:
   distance: 5
   focusRadius: 1
   focusCentering: 0.5
+  minVerticalAngle: -30
+  maxVerticalAngle: 60
+  alignDelay: 2
+  joyStickRotationSpeed: 90
+  mouseSensitivity: 1
 --- !u!4 &1246803845 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4242187752855901150, guid: 4c38479097a756a43832b5fb5c924f30, type: 3}
@@ -13611,6 +13616,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3518843200992128598, guid: ec54b6d09c33e094ab43cf6f2bafe052, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1236146439}
     - target: {fileID: 8402241365744015898, guid: ec54b6d09c33e094ab43cf6f2bafe052, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

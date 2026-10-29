@@ -10,7 +10,6 @@ namespace HerosCode.Toolkit.Player
     public class PlayerContext
     {
         #region Movement
-        public Vector2 moveInput;           // Direct from controller
         public Vector3 moveDirection;       // camera-relative, unscaled
         public bool isMoving =>
         moveDirection.sqrMagnitude > 0.01f; // Quick access to those that want to know
@@ -33,6 +32,9 @@ namespace HerosCode.Toolkit.Player
         /// <summary>
         /// Maps 1:1 with keybindings
         /// </summary>
+        public Vector2 moveInput;
+        public Vector2 lookInput;
+        public bool lookViaMouse; // set to true if the action is done via the mouse movement deltas
          
         // Swapped from bools to floats
         // to introduce input buffers

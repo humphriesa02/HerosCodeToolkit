@@ -118,7 +118,7 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Platformer
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::PlayerController
   playerValues: {fileID: 11400000, guid: 421a931055c306e40aea3580265facea, type: 2}
+  playerCamera: {fileID: 0}
 --- !u!114 &1419592765658732511
 MonoBehaviour:
   m_ObjectHideFlags: 0
