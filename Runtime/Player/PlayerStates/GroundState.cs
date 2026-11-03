@@ -26,10 +26,7 @@ namespace HerosCode.Toolkit.Player
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
-            if (context.onGround && context.stepsSinceImpulse > 1 && context.pendingImpulse == Vector3.zero)
-            {
-                context.jumpPhase = 0;
-            }
+            PlayerStateUtil.ResetJumpPhase(context);
             PlayerStateUtil.ApplyGroundSnap(context);
             PlayerStateUtil.AdjustVelocity(context, values.maxAcceleration);
             PlayerStateUtil.FaceMoveDirection(context);

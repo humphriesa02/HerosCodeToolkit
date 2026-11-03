@@ -36,8 +36,17 @@ namespace HerosCode.Toolkit.Player
             
             CollectGroundingData(context);
 
-            context.xAxis = ProjectOnContactPlane(Vector3.right).normalized;
-		    context.zAxis = ProjectOnContactPlane(Vector3.forward).normalized;
+            if (context.isClimbing)
+            {
+                context.xAxis = PlayerStateUtil.ProjectOnPlane(Vector3.Cross(context.climbNormal, Vector3.up), context.climbNormal);
+                context.zAxis = PlayerStateUtil.ProjectOnPlane(Vector3.up, context.climbNormal);
+            }
+            else
+            {
+                context.xAxis = ProjectOnContactPlane(Vector3.right).normalized;
+		        context.zAxis = ProjectOnContactPlane(Vector3.forward).normalized;
+            }
+            
 
             if (connectedBody)
             {

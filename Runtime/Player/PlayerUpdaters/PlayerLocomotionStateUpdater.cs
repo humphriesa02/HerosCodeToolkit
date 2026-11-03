@@ -21,6 +21,7 @@ namespace HerosCode.Toolkit.Player
         public PlayerLocomotionStateUpdater(PlayerContext context, PlayerValues values)
         {
             stateMachine = new StateMachine();
+            playerStatesInOrder.Add(new ClimbState(values, context));
             playerStatesInOrder.Add(new GroundState(values, context));
             playerStatesInOrder.Add(new AirState(values, context));
 

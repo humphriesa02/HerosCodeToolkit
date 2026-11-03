@@ -39,7 +39,7 @@ namespace HerosCode.Toolkit.Player
         public static void ConvertMoveInputToDesiredVelocity(PlayerContext context, float maxSpeed)
         {
             Vector2 input = Vector2.ClampMagnitude(context.moveInput, 1f);
-            if (context.playerInputSpace)
+            if (context.playerInputSpace && !context.isClimbing)
             {
 			    Vector3 forward = context.playerInputSpace.forward;
                 forward.y = 0f;
@@ -63,7 +63,7 @@ namespace HerosCode.Toolkit.Player
         /// <param name="context"></param>
         public static void ApplyGravity(PlayerContext context)
         {
-            context.velocity += Physics.gravity * Time.deltaTime;
+            context.velocity += Physics.gravity * Time.fixedDeltaTime;
         }
 
         /// <summary>
@@ -76,5 +76,23 @@ namespace HerosCode.Toolkit.Player
             dir.y = 0f;
             if (dir.sqrMagnitude > 0.0001f) c.lookDirection = dir;
         }
+
+        /// <summary>
+        /// Resets the jump phase if criteria are correct
+        /// </summary>
+        /// <param name="c"></param>
+        public static void ResetJumpPhase(PlayerContext context)
+        {
+            if (context.onGround && context.stepsSinceImpulse > 1 && context.pendingImpulse == Vector3.zero)
+                context.jumpPhase = 0;
+        }
+
+        /// <summary>
+        /// Projects a direction to the plan represented by the normal
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="normal"></param>
+        /// <returns></returns>
+        public static Vector3 ProjectOnPlane(Vector3 direction, Vector3 normal)=> (direction - normal * Vector3.Dot(direction, normal)).normalized;
     }
 }

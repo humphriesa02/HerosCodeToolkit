@@ -43,6 +43,10 @@ namespace HerosCode.Toolkit.Player
         public float maxClimbAngle = 140f;
         [Tooltip("Layers the player can climb. Zelda-style: tick most world layers. Mario-style: tick only the Climbable layer.")]
         public LayerMask climbableMask;
+        [Range(0f, 100f)]
+        public float maxClimbSpeed = 2f;
+        [Range(0f, 100f)]
+        public float maxClimbAcceleration = 20f;
 
         [Header("Jump")]
         [Range(0f, 10f), Tooltip("Force applied when jumping")]
