@@ -30,7 +30,15 @@ namespace HerosCode.Toolkit.Player
             PlayerStateUtil.ApplyGroundSnap(context);
             PlayerStateUtil.AdjustVelocity(context, values.maxAcceleration);
             PlayerStateUtil.FaceMoveDirection(context);
-            PlayerStateUtil.ApplyGravity(context);
+            // Prevent sliding down slopes
+            if (context.onGround && context.velocity.sqrMagnitude < 0.01f)
+            {
+                context.velocity += context.contactNormal * (Vector3.Dot(Physics.gravity, context.contactNormal) * Time.deltaTime);
+            }
+            else
+            {
+                PlayerStateUtil.ApplyGravity(context);
+            }
         }
         
         public override void Exit()

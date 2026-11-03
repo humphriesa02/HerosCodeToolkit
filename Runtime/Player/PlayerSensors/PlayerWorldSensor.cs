@@ -17,7 +17,7 @@ namespace HerosCode.Toolkit.Player
         private PlayerValues values;
 
         // Updated locally when evaluate collision executes - OnCollision events
-        Vector3 localGroundContactNormal, localSteepContactNormal, localClimbContactNormal;
+        Vector3 localGroundContactNormal, localSteepContactNormal, localClimbContactNormal, lastClimbNormal;
         Vector3 connectionWorldPosition, connectionLocalPosition;
         int groundContactCount, steepContactCount, climbContactCount;
 
@@ -68,14 +68,14 @@ namespace HerosCode.Toolkit.Player
             context.stepsSinceLastGrounded++;
             context.stepsSinceImpulse++;
 
-            var sensedClimb = climbContactCount > 0;
+            var sensedClimb = CheckClimbing(context, out Vector3 climbNormal);
             var sensedGround = groundContactCount > 0;
             var sensedSnap = false;
             var sensedCrevice = false;
 
             if (sensedClimb)
             {
-                localGroundContactNormal = localClimbContactNormal.normalized;
+                localGroundContactNormal = climbNormal;
             }
             else if (sensedGround)
             {
@@ -105,7 +105,7 @@ namespace HerosCode.Toolkit.Player
 
             context.contactNormal = localGroundContactNormal;
             context.steepNormal = context.onSteep ? localSteepContactNormal.normalized : Vector3.zero;
-            context.climbNormal = sensedClimb ? localClimbContactNormal.normalized : Vector3.zero;
+            context.climbNormal = climbNormal;
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace HerosCode.Toolkit.Player
         /// and update contact counts and normals accordingly
         /// </summary>
         /// <param name="collision"></param>
-        void EvaluateCollision (Collision collision)
+        void EvaluateCollision(Collision collision)
         {
             var layer = collision.gameObject.layer;
             var minDot = GetMinDot(layer);
@@ -195,6 +195,7 @@ namespace HerosCode.Toolkit.Player
                     {
                         climbContactCount += 1;
                         localClimbContactNormal += normal;
+                        lastClimbNormal = normal;
                         connectedBody = collision.rigidbody;
                     }
                 }
@@ -219,6 +220,21 @@ namespace HerosCode.Toolkit.Player
             if (n.y < values.MinGroundDotProduct) return false;
 
             normal = n;
+            return true;
+        }
+
+        bool CheckClimbing(PlayerContext context, out Vector3 normal)
+        {
+            normal = Vector3.zero;
+            if (climbContactCount == 0 || context.stepsSinceImpulse <= 2) return false;
+
+            normal = localClimbContactNormal.normalized;
+
+            // Several climbable surfaces can sum to a floor-like normal.
+            // If so, use the most recent single wall instead.
+            if (climbContactCount > 1 && normal.y >= values.MinGroundDotProduct)
+                normal = lastClimbNormal;
+
             return true;
         }
 

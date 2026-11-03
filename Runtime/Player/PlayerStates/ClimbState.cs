@@ -21,7 +21,7 @@ namespace HerosCode.Toolkit.Player
         {
             base.LogicUpdate();
             // contex isclimbing changes this automatically
-            PlayerStateUtil.ConvertMoveInputToDesiredVelocity(context, values.maxSpeed);
+            PlayerStateUtil.ConvertMoveInputToDesiredVelocity(context, values.maxClimbSpeed);
             FaceWall(false);
         }
 
