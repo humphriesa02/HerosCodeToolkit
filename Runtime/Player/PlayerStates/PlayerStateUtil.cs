@@ -58,6 +58,15 @@ namespace HerosCode.Toolkit.Player
         }
 
         /// <summary>
+        /// Custom gravity implementation for states that use it.
+        /// </summary>
+        /// <param name="context"></param>
+        public static void ApplyGravity(PlayerContext context)
+        {
+            context.velocity += Physics.gravity * Time.deltaTime;
+        }
+
+        /// <summary>
         /// Has player face wherever desired velocity is headed (the direction the player aims to move)
         /// </summary>
         /// <param name="c"></param>

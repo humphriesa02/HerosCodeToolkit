@@ -19,6 +19,7 @@ namespace HerosCode.Toolkit.Player
         {
             animator.SetFloat("speed", context.moveInput.magnitude);
             animator.SetBool("grounded", context.onGround);
+            animator.SetBool("climbing", context.isClimbing);
             if (!string.IsNullOrEmpty(context.animTrigger))
             {
                 animator.SetTrigger(context.animTrigger);

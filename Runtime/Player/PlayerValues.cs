@@ -33,19 +33,21 @@ namespace HerosCode.Toolkit.Player
         [Tooltip("Mask used for layers we can snap to.")]
         public LayerMask probeMask = -1, stairsMask = -1;
 
-        /// <summary>Cached by the world sensor or read directly; derived from maxGroundAngle.</summary>
-        public float MinGroundDotProduct => Mathf.Cos(maxGroundAngle * Mathf.Deg2Rad);
-        public float MinStairsDotProduct => Mathf.Cos(maxStairsAngle * Mathf.Deg2Rad);
-
         [Tooltip("How fast the player turns toward its look direction (degrees/sec).")]
         public float turnSpeed = 720f;
         [Range(0, 1), Tooltip("Animation speed damp time.")]
         public float speedDampTime = 0.1f;
 
+        [Header("Climb")]
+        [SerializeField, Range(90, 180), Tooltip("The max angle a wall can be at that allows us to climb it.")]
+        public float maxClimbAngle = 140f;
+        [Tooltip("Layers the player can climb. Zelda-style: tick most world layers. Mario-style: tick only the Climbable layer.")]
+        public LayerMask climbableMask;
+
         [Header("Jump")]
-        [Range(0f, 10f)]
+        [Range(0f, 10f), Tooltip("Force applied when jumping")]
         public float jumpHeight = 2f;
-        [Range(0, 5)]
+        [Range(0, 5), Tooltip("How many jumps, when in the air, you can do. I.e., 2 would allow 3 total jumps")]
         public int maxAirJumps = 0;
 
         [Header("Triple Jump")]
@@ -59,5 +61,11 @@ namespace HerosCode.Toolkit.Player
         public float diveSpeed = 10f;
         [Tooltip("Upward velocity given by a dive. Compared against current vertical speed with Max, so it never cuts a rise short.")]
         public float diveHop = 3f;
+
+
+        /// <summary>Cached by the world sensor or read directly; derived from maxGroundAngle.</summary>
+        public float MinGroundDotProduct => Mathf.Cos(maxGroundAngle * Mathf.Deg2Rad);
+        public float MinStairsDotProduct => Mathf.Cos(maxStairsAngle * Mathf.Deg2Rad);
+        public float MinClimbDotProduct => Mathf.Cos(maxClimbAngle * Mathf.Deg2Rad);
     }
 }

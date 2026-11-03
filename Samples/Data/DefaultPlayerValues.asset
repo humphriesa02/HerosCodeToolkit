@@ -28,6 +28,10 @@ MonoBehaviour:
     m_Bits: 512
   turnSpeed: 720
   speedDampTime: 0.1
+  maxClimbAngle: 140
+  climbableMask:
+    serializedVersion: 2
+    m_Bits: 1024
   jumpHeight: 2
   maxAirJumps: 2
   chainWindow: 0.25

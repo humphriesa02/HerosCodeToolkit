@@ -19,6 +19,7 @@ namespace HerosCode.Toolkit.Player
         {
             base.LogicUpdate();
             PlayerStateUtil.AdjustVelocity(context, values.maxAirAcceleration);
+            PlayerStateUtil.ApplyGravity(context);
         }
 
         public override void Exit()

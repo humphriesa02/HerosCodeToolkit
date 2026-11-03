@@ -16,8 +16,9 @@ namespace HerosCode.Toolkit.Player
         public Vector3 xAxis;               // The current x axis, used for inversion
         public Vector3 zAxis;               // The current z axis
         public Vector3 contactNormal;       // What is "up" depending on how we land
-        public Vector3 steepNormal;
-        public Vector3 pendingImpulse;
+        public Vector3 steepNormal;         // If on a steep, the direction of "outwards"
+        public Vector3 climbNormal;         // If climbing a wall, the direction of "away"
+        public Vector3 pendingImpulse;      // Used to queue up forces on the player, executed by MovementExecutor. I.e., jump
         public int stepsSinceLastGrounded = 999;
         public int stepsSinceImpulse = 999;
         public int jumpPhase;               // Double jump access. If phase > 1 we're double jumping
@@ -48,6 +49,7 @@ namespace HerosCode.Toolkit.Player
         #region World
         public bool onGround;
         public bool onSteep; // Too steep to be on ground, but not ceiling or overhang
+        public bool isClimbing; // On a wall, climbing
         public bool snapToGround;
         public bool nearbyWall;
         public bool insideWater;

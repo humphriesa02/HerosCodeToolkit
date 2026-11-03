@@ -33,6 +33,7 @@ namespace HerosCode.Toolkit.Player
             PlayerStateUtil.ApplyGroundSnap(context);
             PlayerStateUtil.AdjustVelocity(context, values.maxAcceleration);
             PlayerStateUtil.FaceMoveDirection(context);
+            PlayerStateUtil.ApplyGravity(context);
         }
         
         public override void Exit()

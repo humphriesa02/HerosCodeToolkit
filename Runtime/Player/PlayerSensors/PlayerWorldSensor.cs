@@ -17,13 +17,14 @@ namespace HerosCode.Toolkit.Player
         private PlayerValues values;
 
         // Updated locally when evaluate collision executes - OnCollision events
-        Vector3 localGroundContactNormal, localSteepContactNormal;
+        Vector3 localGroundContactNormal, localSteepContactNormal, localClimbContactNormal;
         Vector3 connectionWorldPosition, connectionLocalPosition;
-        int groundContactCount, steepContactCount;
+        int groundContactCount, steepContactCount, climbContactCount;
 
         public void Initialize(PlayerContext _context, PlayerValues _values)
         {
             rb = GetComponent<Rigidbody>();
+            rb.useGravity = false;
             values = _values;
         }
 
@@ -58,11 +59,16 @@ namespace HerosCode.Toolkit.Player
             context.stepsSinceLastGrounded++;
             context.stepsSinceImpulse++;
 
+            var sensedClimb = climbContactCount > 0;
             var sensedGround = groundContactCount > 0;
             var sensedSnap = false;
             var sensedCrevice = false;
 
-            if (sensedGround) 
+            if (sensedClimb)
+            {
+                localGroundContactNormal = localClimbContactNormal.normalized;
+            }
+            else if (sensedGround)
             {
                 if (groundContactCount > 1) localGroundContactNormal.Normalize();
             }
@@ -81,14 +87,16 @@ namespace HerosCode.Toolkit.Player
                 localGroundContactNormal = Vector3.up;
             }
 
-            context.onGround = sensedGround || sensedSnap || sensedCrevice;
+            context.onGround = sensedGround || sensedSnap || sensedCrevice || sensedClimb;
             if (context.onGround) context.stepsSinceLastGrounded = 0;
 
             context.snapToGround = sensedSnap;
             context.onSteep = steepContactCount > 0;
+            context.isClimbing = sensedClimb;
 
             context.contactNormal = localGroundContactNormal;
             context.steepNormal = context.onSteep ? localSteepContactNormal.normalized : Vector3.zero;
+            context.climbNormal = sensedClimb ? localClimbContactNormal.normalized : Vector3.zero;
         }
 
         /// <summary>
@@ -97,8 +105,9 @@ namespace HerosCode.Toolkit.Player
         /// <param name="context"></param>
         public void ClearData(PlayerContext context)
         {
-            groundContactCount = steepContactCount = 0;
-            localGroundContactNormal = localSteepContactNormal = context.connectionVelocity = Vector3.zero;
+            groundContactCount = steepContactCount = climbContactCount = 0;
+            localGroundContactNormal = localSteepContactNormal = localClimbContactNormal = Vector3.zero;
+            context.connectionVelocity = Vector3.zero;
             previousConnectedBody = connectedBody;
             connectedBody = null;
         }
@@ -149,7 +158,8 @@ namespace HerosCode.Toolkit.Player
         /// <param name="collision"></param>
         void EvaluateCollision (Collision collision)
         {
-            var minDot = GetMinDot(collision.gameObject.layer);
+            var layer = collision.gameObject.layer;
+            var minDot = GetMinDot(layer);
             for (int i = 0; i < collision.contactCount; i++) {
                 Vector3 normal = collision.GetContact(i).normal;
                 // Ground check
@@ -158,12 +168,24 @@ namespace HerosCode.Toolkit.Player
                     localGroundContactNormal += normal;
                     connectedBody = collision.rigidbody;
                 }
-                // Steep check
-                else if (normal.y > -0.01f)
+                else 
                 {
-                    steepContactCount +=1;
-                    localSteepContactNormal += normal;
-                    if (groundContactCount == 0) {
+                    // Steep check
+                    if (normal.y > -0.01f)
+                    {
+                        steepContactCount +=1;
+                        localSteepContactNormal += normal;
+                        if (groundContactCount == 0) {
+                            connectedBody = collision.rigidbody;
+                        }
+                    }
+                    // Climb check
+                    if (normal.y >= values.MinClimbDotProduct &&
+                       (values.climbableMask & (1 << layer)) != 0
+                       )
+                    {
+                        climbContactCount += 1;
+                        localClimbContactNormal += normal;
                         connectedBody = collision.rigidbody;
                     }
                 }

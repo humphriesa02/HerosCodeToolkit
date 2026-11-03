@@ -41,8 +41,8 @@ namespace HerosCode.Toolkit.Player
             // vertical bias
             jumpDirection = (jumpDirection + Vector3.up).normalized;
 
-			float jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * values.jumpHeight);
-			float alignedSpeed = Vector3.Dot(context.velocity, jumpDirection);
+			var jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * values.jumpHeight);
+			var alignedSpeed = Vector3.Dot(context.velocity, jumpDirection);
 			if (alignedSpeed > 0f) {
 				jumpSpeed = Mathf.Max(jumpSpeed - alignedSpeed, 0f);
 			}
