@@ -1,5 +1,4 @@
 using UnityEngine;
-using HerosCode.Toolkit.Core;
 
 namespace HerosCode.Toolkit.Player
 {
@@ -33,6 +32,7 @@ namespace HerosCode.Toolkit.Player
             }
             PlayerStateUtil.ApplyGroundSnap(context);
             PlayerStateUtil.AdjustVelocity(context, values.maxAcceleration);
+            PlayerStateUtil.FaceMoveDirection(context);
         }
         
         public override void Exit()

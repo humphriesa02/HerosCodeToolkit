@@ -1,6 +1,3 @@
-using UnityEngine;
-using HerosCode.Toolkit.Core;
-
 namespace HerosCode.Toolkit.Player
 {
     /// <summary>

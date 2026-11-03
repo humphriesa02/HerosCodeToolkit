@@ -1,4 +1,3 @@
-using HerosCode.Toolkit.Player;
 using UnityEngine;
 
 namespace HerosCode.Toolkit.Player
@@ -56,6 +55,17 @@ namespace HerosCode.Toolkit.Player
             {
                 context.desiredVelocity = new Vector3(input.x, 0f, input.y) * maxSpeed;
             }
+        }
+
+        /// <summary>
+        /// Has player face wherever desired velocity is headed (the direction the player aims to move)
+        /// </summary>
+        /// <param name="c"></param>
+        public static void FaceMoveDirection(PlayerContext c)
+        {
+            Vector3 dir = c.desiredVelocity;
+            dir.y = 0f;
+            if (dir.sqrMagnitude > 0.0001f) c.lookDirection = dir;
         }
     }
 }
