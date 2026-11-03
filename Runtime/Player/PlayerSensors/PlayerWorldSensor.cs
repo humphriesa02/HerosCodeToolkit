@@ -13,11 +13,12 @@ namespace HerosCode.Toolkit.Player
         // wall collider
         // depth guage
         // etc.
-        private Rigidbody rb;
+        private Rigidbody rb, connectedBody, previousConnectedBody;
         private PlayerValues values;
 
         // Updated locally when evaluate collision executes - OnCollision events
         Vector3 localGroundContactNormal, localSteepContactNormal;
+        Vector3 connectionWorldPosition, connectionLocalPosition;
         int groundContactCount, steepContactCount;
 
         public void Initialize(PlayerContext _context, PlayerValues _values)
@@ -36,6 +37,14 @@ namespace HerosCode.Toolkit.Player
 
             context.xAxis = ProjectOnContactPlane(Vector3.right).normalized;
 		    context.zAxis = ProjectOnContactPlane(Vector3.forward).normalized;
+
+            if (connectedBody)
+            {
+                if (connectedBody.isKinematic || connectedBody.mass >= rb.mass)
+                {
+                    UpdateConnectionState(context);
+                }
+            }
         }
 
         /// <summary>
@@ -89,7 +98,9 @@ namespace HerosCode.Toolkit.Player
         public void ClearData(PlayerContext context)
         {
             groundContactCount = steepContactCount = 0;
-            localGroundContactNormal = localSteepContactNormal = Vector3.zero;
+            localGroundContactNormal = localSteepContactNormal = context.connectionVelocity = Vector3.zero;
+            previousConnectedBody = connectedBody;
+            connectedBody = null;
         }
 
         /// <summary>
@@ -117,6 +128,7 @@ namespace HerosCode.Toolkit.Player
                 return false;
             }
             normal = hit.normal;
+            connectedBody = hit.rigidbody;
             return true;
 	    }
 
@@ -135,7 +147,8 @@ namespace HerosCode.Toolkit.Player
         /// and update contact counts and normals accordingly
         /// </summary>
         /// <param name="collision"></param>
-        void EvaluateCollision (Collision collision) {
+        void EvaluateCollision (Collision collision)
+        {
             var minDot = GetMinDot(collision.gameObject.layer);
             for (int i = 0; i < collision.contactCount; i++) {
                 Vector3 normal = collision.GetContact(i).normal;
@@ -143,12 +156,16 @@ namespace HerosCode.Toolkit.Player
                 if (normal.y >= minDot) {
                     groundContactCount += 1;
                     localGroundContactNormal += normal;
+                    connectedBody = collision.rigidbody;
                 }
                 // Steep check
                 else if (normal.y > -0.01f)
                 {
                     steepContactCount +=1;
                     localSteepContactNormal += normal;
+                    if (groundContactCount == 0) {
+                        connectedBody = collision.rigidbody;
+                    }
                 }
             }
 	    }
@@ -159,7 +176,8 @@ namespace HerosCode.Toolkit.Player
         /// </summary>
         /// <param name="normal"></param>
         /// <returns></returns>
-        bool CheckSteepContacts (out Vector3 normal) {
+        bool CheckSteepContacts (out Vector3 normal)
+        {
             normal = Vector3.up;
             // just a wall, not a crevice
             if (steepContactCount <= 1) return false;
@@ -173,13 +191,26 @@ namespace HerosCode.Toolkit.Player
             return true;
         }
 
-        Vector3 ProjectOnContactPlane (Vector3 vector) {
+        Vector3 ProjectOnContactPlane (Vector3 vector)
+        {
 		    return vector - localGroundContactNormal * Vector3.Dot(vector, localGroundContactNormal);
 	    }
 
-        float GetMinDot (int layer) {
+        float GetMinDot (int layer)
+        {
             return (values.stairsMask & (1 << layer)) == 0 ?
                 values.MinGroundDotProduct : values.MinStairsDotProduct;
+        }
+
+        void UpdateConnectionState(PlayerContext context)
+        {
+            if (connectedBody == previousConnectedBody)
+            {
+                var connectionMovement = connectedBody.transform.TransformPoint(connectionLocalPosition) - connectionWorldPosition;
+                context.connectionVelocity = connectionMovement / Time.deltaTime;
+            }
+            connectionWorldPosition = rb.position;
+            connectionLocalPosition = connectedBody.transform.InverseTransformPoint(connectionWorldPosition);
         }
     }
 }

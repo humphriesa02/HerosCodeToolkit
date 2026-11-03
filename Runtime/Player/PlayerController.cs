@@ -1,5 +1,5 @@
 using UnityEngine;
-using HerosCode.Toolkit.Camera;
+using HerosCode.Toolkit.Cameras;
 
 namespace HerosCode.Toolkit.Player
 {
@@ -30,9 +30,12 @@ namespace HerosCode.Toolkit.Player
         private PlayerMovementExecutor playerMovementExecutor;
         private PlayerAnimationExecutor playerAnimationExecutor;
 
+        [Header("References")]
         // Non-player related (but controlled by player)
         [SerializeField] private OrbitCamera playerCamera; // For player controller camera
         private bool playerControlledCamera = false;
+        [Tooltip("The space that defines which way forward will be when walking. I.e., camera's forward. Can be set dynamically")]
+        public Transform playerInputSpace = default;
 
         void Awake()
         {
@@ -63,6 +66,9 @@ namespace HerosCode.Toolkit.Player
         {
             context.ResetFrame();
 
+            // Update context via PlayerController specifically
+            UpdateReferences();
+
             // Set the context via sensors
             playerInputSensor.CollectData(context);
 
@@ -90,6 +96,14 @@ namespace HerosCode.Toolkit.Player
             playerLocomotionStateUpdater.FixedTick(context);
             playerMovementExecutor.Execute(context);
             playerWorldSensor.ClearData(context);
+        }
+
+        void UpdateReferences()
+        {
+            if (playerInputSpace != null)
+            {
+                context.playerInputSpace = playerInputSpace;
+            }
         }
 
         // TODO - dedicated debug component

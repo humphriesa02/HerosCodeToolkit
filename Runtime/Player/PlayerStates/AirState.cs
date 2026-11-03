@@ -15,8 +15,7 @@ namespace HerosCode.Toolkit.Player
         public override void Enter()
         {
             base.Enter();
-            Vector2 input = Vector2.ClampMagnitude(context.moveInput, 1f);
-            context.desiredVelocity = new Vector3(input.x, 0f, input.y) * values.maxSpeed;
+            PlayerStateUtil.ConvertMoveInputToDesiredVelocity(context, values.maxSpeed);
         }
 
         public override void PhysicsUpdate()

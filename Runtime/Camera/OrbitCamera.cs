@@ -1,11 +1,15 @@
 using System;
 using UnityEngine;
 
-namespace HerosCode.Toolkit.Camera
+namespace HerosCode.Toolkit.Cameras
 {
-    [RequireComponent(typeof(UnityEngine.Camera))]
+    /// <summary>
+    /// Based off of CatLikeCoding's OrbitCamera
+    /// </summary>
+    [RequireComponent(typeof(Camera))]
     public class OrbitCamera : MonoBehaviour
     {
+        [Header("Camera Settings")]
         [SerializeField, Tooltip("What the camera will focus on")]
         private Transform focus = default;
 
@@ -39,6 +43,9 @@ namespace HerosCode.Toolkit.Camera
         [SerializeField, Min(0.01f), Tooltip("Smoothing time for the measured focus velocity (seconds). Removes noise at very high frame rates")]
         private float velocitySmoothTime = 0.1f;
 
+        [SerializeField, Tooltip("If set in the mask, we will count the layer as an obstruction")]
+        private LayerMask obstructionMask = -1;
+
         [Header("Input")]
         [SerializeField, Range(1f, 360f), Tooltip("Rotation speed when using joystick in degrees per second")]
         private float joyStickRotationSpeed = 90f;
@@ -60,6 +67,19 @@ namespace HerosCode.Toolkit.Camera
 
         private float lastManualRotationTime;
 
+        private Camera regularCamera;
+        Vector3 CameraHalfExtends 
+        {
+            get 
+            {
+                Vector3 halfExtends;
+                halfExtends.y = regularCamera.nearClipPlane * Mathf.Tan(0.5f * Mathf.Deg2Rad * regularCamera.fieldOfView);
+                halfExtends.x = halfExtends.y * regularCamera.aspect;
+                halfExtends.z = 0f;
+                return halfExtends;
+            }
+        }
+
         void OnValidate()
         {
             if (maxVerticalAngle < minVerticalAngle) {
@@ -69,6 +89,7 @@ namespace HerosCode.Toolkit.Camera
 
         void Awake()
         {
+            regularCamera = GetComponent<Camera>();
             focusPoint = focus.position;
             transform.localRotation = Quaternion.Euler(orbitAngles);
         }
@@ -93,6 +114,18 @@ namespace HerosCode.Toolkit.Camera
             }
             var lookDirection = lookRotation * Vector3.forward;
             var lookPosition = focusPoint - lookDirection * distance;
+
+            var rectOffset = lookDirection * regularCamera.nearClipPlane;
+            var rectPosition = lookPosition + rectOffset;
+            var castFrom = focus.position;
+            var castLine = rectPosition - castFrom;
+            var castDistance = castLine.magnitude;
+            var castDirection = castLine / castDistance;
+            if (Physics.BoxCast(castFrom, CameraHalfExtends, castDirection, out RaycastHit hit, lookRotation, castDistance, obstructionMask))
+            {
+                rectPosition = castFrom + castDirection * hit.distance;
+			    lookPosition = rectPosition - rectOffset;
+            }
             transform.SetPositionAndRotation(lookPosition, lookRotation);
         }
 
@@ -228,6 +261,11 @@ namespace HerosCode.Toolkit.Camera
  
             Vector2 correctedInput = new Vector2(-input.y, input.x);
             return mouseBased ? correctedInput * mouseSensitivity : correctedInput * (joyStickRotationSpeed * dt);
+        }
+
+        public void SnapToFocus()
+        {
+            
         }
     }
 }

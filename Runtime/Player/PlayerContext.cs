@@ -10,11 +10,9 @@ namespace HerosCode.Toolkit.Player
     public class PlayerContext
     {
         #region Movement
-        public Vector3 moveDirection;       // camera-relative, unscaled
-        public bool isMoving =>
-        moveDirection.sqrMagnitude > 0.01f; // Quick access to those that want to know
         public Vector3 desiredVelocity;     // Horizontal, world space, units per second
         public Vector3 velocity;            // maintained across each state
+        public Vector3 connectionVelocity;  // For when standing on another rigidbody
         public Vector3 xAxis;               // The current x axis, used for inversion
         public Vector3 zAxis;               // The current z axis
         public Vector3 contactNormal;       // What is "up" depending on how we land
@@ -26,6 +24,7 @@ namespace HerosCode.Toolkit.Player
 
         public Vector3 lookDirection;       // direction we want to face. Persists, so we keep facing it after input stops
         public bool snapLook;               // one-shot: face lookDirection instantly. Drained by the executor
+        public Transform playerInputSpace;  // Will dictate what forward means to the player
         #endregion
 
         #region Controls
