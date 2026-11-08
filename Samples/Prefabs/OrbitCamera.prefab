@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1042270309395176041}
   - component: {fileID: 7155214952138194581}
   - component: {fileID: 8113156167106611237}
+  - component: {fileID: 5739740854341082799}
   m_Layer: 0
   m_Name: OrbitCamera
   m_TagString: MainCamera
@@ -169,3 +170,16 @@ MonoBehaviour:
   mouseSensitivity: 0.05
   maxMouseDelta: 200
   maxStepTime: 0.05
+--- !u!114 &5739740854341082799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687038511620502786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fc697bd19ec4334da689b0ca7101c3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HerosCode.Toolkit.Runtime::HerosCode.Toolkit.Cameras.UnderwaterCamera
+  transitionDepth: 0.2
