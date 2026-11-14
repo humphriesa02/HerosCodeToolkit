@@ -8,17 +8,26 @@ namespace HerosCode.Toolkit.Player
         public static void AdjustVelocity(PlayerContext context, float acceleration)
         {
             var relativeVelocity = context.velocity - context.connectionVelocity;
+
             var currentX = Vector3.Dot(relativeVelocity, context.xAxis);
             var currentZ = Vector3.Dot(relativeVelocity, context.zAxis);
-            
+
+            var desiredVelocity =
+                context.xAxis * context.desiredVelocity.x +
+                context.zAxis * context.desiredVelocity.z;
+
+            var currentVelocity =
+                context.xAxis * currentX +
+                context.zAxis * currentZ;
+
             var maxSpeedChange = acceleration * Time.fixedDeltaTime;
 
-            var newX =
-                Mathf.MoveTowards(currentX, context.desiredVelocity.x, maxSpeedChange);
-            var newZ =
-                Mathf.MoveTowards(currentZ, context.desiredVelocity.z, maxSpeedChange);
+            var adjustment = Vector3.ClampMagnitude(
+                desiredVelocity - currentVelocity,
+                maxSpeedChange
+            );
 
-            context.velocity += context.xAxis * (newX - currentX) + context.zAxis * (newZ - currentZ);
+            context.velocity += adjustment;
         }
 
         // Apply ground normal based velocity to our current velocity to snap to the ground
@@ -100,12 +109,12 @@ namespace HerosCode.Toolkit.Player
         public static void ApplyWaterDrag(PlayerContext context, float waterDrag)
         {
             if (context.submergence <= 0f) return;
-            context.velocity *= Mathf.Exp(-waterDrag * context.submergence * Time.deltaTime);
+            context.velocity *= Mathf.Exp(-waterDrag * context.submergence * Time.fixedDeltaTime);
         }
-        
+
         public static void ApplyWaterGravity(PlayerContext context, float buoyancy)
         {
-            context.velocity += Physics.gravity * ((1f - buoyancy * context.submergence) * Time.deltaTime);
+            context.velocity += Physics.gravity * ((1f - buoyancy * context.submergence) * Time.fixedDeltaTime);
         }
     }
 }

@@ -28,11 +28,6 @@ namespace HerosCode.Toolkit.Player
             base.PhysicsUpdate();
             PlayerStateUtil.ResetJumpPhase(context);
             PlayerStateUtil.ApplyGroundSnap(context);
-
-            if (context.inWater)
-            {
-                PlayerStateUtil.ApplyWaterDrag(context, values.waterDrag);
-            }
             PlayerStateUtil.AdjustVelocity(context, values.maxAcceleration);
             PlayerStateUtil.FaceMoveDirection(context);
 

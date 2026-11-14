@@ -42,6 +42,9 @@ namespace HerosCode.Toolkit.Player
             jumpDirection = (jumpDirection + Vector3.up).normalized;
 
 			var jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * values.jumpHeight);
+            if (context.inWater) {
+                jumpSpeed *= Mathf.Max(0f, 1f - context.submergence / values.swimThreshold);
+            }
 			var alignedSpeed = Vector3.Dot(context.velocity, jumpDirection);
 			if (alignedSpeed > 0f) {
 				jumpSpeed = Mathf.Max(jumpSpeed - alignedSpeed, 0f);

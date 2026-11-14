@@ -8,7 +8,7 @@ namespace HerosCode.Toolkit.Player
     public class ClimbState : PlayerLocomotionState
     {
 
-        public override bool CanEnter(PlayerContext context) => context.isClimbing && !context.isSwimming;
+        public override bool CanEnter(PlayerContext context) => context.isClimbing;
 
         public ClimbState(PlayerValues _values, PlayerContext _context) : base(_values, _context) { }
 

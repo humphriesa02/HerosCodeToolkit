@@ -23,6 +23,13 @@ namespace HerosCode.Toolkit.Player
             context.velocity += context.pendingImpulse;
             if (context.pendingImpulse != Vector3.zero) context.stepsSinceImpulse = 0;
             context.pendingImpulse = Vector3.zero;
+
+            // TODO - determine if this is what we want.
+            // ALL movement will get slowed in water. I believe that makes sense.
+            if (context.inWater)
+            {
+                PlayerStateUtil.ApplyWaterDrag(context, playerValues.waterDrag);
+            }
             rb.linearVelocity = context.velocity;
             ApplyRotation(context, Time.fixedDeltaTime);
         }

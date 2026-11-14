@@ -14,13 +14,12 @@ namespace HerosCode.Toolkit.Player
         public override void LogicUpdate()
         {
             base.LogicUpdate();
-            PlayerStateUtil.ConvertMoveInputToDesiredVelocity(context, values.maxSpeed);
+            PlayerStateUtil.ConvertMoveInputToDesiredVelocity(context, values.maxSwimSpeed);
         }
 
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
-            PlayerStateUtil.ApplyWaterDrag(context, values.waterDrag);
             if (values.waterMovement == PlayerValues.WaterMovement.Surface)
             {
                 PlayerStateUtil.AdjustVelocity(context, values.maxSwimAcceleration);

@@ -40,6 +40,7 @@ MonoBehaviour:
   submergenceOffset: 0.5
   submergenceRange: 1
   swimThreshold: 0.5
+  waterProbeDistance: 0.3
   waterDrag: 3
   buoyancy: 1.5
   waterMovement: 2

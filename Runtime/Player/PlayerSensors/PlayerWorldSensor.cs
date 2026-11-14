@@ -94,7 +94,8 @@ namespace HerosCode.Toolkit.Player
                 localGroundContactNormal = climbNormal;
             }
             else if (values.waterMovement != PlayerValues.WaterMovement.None && submergence > 0f &&
-                    (submergence >= values.swimThreshold || ProbeWater()))
+                    (submergence >= values.swimThreshold ||
+                    (context.isSwimming && ProbeWater())))
             {
                 sensedSwimming = true;
                 localGroundContactNormal = Vector3.up;
