@@ -18,8 +18,12 @@ namespace HerosCode.Toolkit.Player
         public override void PhysicsUpdate()
         {
             base.LogicUpdate();
+            if (context.inWater)
+            {
+                PlayerStateUtil.ApplyWaterDrag(context, values.waterDrag); // I.e. falling into water
+            }
             PlayerStateUtil.AdjustVelocity(context, values.maxAirAcceleration);
-            PlayerStateUtil.ApplyGravity(context);
+            PlayerStateUtil.ApplyGravity(context, values);
         }
 
         public override void Exit()

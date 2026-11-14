@@ -121,7 +121,9 @@ namespace HerosCode.Toolkit.Cameras
             var castLine = rectPosition - castFrom;
             var castDistance = castLine.magnitude;
             var castDirection = castLine / castDistance;
-            if (Physics.BoxCast(castFrom, CameraHalfExtends, castDirection, out RaycastHit hit, lookRotation, castDistance, obstructionMask))
+            if (Physics.BoxCast(
+                castFrom, CameraHalfExtends, castDirection, out RaycastHit hit,
+                lookRotation, castDistance, obstructionMask, QueryTriggerInteraction.Ignore))
             {
                 rectPosition = castFrom + castDirection * hit.distance;
 			    lookPosition = rectPosition - rectOffset;

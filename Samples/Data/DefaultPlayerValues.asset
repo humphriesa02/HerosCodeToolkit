@@ -32,6 +32,20 @@ MonoBehaviour:
   climbableMask:
     serializedVersion: 2
     m_Bits: 1024
+  maxClimbSpeed: 2
+  maxClimbAcceleration: 20
+  waterMask:
+    serializedVersion: 2
+    m_Bits: 16
+  submergenceOffset: 0.5
+  submergenceRange: 1
+  swimThreshold: 0.5
+  waterDrag: 3
+  buoyancy: 1.5
+  waterMovement: 2
+  maxSwimSpeed: 5
+  maxSwimAcceleration: 5
+  diveImpulse: 4
   jumpHeight: 2
   maxAirJumps: 2
   chainWindow: 0.25

@@ -8,7 +8,7 @@ namespace HerosCode.Toolkit.Player
     public class ClimbState : PlayerLocomotionState
     {
 
-        public override bool CanEnter(PlayerContext context) => context.isClimbing;
+        public override bool CanEnter(PlayerContext context) => context.isClimbing && !context.isSwimming;
 
         public ClimbState(PlayerValues _values, PlayerContext _context) : base(_values, _context) { }
 
@@ -33,7 +33,7 @@ namespace HerosCode.Toolkit.Player
             // The wall can disappear between Update (which chose this state) and this fixed step
             if (normal == Vector3.zero)
             {
-                PlayerStateUtil.ApplyGravity(context);
+                PlayerStateUtil.ApplyGravity(context, values);
                 return;
             }
 

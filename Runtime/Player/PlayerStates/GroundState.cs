@@ -28,8 +28,15 @@ namespace HerosCode.Toolkit.Player
             base.PhysicsUpdate();
             PlayerStateUtil.ResetJumpPhase(context);
             PlayerStateUtil.ApplyGroundSnap(context);
+
+            if (context.inWater)
+            {
+                PlayerStateUtil.ApplyWaterDrag(context, values.waterDrag);
+            }
             PlayerStateUtil.AdjustVelocity(context, values.maxAcceleration);
             PlayerStateUtil.FaceMoveDirection(context);
+
+            /// Gravity 
             // Prevent sliding down slopes
             if (context.onGround && context.velocity.sqrMagnitude < 0.01f)
             {
@@ -37,7 +44,7 @@ namespace HerosCode.Toolkit.Player
             }
             else
             {
-                PlayerStateUtil.ApplyGravity(context);
+                PlayerStateUtil.ApplyGravity(context, values);
             }
         }
         

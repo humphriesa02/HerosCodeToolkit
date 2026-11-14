@@ -22,6 +22,7 @@ namespace HerosCode.Toolkit.Player
         {
             stateMachine = new StateMachine();
             playerStatesInOrder.Add(new ClimbState(values, context));
+            playerStatesInOrder.Add(new SwimState(values, context));
             playerStatesInOrder.Add(new GroundState(values, context));
             playerStatesInOrder.Add(new AirState(values, context));
 

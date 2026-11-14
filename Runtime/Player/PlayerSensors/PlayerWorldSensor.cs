@@ -17,9 +17,10 @@ namespace HerosCode.Toolkit.Player
         private PlayerValues values;
 
         // Updated locally when evaluate collision executes - OnCollision events
-        Vector3 localGroundContactNormal, localSteepContactNormal, localClimbContactNormal, lastClimbNormal;
-        Vector3 connectionWorldPosition, connectionLocalPosition;
-        int groundContactCount, steepContactCount, climbContactCount;
+        private Vector3 localGroundContactNormal, localSteepContactNormal, localClimbContactNormal, lastClimbNormal;
+        private Vector3 connectionWorldPosition, connectionLocalPosition;
+        private int groundContactCount, steepContactCount, climbContactCount;
+        private float submergence;
 
         public void Initialize(PlayerContext _context, PlayerValues _values)
         {
@@ -68,18 +69,43 @@ namespace HerosCode.Toolkit.Player
             context.stepsSinceLastGrounded++;
             context.stepsSinceImpulse++;
 
-            var sensedClimb = CheckClimbing(context, out Vector3 climbNormal);
-            var sensedGround = groundContactCount > 0;
+            ResolveGrounding(context);
+
+            if (context.onGround) context.stepsSinceLastGrounded = 0;
+            context.onSteep = steepContactCount > 0;
+            context.steepNormal = context.onSteep ? localSteepContactNormal.normalized : Vector3.zero;
+            context.submergence = submergence;
+            context.inWater = submergence > 0f;
+            context.contactNormal = localGroundContactNormal;
+        }
+
+        private void ResolveGrounding(PlayerContext context)
+        {
+            var sensedClimb = false;
+            var sensedSwimming = false;
+            var sensedGround = false;
             var sensedSnap = false;
             var sensedCrevice = false;
 
-            if (sensedClimb)
+            // Order is priority: the first branch that matches wins
+            if (CheckClimbing(context, out Vector3 climbNormal))
             {
+                sensedClimb = true;
                 localGroundContactNormal = climbNormal;
             }
-            else if (sensedGround)
+            else if (values.waterMovement != PlayerValues.WaterMovement.None && submergence > 0f &&
+                    (submergence >= values.swimThreshold || ProbeWater()))
             {
-                if (groundContactCount > 1) localGroundContactNormal.Normalize();
+                sensedSwimming = true;
+                localGroundContactNormal = Vector3.up;
+            }
+            else if (groundContactCount > 0)
+            {
+                sensedGround = true;
+                if (groundContactCount > 1)
+                {
+                    localGroundContactNormal.Normalize();
+                }
             }
             else if (ProbeGround(context, out Vector3 probeNormal))
             {
@@ -96,15 +122,11 @@ namespace HerosCode.Toolkit.Player
                 localGroundContactNormal = Vector3.up;
             }
 
-            context.onGround = sensedGround || sensedSnap || sensedCrevice || sensedClimb;
-            if (context.onGround) context.stepsSinceLastGrounded = 0;
-
-            context.snapToGround = sensedSnap;
-            context.onSteep = steepContactCount > 0;
+            // Commit resolved state
             context.isClimbing = sensedClimb;
-
-            context.contactNormal = localGroundContactNormal;
-            context.steepNormal = context.onSteep ? localSteepContactNormal.normalized : Vector3.zero;
+            context.isSwimming = sensedSwimming;
+            context.onGround = sensedGround || sensedSnap || sensedCrevice || sensedClimb;
+            context.snapToGround = sensedSnap;
             context.climbNormal = climbNormal;
         }
 
@@ -119,6 +141,7 @@ namespace HerosCode.Toolkit.Player
             context.connectionVelocity = Vector3.zero;
             previousConnectedBody = connectedBody;
             connectedBody = null;
+            submergence = 0f;
         }
 
         /// <summary>
@@ -130,15 +153,21 @@ namespace HerosCode.Toolkit.Player
         private bool ProbeGround(PlayerContext context, out Vector3 normal)
         {
             normal = Vector3.up;
-            if (context.stepsSinceLastGrounded > 1) {
+            if (context.stepsSinceLastGrounded > 1 || context.stepsSinceImpulse <= 2) {
                 return false;
             }
-            if (context.stepsSinceImpulse <= 2) return false;
             var speed = context.velocity.magnitude;
             if (speed > values.maxSnapSpeed) {
                 return false;
             }
-            if (!Physics.Raycast(rb.position, Vector3.down, out RaycastHit hit, values.probeDistance, values.probeMask)) {
+            if (!Physics.Raycast(
+                rb.position,
+                Vector3.down,
+                out RaycastHit hit, 
+                values.probeDistance, 
+                values.probeMask, 
+                QueryTriggerInteraction.Ignore)) 
+            {
 			    return false;
 		    }
             if (hit.normal.y < GetMinDot(hit.collider.gameObject.layer))
@@ -150,6 +179,27 @@ namespace HerosCode.Toolkit.Player
             return true;
 	    }
 
+        private bool ProbeWater()
+        {
+            Vector3 origin = rb.position + Vector3.up * values.submergenceOffset;
+
+            if (!Physics.Raycast(
+                origin,
+                Vector3.down,
+                out RaycastHit hit,
+                values.submergenceRange + 1f,
+                values.waterMask,
+                QueryTriggerInteraction.Collide))
+            {
+                return false;
+            }
+
+            // Distance between the player reference point and water surface.
+            float surfaceDistance = values.submergenceOffset - hit.distance;
+
+            return Mathf.Abs(surfaceDistance) <= values.waterProbeDistance;
+        }
+
         void OnCollisionEnter(Collision collision)
         {
             EvaluateCollision(collision);
@@ -160,13 +210,34 @@ namespace HerosCode.Toolkit.Player
             EvaluateCollision(collision);
         }
 
+        void OnTriggerEnter(Collider other)
+        {
+            if ((values.waterMask & (1 << other.gameObject.layer)) != 0)
+            {
+                EvaluateSubmergence(other);
+            }
+        }
+
+        void OnTriggerStay(Collider other)
+        {
+            if ((values.waterMask & (1 << other.gameObject.layer)) != 0)
+            {
+                EvaluateSubmergence(other);
+            }
+        }
+
         /// <summary>
         /// Given a collision, determine if it is ground,
         /// and update contact counts and normals accordingly
         /// </summary>
         /// <param name="collision"></param>
-        void EvaluateCollision(Collision collision)
+        private void EvaluateCollision(Collision collision)
         {
+            // TODO - fix this
+            // Informal swim check
+            if (values.waterMovement != PlayerValues.WaterMovement.None && submergence > 0f && submergence >= values.swimThreshold)
+                return;
+
             var layer = collision.gameObject.layer;
             var minDot = GetMinDot(layer);
             for (int i = 0; i < collision.contactCount; i++) {
@@ -201,6 +272,29 @@ namespace HerosCode.Toolkit.Player
                 }
             }
 	    }
+        /// <summary>
+        /// Similar to a ground check, but for water. Also,
+        /// we can measure how "in" the ground (water) we are, via
+        /// submergence
+        /// </summary>
+        private void EvaluateSubmergence(Collider collider)
+        {
+            if (Physics.Raycast(rb.position + Vector3.up * values.submergenceOffset,
+                Vector3.down, out RaycastHit hit, values.submergenceRange + 1f,
+			    values.waterMask, QueryTriggerInteraction.Collide)
+                ) 
+            {
+			    submergence = 1f - hit.distance / values.submergenceRange;
+		    }
+            else
+            {
+                submergence = 1f;
+            }
+            if (values.waterMovement != PlayerValues.WaterMovement.None && submergence > 0f && submergence >= values.swimThreshold)
+            {
+                connectedBody = collider.attachedRigidbody;
+            }
+        }
 
         /// <summary>
         /// Crevice check, checks "are the steep surfaces I'm touching
@@ -208,7 +302,7 @@ namespace HerosCode.Toolkit.Player
         /// </summary>
         /// <param name="normal"></param>
         /// <returns></returns>
-        bool CheckSteepContacts (out Vector3 normal)
+        private bool CheckSteepContacts (out Vector3 normal)
         {
             normal = Vector3.up;
             // just a wall, not a crevice
@@ -223,7 +317,7 @@ namespace HerosCode.Toolkit.Player
             return true;
         }
 
-        bool CheckClimbing(PlayerContext context, out Vector3 normal)
+        private bool CheckClimbing(PlayerContext context, out Vector3 normal)
         {
             normal = Vector3.zero;
             if (climbContactCount == 0 || context.stepsSinceImpulse <= 2) return false;
@@ -238,18 +332,18 @@ namespace HerosCode.Toolkit.Player
             return true;
         }
 
-        Vector3 ProjectOnContactPlane (Vector3 vector)
+        private Vector3 ProjectOnContactPlane (Vector3 vector)
         {
 		    return vector - localGroundContactNormal * Vector3.Dot(vector, localGroundContactNormal);
 	    }
 
-        float GetMinDot (int layer)
+        private float GetMinDot (int layer)
         {
             return (values.stairsMask & (1 << layer)) == 0 ?
                 values.MinGroundDotProduct : values.MinStairsDotProduct;
         }
 
-        void UpdateConnectionState(PlayerContext context)
+        private void UpdateConnectionState(PlayerContext context)
         {
             if (connectedBody == previousConnectedBody)
             {

@@ -48,6 +48,41 @@ namespace HerosCode.Toolkit.Player
         [Range(0f, 100f)]
         public float maxClimbAcceleration = 20f;
 
+        [Header("Water")]
+        // Sensing
+        [Tooltip("Layers the player can swim on.")]
+        public LayerMask waterMask = 0;
+        [Tooltip("Vertical offset from the central point of the player to extend submergenceRange downwards")]
+        public float submergenceOffset = 0.5f;
+        [Min(0.1f), Tooltip("Starting from submergenceOffset, extend this far down to check submergence")]
+        public float submergenceRange = 1f;
+        [Range(0.01f, 1f), Tooltip("Once submergence passes this threshold, player will start swimming. Does not require full submergence.")]
+        public float swimThreshold = 0.5f;
+        [Min(0f), Tooltip("Distance our snap to water will check downwards")]
+        public float waterProbeDistance = 0.4f;
+
+        // Anything touching the water
+        [Range(0f, 10f), Tooltip("Drag on the player while in water - making their move speed slower.")]
+        public float waterDrag = 1f;
+        [Min(0f), Tooltip("0 buoyancy sinks like a rock, 1 buoyancy negates gravity, maintaining equilibrium, more than 1 and you float to the top.")]
+        public float buoyancy = 1.5f;
+
+        // Swimming
+        public enum WaterMovement 
+        {
+            None, // Can't swim, only sinks
+            Free, // Can swim omnidirectionally
+            Surface // At the surface, can only move horizontally, not vertically.
+        }
+        public WaterMovement waterMovement = WaterMovement.Surface;
+        [Range(0f, 100f)]
+        public float maxSwimSpeed = 5f;
+        [Range(0f, 100f)]
+        public float maxSwimAcceleration = 5f;
+
+        // Diving
+        public float diveImpulse = 4f;
+
         [Header("Jump")]
         [Range(0f, 10f), Tooltip("Force applied when jumping")]
         public float jumpHeight = 2f;

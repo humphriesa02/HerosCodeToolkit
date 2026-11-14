@@ -61,8 +61,10 @@ namespace HerosCode.Toolkit.Player
         /// Custom gravity implementation for states that use it.
         /// </summary>
         /// <param name="context"></param>
-        public static void ApplyGravity(PlayerContext context)
+        public static void ApplyGravity(PlayerContext context, PlayerValues values)
         {
+            // Todo - clean this up
+            if (context.inWater) ApplyWaterGravity(context, values.buoyancy);
             context.velocity += Physics.gravity * Time.fixedDeltaTime;
         }
 
@@ -94,5 +96,16 @@ namespace HerosCode.Toolkit.Player
         /// <param name="normal"></param>
         /// <returns></returns>
         public static Vector3 ProjectOnPlane(Vector3 direction, Vector3 normal)=> (direction - normal * Vector3.Dot(direction, normal)).normalized;
+
+        public static void ApplyWaterDrag(PlayerContext context, float waterDrag)
+        {
+            if (context.submergence <= 0f) return;
+            context.velocity *= Mathf.Exp(-waterDrag * context.submergence * Time.deltaTime);
+        }
+        
+        public static void ApplyWaterGravity(PlayerContext context, float buoyancy)
+        {
+            context.velocity += Physics.gravity * ((1f - buoyancy * context.submergence) * Time.deltaTime);
+        }
     }
 }

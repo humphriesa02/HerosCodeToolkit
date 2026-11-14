@@ -13,7 +13,7 @@ namespace HerosCode.Toolkit.Player
 
         public bool CanStart(PlayerContext context)
         {
-            return context.onGround || context.onSteep || (values.maxAirJumps > 0 && context.jumpPhase <= values.maxAirJumps);;
+            return !context.isSwimming && (context.onGround || context.onSteep || (values.maxAirJumps > 0 && context.jumpPhase <= values.maxAirJumps));
         }
 
         public void Start(PlayerContext context)

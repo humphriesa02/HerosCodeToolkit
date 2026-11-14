@@ -1,6 +1,10 @@
 using UnityEngine;
 namespace HerosCode.Toolkit.Cameras
 {
+    /// <summary>
+    /// Updates values on the underwater shader material (should be attached to
+    /// Fullscreen Pass Renderer Feature) on the URP render asset
+    /// </summary>
     public class UnderwaterCamera : MonoBehaviour
     {
         [SerializeField, Tooltip("Meters of depth over which the effect fades in.")]

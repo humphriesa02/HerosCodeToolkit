@@ -34,6 +34,7 @@ namespace HerosCode.Toolkit.Player
         /// </summary>
         public Vector2 moveInput;
         public Vector2 lookInput;
+        public float verticalInput;
         public bool lookViaMouse; // set to true if the action is done via the mouse movement deltas
          
         // Swapped from bools to floats
@@ -50,10 +51,11 @@ namespace HerosCode.Toolkit.Player
         public bool onGround;
         public bool onSteep; // Too steep to be on ground, but not ceiling or overhang
         public bool isClimbing; // On a wall, climbing
+        public bool inWater; // in water, not necessarily *swimming*
+        public bool isSwimming; // Swimming within the water. Gated by logic and deeper submergence (can't swim unless enabled)
+        public float submergence;
         public bool snapToGround;
         public bool nearbyWall;
-        public bool insideWater;
-        public float waterDepth;
         #endregion
 
         /// <summary>
