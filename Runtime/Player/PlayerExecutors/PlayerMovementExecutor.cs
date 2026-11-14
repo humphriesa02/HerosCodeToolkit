@@ -31,21 +31,19 @@ namespace HerosCode.Toolkit.Player
                 PlayerStateUtil.ApplyWaterDrag(context, playerValues.waterDrag);
             }
             rb.linearVelocity = context.velocity;
-            ApplyRotation(context, Time.fixedDeltaTime);
+            ApplyRotation(context);
         }
 
-        void ApplyRotation(PlayerContext c, float dt)
+        void ApplyRotation(PlayerContext context)
         {
-            Vector3 dir = c.lookDirection;
+            Vector3 dir = context.lookDirection;
             dir.y = 0f;
             if (dir.sqrMagnitude < 0.0001f) return;
 
             Quaternion target = Quaternion.LookRotation(dir.normalized, Vector3.up);
-            Quaternion next = c.snapLook
-                ? target
-                : Quaternion.RotateTowards(rb.rotation, target, playerValues.turnSpeed * dt);
+            Quaternion next = context.snapLook ? target : Quaternion.RotateTowards(rb.rotation, target, playerValues.turnSpeed * Time.fixedDeltaTime);
 
-            c.snapLook = false;
+            context.snapLook = false;
             rb.MoveRotation(next);
         }
     }
