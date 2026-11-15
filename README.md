@@ -18,3 +18,6 @@ logic into the code myself? Perhaps. But that's where it stays. No "entire chunk
 ## Assets in this repo that are not mine:
 Kenney:
 https://kenney.nl/
+
+Movement code was largely inspired by, and references:
+https://catlikecoding.com/unity/tutorials/movement/
