@@ -15,6 +15,12 @@ namespace HerosCode.Toolkit.Player
             PlayerStateUtil.ConvertMoveInputToDesiredVelocity(context, values.maxSpeed);
         }
 
+        public override void LogicUpdate()
+        {
+            base.LogicUpdate();
+            PlayerStateUtil.ConvertMoveInputToDesiredVelocity(context, values.maxSpeed);
+        }
+
         public override void PhysicsUpdate()
         {
             base.LogicUpdate();

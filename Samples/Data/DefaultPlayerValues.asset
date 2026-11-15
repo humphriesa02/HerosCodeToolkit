@@ -15,7 +15,7 @@ MonoBehaviour:
   inputBuffer: 0.15
   maxSpeed: 5
   maxAcceleration: 25
-  maxAirAcceleration: 1
+  maxAirAcceleration: 10
   maxGroundAngle: 45
   maxStairsAngle: 50
   maxSnapSpeed: 100

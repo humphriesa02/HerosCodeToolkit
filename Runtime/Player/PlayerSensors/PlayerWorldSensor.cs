@@ -15,6 +15,7 @@ namespace HerosCode.Toolkit.Player
         // etc.
         private Rigidbody rb, connectedBody, previousConnectedBody;
         private PlayerValues values;
+        private PlayerContext context;
 
         // Updated locally when evaluate collision executes - OnCollision events
         private Vector3 localGroundContactNormal, localSteepContactNormal, localClimbContactNormal, lastClimbNormal;
@@ -26,6 +27,7 @@ namespace HerosCode.Toolkit.Player
         {
             rb = GetComponent<Rigidbody>();
             rb.useGravity = false;
+            context = _context;
             values = _values;
         }
 
@@ -353,6 +355,11 @@ namespace HerosCode.Toolkit.Player
             }
             connectionWorldPosition = rb.position;
             connectionLocalPosition = connectedBody.transform.InverseTransformPoint(connectionWorldPosition);
+        }
+
+        public void PreventSnapToGround()
+        {
+            context.stepsSinceImpulse = -1;
         }
     }
 }
