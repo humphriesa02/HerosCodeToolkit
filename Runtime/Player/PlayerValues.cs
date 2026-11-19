@@ -93,11 +93,11 @@ namespace HerosCode.Toolkit.Player
         [Min(0f), Tooltip("How quickly the rolling visual rotates while in the water")]
         public float visualSwimRotation = 2f;
         [Range(0f, 100f)]
-        public float maxRollSpeed = 10f;
+        public float maxRollSpeed = 15f;
         [Range(0f, 100f)]
-        public float maxRollAcceleration = 1f;
+        public float maxRollAcceleration = 12f;
         [Range(0f, 100f), Tooltip("Slows rolling down more gradually than speeding up")]
-        public float rollFriction = 0.5f;
+        public float rollFriction = 3f;
 
         [Header("Jump")]
         [Range(0f, 10f), Tooltip("Force applied when jumping")]

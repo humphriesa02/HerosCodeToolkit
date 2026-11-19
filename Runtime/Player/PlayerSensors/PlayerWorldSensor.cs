@@ -143,6 +143,7 @@ namespace HerosCode.Toolkit.Player
             groundContactCount = steepContactCount = climbContactCount = 0;
             localGroundContactNormal = localSteepContactNormal = localClimbContactNormal = Vector3.zero;
             context.connectionVelocity = Vector3.zero;
+            context.connectionAngularVelocity = Vector3.zero;
             previousConnectedBody = connectedBody;
             connectedBody = null;
             submergence = 0f;

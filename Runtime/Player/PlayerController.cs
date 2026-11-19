@@ -83,9 +83,7 @@ namespace HerosCode.Toolkit.Player
             playerLocomotionStateUpdater.Tick(context);
 
             // Execute animation updates
-            playerAnimationExecutor.Execute(context);
-            playerRollingVisualExecutor.Execute(context);
-        }
+            playerAnimationExecutor.Execute(context);        }
 
         void LateUpdate()
         {
@@ -100,6 +98,7 @@ namespace HerosCode.Toolkit.Player
             playerWorldSensor.FixedCollectData(context);
             playerLocomotionStateUpdater.FixedTick(context);
             playerMovementExecutor.Execute(context);
+            playerRollingVisualExecutor.Execute(context);
             playerWorldSensor.ClearData(context);
         }
 
