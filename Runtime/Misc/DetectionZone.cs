@@ -13,6 +13,8 @@ namespace HerosCode.Toolkit.Misc
     public class DetectionZone : MonoBehaviour
     {
         [SerializeField] private UnityEvent onEnter = default, onExit = default;
+        // All available colliders currently in the detection zone.
+        // ensures that the zone doesn't disable on the first exit of *any* body
         private List<Collider> colliders = new List<Collider>();
 
         void Awake()
