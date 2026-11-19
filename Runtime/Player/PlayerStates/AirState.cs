@@ -24,7 +24,7 @@ namespace HerosCode.Toolkit.Player
         public override void PhysicsUpdate()
         {
             base.LogicUpdate();
-            PlayerStateUtil.AdjustVelocity(context, values.maxAirAcceleration);
+            PlayerStateUtil.AdjustVelocityClamped(context, values.maxAirAcceleration);
             PlayerStateUtil.ApplyGravity(context, values);
         }
 

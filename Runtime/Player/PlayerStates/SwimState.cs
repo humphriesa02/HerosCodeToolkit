@@ -22,7 +22,7 @@ namespace HerosCode.Toolkit.Player
             base.PhysicsUpdate();
             if (values.waterMovement == PlayerValues.WaterMovement.Surface)
             {
-                PlayerStateUtil.AdjustVelocity(context, values.maxSwimAcceleration);
+                PlayerStateUtil.AdjustVelocityClamped(context, values.maxSwimAcceleration);
                 PlayerStateUtil.FaceMoveDirection(context);
                 PlayerStateUtil.ApplyWaterGravity(context, values.buoyancy);
             }

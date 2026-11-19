@@ -5,31 +5,6 @@ namespace HerosCode.Toolkit.Player
     public static class PlayerStateUtil
     {
         // Set context velocity via desired velocity and a given acceleration
-        public static void AdjustVelocity(PlayerContext context, float acceleration)
-        {
-            var relativeVelocity = context.velocity - context.connectionVelocity;
-
-            var currentX = Vector3.Dot(relativeVelocity, context.xAxis);
-            var currentZ = Vector3.Dot(relativeVelocity, context.zAxis);
-
-            var desiredVelocity =
-                context.xAxis * context.desiredVelocity.x +
-                context.zAxis * context.desiredVelocity.z;
-
-            var currentVelocity =
-                context.xAxis * currentX +
-                context.zAxis * currentZ;
-
-            var maxSpeedChange = acceleration * Time.fixedDeltaTime;
-
-            var adjustment = Vector3.ClampMagnitude(
-                desiredVelocity - currentVelocity,
-                maxSpeedChange
-            );
-
-            context.velocity += adjustment;
-        }
-
         public static void AdjustVelocityClamped(PlayerContext context, float acceleration)
         {
             Vector3 relativeVelocity = context.velocity - context.connectionVelocity;

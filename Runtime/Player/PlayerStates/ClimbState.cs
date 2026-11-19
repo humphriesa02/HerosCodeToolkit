@@ -38,7 +38,7 @@ namespace HerosCode.Toolkit.Player
             }
 
             PlayerStateUtil.ResetJumpPhase(context);
-            PlayerStateUtil.AdjustVelocity(context, values.maxClimbAcceleration);
+            PlayerStateUtil.AdjustVelocityClamped(context, values.maxClimbAcceleration);
 
             // No gravity. Press into the wall so contact never drops
             context.velocity -= normal * (values.maxClimbAcceleration * 0.9f * Time.fixedDeltaTime);

@@ -28,7 +28,7 @@ namespace HerosCode.Toolkit.Player
             base.PhysicsUpdate();
             PlayerStateUtil.ResetJumpPhase(context);
             PlayerStateUtil.ApplyGroundSnap(context);
-            PlayerStateUtil.AdjustVelocity(context, values.maxAcceleration);
+            PlayerStateUtil.AdjustVelocityClamped(context, values.maxAcceleration);
             PlayerStateUtil.FaceMoveDirection(context);
 
             /// Gravity 
