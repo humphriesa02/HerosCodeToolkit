@@ -30,6 +30,19 @@ namespace HerosCode.Toolkit.Player
             context.velocity += adjustment;
         }
 
+        public static void AdjustVelocityClamped(PlayerContext context, float acceleration)
+        {
+            Vector3 relativeVelocity = context.velocity - context.connectionVelocity;
+
+            Vector2 adjustment = new Vector2(
+                context.desiredVelocity.x - Vector3.Dot(relativeVelocity, context.xAxis),
+                context.desiredVelocity.z - Vector3.Dot(relativeVelocity, context.zAxis));
+
+            adjustment = Vector2.ClampMagnitude(adjustment, acceleration * Time.fixedDeltaTime);
+
+            context.velocity += context.xAxis * adjustment.x + context.zAxis * adjustment.y;
+        }
+
         // Apply ground normal based velocity to our current velocity to snap to the ground
         public static void ApplyGroundSnap(PlayerContext context)
         {

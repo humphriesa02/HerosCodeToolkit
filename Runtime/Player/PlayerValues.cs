@@ -83,6 +83,22 @@ namespace HerosCode.Toolkit.Player
         // Diving
         public float diveImpulse = 4f;
 
+        [Header("Rolling")]
+        [Min(0.1f), Tooltip("The radius of the visual used for rolling")]
+        public float rollVisualRadius = 0.5f;
+        [Min(0f), Tooltip("Like the align speed of orbit camera, how quickly the visual aligns to forward.")]
+        public float visualAlignSpeed = 180f;
+        [Min(0f), Tooltip("How quickly the rolling visual rotates while in the air")]
+        public float visualAirRotation = 0.5f;
+        [Min(0f), Tooltip("How quickly the rolling visual rotates while in the water")]
+        public float visualSwimRotation = 2f;
+        [Range(0f, 100f)]
+        public float maxRollSpeed = 10f;
+        [Range(0f, 100f)]
+        public float maxRollAcceleration = 1f;
+        [Range(0f, 100f), Tooltip("Slows rolling down more gradually than speeding up")]
+        public float rollFriction = 0.5f;
+
         [Header("Jump")]
         [Range(0f, 10f), Tooltip("Force applied when jumping")]
         public float jumpHeight = 2f;

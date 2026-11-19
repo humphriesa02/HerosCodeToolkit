@@ -47,6 +47,13 @@ MonoBehaviour:
   maxSwimSpeed: 5
   maxSwimAcceleration: 5
   diveImpulse: 4
+  rollVisualRadius: 0.5
+  visualAlignSpeed: 180
+  visualAirRotation: 0.5
+  visualSwimRotation: 2
+  maxRollSpeed: 10
+  maxRollAcceleration: 15
+  rollFriction: 10
   jumpHeight: 2
   maxAirJumps: 2
   chainWindow: 0.25

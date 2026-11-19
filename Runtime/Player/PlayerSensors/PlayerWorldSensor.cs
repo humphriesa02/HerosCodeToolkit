@@ -50,7 +50,8 @@ namespace HerosCode.Toolkit.Player
 		        context.zAxis = ProjectOnContactPlane(Vector3.forward).normalized;
             }
             
-
+            context.connectionVelocity = Vector3.zero;
+            context.connectionAngularVelocity = Vector3.zero;
             if (connectedBody)
             {
                 if (connectedBody.isKinematic || connectedBody.mass >= rb.mass)
@@ -352,6 +353,7 @@ namespace HerosCode.Toolkit.Player
             {
                 var connectionMovement = connectedBody.transform.TransformPoint(connectionLocalPosition) - connectionWorldPosition;
                 context.connectionVelocity = connectionMovement / Time.deltaTime;
+                context.connectionAngularVelocity = connectedBody.angularVelocity;
             }
             connectionWorldPosition = rb.position;
             connectionLocalPosition = connectedBody.transform.InverseTransformPoint(connectionWorldPosition);

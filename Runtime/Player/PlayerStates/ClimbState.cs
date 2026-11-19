@@ -3,7 +3,7 @@ using UnityEngine;
 namespace HerosCode.Toolkit.Player
 {
     /// <summary>
-    /// Basic grounded movement
+    /// Climbing based movement
     /// </summary>
     public class ClimbState : PlayerLocomotionState
     {

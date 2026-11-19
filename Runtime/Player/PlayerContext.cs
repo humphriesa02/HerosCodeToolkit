@@ -13,6 +13,7 @@ namespace HerosCode.Toolkit.Player
         public Vector3 desiredVelocity;     // Horizontal, world space, units per second
         public Vector3 velocity;            // maintained across each state
         public Vector3 connectionVelocity;  // For when standing on another rigidbody
+        public Vector3 connectionAngularVelocity;
         public Vector3 xAxis;               // The current x axis, used for inversion
         public Vector3 zAxis;               // The current z axis
         public Vector3 contactNormal;       // What is "up" depending on how we land
@@ -54,8 +55,8 @@ namespace HerosCode.Toolkit.Player
         public bool inWater; // in water, not necessarily *swimming*
         public bool isSwimming; // Swimming within the water. Gated by logic and deeper submergence (can't swim unless enabled)
         public float submergence;
+        public bool isRolling;
         public bool snapToGround;
-        public bool nearbyWall;
         #endregion
 
         /// <summary>

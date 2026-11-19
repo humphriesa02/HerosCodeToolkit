@@ -20,6 +20,7 @@ namespace HerosCode.Toolkit.Player
         public DiveAction diveAction;
         public WaterDiveAction waterDiveAction;
         public PunchAction punchAction;
+        public RollAction rollAction;
         private readonly Dictionary<Keybind, IPlayerAction> bindings = new();
         private PlayerValues values;
 
@@ -32,9 +33,10 @@ namespace HerosCode.Toolkit.Player
             diveAction = new(values);
             waterDiveAction = new(values);
             punchAction = new(values);
+            rollAction = new(values);
 
             Bind(Keybind.Primary, jumpAction);
-            Bind(Keybind.Secondary, waterDiveAction);
+            Bind(Keybind.Secondary, rollAction);
         }
 
         public void Tick(PlayerContext context)

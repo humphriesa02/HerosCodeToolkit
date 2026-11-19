@@ -29,6 +29,7 @@ namespace HerosCode.Toolkit.Player
         // Executors -> Execute on the internal data
         private PlayerMovementExecutor playerMovementExecutor;
         private PlayerAnimationExecutor playerAnimationExecutor;
+        private PlayerRollingVisualExecutor playerRollingVisualExecutor;
 
         [Header("References")]
         // Non-player related (but controlled by player)
@@ -59,6 +60,9 @@ namespace HerosCode.Toolkit.Player
             playerMovementExecutor = GetComponent<PlayerMovementExecutor>();
             playerMovementExecutor.Initialize(context, playerValues);
 
+            playerRollingVisualExecutor = GetComponent<PlayerRollingVisualExecutor>();
+            playerRollingVisualExecutor.Initialize(context, playerValues);
+
             if (playerCamera != null) playerControlledCamera = true;
         }
 
@@ -80,6 +84,7 @@ namespace HerosCode.Toolkit.Player
 
             // Execute animation updates
             playerAnimationExecutor.Execute(context);
+            playerRollingVisualExecutor.Execute(context);
         }
 
         void LateUpdate()
