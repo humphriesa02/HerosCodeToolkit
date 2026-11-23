@@ -62,7 +62,7 @@ namespace HerosCode.Toolkit.Player
         {
             // Todo - clean this up
             if (context.inWater) ApplyWaterGravity(context, values.buoyancy);
-            context.velocity += Physics.gravity * Time.fixedDeltaTime;
+            else context.velocity += Physics.gravity * Time.fixedDeltaTime;
         }
 
         /// <summary>

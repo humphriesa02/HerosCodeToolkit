@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace HerosCode.Toolkit.Player
 {
     /// <summary>
@@ -11,7 +9,7 @@ namespace HerosCode.Toolkit.Player
     /// </summary>
     public interface IPlayerAction
     {
-        public bool CanStart(PlayerContext context);
-        public void Start(PlayerContext context);
+        bool CanStart(PlayerContext context);
+        void Start(PlayerContext context);
     }
 }

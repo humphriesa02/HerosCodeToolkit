@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace HerosCode.Toolkit.EditorTools
+namespace HerosCode.Toolkit.Tools
 {
     public class MethodCallerWindow : EditorWindow
     {

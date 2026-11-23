@@ -1,12 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using HerosCode.Toolkit.Core;
 
-namespace HerosCode.Toolkit.EditorTools
+namespace HerosCode.Toolkit.Tools
 {
     public static class ActorAddressableSync
     {

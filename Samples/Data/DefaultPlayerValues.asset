@@ -53,7 +53,7 @@ MonoBehaviour:
   visualSwimRotation: 2
   maxRollSpeed: 10
   maxRollAcceleration: 15
-  rollFriction: 10
+  rollFriction: 3
   jumpHeight: 2
   maxAirJumps: 2
   chainWindow: 0.25
