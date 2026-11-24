@@ -21,7 +21,7 @@ namespace HerosCode.Toolkit.Combat
         [SerializeField] private float maxHealth;
         private Actor actor;
 
-        void Awake()
+        private void Awake()
         {
             actor = GetComponent<Actor>();
             actor.OnSpawned += OnSpawn;
@@ -61,7 +61,7 @@ namespace HerosCode.Toolkit.Combat
             };
             return saveData;
         }
-        
+
         public void Load(SaveData data)
         {
             HealthSaveData healthSaveData = (HealthSaveData)data;

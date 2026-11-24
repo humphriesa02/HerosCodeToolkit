@@ -80,14 +80,14 @@ namespace HerosCode.Toolkit.Cameras
             }
         }
 
-        void OnValidate()
+        private void OnValidate()
         {
             if (maxVerticalAngle < minVerticalAngle) {
 			    maxVerticalAngle = minVerticalAngle;
 		    }
         }
 
-        void Awake()
+        private void Awake()
         {
             regularCamera = GetComponent<Camera>();
             focusPoint = focus.position;

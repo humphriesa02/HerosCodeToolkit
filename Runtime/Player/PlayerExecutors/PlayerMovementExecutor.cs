@@ -34,7 +34,7 @@ namespace HerosCode.Toolkit.Player
             ApplyRotation(context);
         }
 
-        void ApplyRotation(PlayerContext context)
+        private void ApplyRotation(PlayerContext context)
         {
             Vector3 dir = context.lookDirection;
             dir.y = 0f;

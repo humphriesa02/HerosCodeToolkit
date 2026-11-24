@@ -12,16 +12,16 @@ namespace HerosCode.Toolkit.Cameras
 
         private static readonly int AmountID = Shader.PropertyToID("_UnderwaterAmount");
 
-        void OnEnable()  => Shader.SetGlobalFloat(AmountID, 0f);
-        void OnDisable() => Shader.SetGlobalFloat(AmountID, 0f);
+        private void OnEnable()  => Shader.SetGlobalFloat(AmountID, 0f);
+        private void OnDisable() => Shader.SetGlobalFloat(AmountID, 0f);
 
-        void LateUpdate()
+        private void LateUpdate()
         {
             var surfaceY = GetWaterHeight(transform.position);
             var depth = surfaceY - transform.position.y;
             var amount = Mathf.Clamp01(depth / transitionDepth);
             Shader.SetGlobalFloat(AmountID, amount);
         }
-        float GetWaterHeight(Vector3 position) => 0f;
+        private float GetWaterHeight(Vector3 position) => 0f;
     }
 }

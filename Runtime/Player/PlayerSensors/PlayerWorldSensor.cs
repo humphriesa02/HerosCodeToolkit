@@ -205,17 +205,17 @@ namespace HerosCode.Toolkit.Player
             return Mathf.Abs(surfaceDistance) <= values.waterProbeDistance;
         }
 
-        void OnCollisionEnter(Collision collision)
+        private void OnCollisionEnter(Collision collision)
         {
             EvaluateCollision(collision);
         }
 
-        void OnCollisionStay(Collision collision)
+        private void OnCollisionStay(Collision collision)
         {
             EvaluateCollision(collision);
         }
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if ((values.waterMask & (1 << other.gameObject.layer)) != 0)
             {
@@ -223,7 +223,7 @@ namespace HerosCode.Toolkit.Player
             }
         }
 
-        void OnTriggerStay(Collider other)
+        private void OnTriggerStay(Collider other)
         {
             if ((values.waterMask & (1 << other.gameObject.layer)) != 0)
             {

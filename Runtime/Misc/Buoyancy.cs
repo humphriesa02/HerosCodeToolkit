@@ -34,7 +34,7 @@ namespace HerosCode.Toolkit.Misc
         private Rigidbody body;
         private float[] submergence;
 
-        void Awake()
+        private void Awake()
         {
             body = GetComponent<Rigidbody>();
 
@@ -46,7 +46,7 @@ namespace HerosCode.Toolkit.Misc
             submergence = new float[buoyancyOffsets.Length];
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             int count = buoyancyOffsets.Length;
             float buoyancyFactor = -buoyancy / count;
@@ -78,12 +78,12 @@ namespace HerosCode.Toolkit.Misc
             body.angularVelocity *= drag;
         }
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (IsWater(other)) EvaluateSubmergence();
         }
 
-        void OnTriggerStay(Collider other)
+        private void OnTriggerStay(Collider other)
         {
             // A sleeping body stays asleep instead of being woken by buoyancy
             if (!body.IsSleeping() && IsWater(other)) EvaluateSubmergence();

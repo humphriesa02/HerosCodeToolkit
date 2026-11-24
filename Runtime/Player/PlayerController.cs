@@ -3,7 +3,7 @@ using HerosCode.Toolkit.Cameras;
 
 namespace HerosCode.Toolkit.Player
 {
-     /// <summary>
+    /// <summary>
     /// A generic player controller that utilizes a state machine
     /// </summary>
     [RequireComponent(typeof(PlayerInputSensor))]
@@ -38,7 +38,7 @@ namespace HerosCode.Toolkit.Player
         [Tooltip("The space that defines which way forward will be when walking. I.e., camera's forward. Can be set dynamically")]
         public Transform playerInputSpace = default;
 
-        void Awake()
+        private void Awake()
         {
             // Context
             context = new();
@@ -56,7 +56,7 @@ namespace HerosCode.Toolkit.Player
             // Executors
             playerAnimationExecutor = GetComponent<PlayerAnimationExecutor>();
             playerAnimationExecutor.Initialize(context, playerValues);
-            
+
             playerMovementExecutor = GetComponent<PlayerMovementExecutor>();
             playerMovementExecutor.Initialize(context, playerValues);
 
@@ -66,7 +66,7 @@ namespace HerosCode.Toolkit.Player
             if (playerCamera != null) playerControlledCamera = true;
         }
 
-        void Update()
+        private void Update()
         {
             context.ResetFrame();
 
@@ -83,9 +83,10 @@ namespace HerosCode.Toolkit.Player
             playerLocomotionStateUpdater.Tick(context);
 
             // Execute animation updates
-            playerAnimationExecutor.Execute(context);        }
+            playerAnimationExecutor.Execute(context);
+        }
 
-        void LateUpdate()
+        private void LateUpdate()
         {
             playerLocomotionStateUpdater.LateTick(context);
 
@@ -93,7 +94,7 @@ namespace HerosCode.Toolkit.Player
             if (playerControlledCamera) playerCamera.UpdateCamera(context.lookInput, context.lookViaMouse);
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             playerWorldSensor.FixedCollectData(context);
             playerLocomotionStateUpdater.FixedTick(context);
@@ -102,7 +103,7 @@ namespace HerosCode.Toolkit.Player
             playerWorldSensor.ClearData(context);
         }
 
-        void UpdateReferences()
+        private void UpdateReferences()
         {
             if (playerInputSpace != null)
             {
@@ -111,7 +112,7 @@ namespace HerosCode.Toolkit.Player
         }
 
         // TODO - dedicated debug component
-        void OnGUI()
+        private void OnGUI()
         {
             GUI.Label(new Rect(25, 25, 300, 100), playerLocomotionStateUpdater.GetCurrentState().ToString());
         }

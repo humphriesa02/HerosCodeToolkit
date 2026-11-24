@@ -29,7 +29,7 @@ namespace HerosCode.Toolkit.Util
         public bool AutoReverse { get => autoReverse; set => autoReverse = value;}
         private float SmoothedValue => 3f * value * value - 2f * value * value * value;
 
-        void Awake()
+        private void Awake()
         {
             started = startOnAwake;
         }

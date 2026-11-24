@@ -17,12 +17,12 @@ namespace HerosCode.Toolkit.Misc
         // ensures that the zone doesn't disable on the first exit of *any* body
         private List<Collider> colliders = new List<Collider>();
 
-        void Awake()
+        private void Awake()
         {
             enabled = false;
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
 #if UNITY_EDITOR
             // hot-reload proof
@@ -38,7 +38,7 @@ namespace HerosCode.Toolkit.Misc
             }
         }
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (colliders.Count == 0)
             {
@@ -47,7 +47,7 @@ namespace HerosCode.Toolkit.Misc
             }
             colliders.Add(other);
         }
-        void OnTriggerExit(Collider other)
+        private void OnTriggerExit(Collider other)
         {
             if (colliders.Remove(other) && colliders.Count == 0)
             {
@@ -56,7 +56,7 @@ namespace HerosCode.Toolkit.Misc
             }
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             for (var i = 0; i < colliders.Count; i++)
             {

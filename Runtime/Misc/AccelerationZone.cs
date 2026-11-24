@@ -12,7 +12,7 @@ namespace HerosCode.Toolkit.Misc
         [SerializeField, Min(0f), Tooltip("The speed to set the colliding body")]
         private float speed = 10f;
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             var rb = other.attachedRigidbody;
             if (rb != null)
@@ -34,7 +34,7 @@ namespace HerosCode.Toolkit.Misc
             }
         }
 
-        void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
             Vector3 localEnd = transform.position + (transform.up * 2f);
