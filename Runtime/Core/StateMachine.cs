@@ -7,8 +7,8 @@ namespace HerosCode.Toolkit.Core
     {
         private State currentState;
 
-        public State GetCurrentState() {return currentState;}
-        
+        public State GetCurrentState() { return currentState; }
+
         public void Initialize(State startingState)
         {
             currentState = startingState;

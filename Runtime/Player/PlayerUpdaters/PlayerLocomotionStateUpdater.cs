@@ -15,7 +15,7 @@ namespace HerosCode.Toolkit.Player
         private StateMachine stateMachine;
 
         private readonly List<PlayerLocomotionState> playerStatesInOrder = new(); // of priority
-        
+
         public State GetCurrentState() => stateMachine.GetCurrentState();
 
         public PlayerLocomotionStateUpdater(PlayerContext context, PlayerValues values)
@@ -30,18 +30,18 @@ namespace HerosCode.Toolkit.Player
             stateMachine.Initialize(playerStatesInOrder[0]);
         }
 
-        public  void Tick(PlayerContext context)
+        public void Tick(PlayerContext context)
         {
             ResolveState(context);
             stateMachine.LogicUpdate();
         }
 
-        public  void LateTick(PlayerContext context)
+        public void LateTick(PlayerContext context)
         {
             stateMachine.LateUpdate();
         }
 
-        public  void FixedTick(PlayerContext context)
+        public void FixedTick(PlayerContext context)
         {
             stateMachine.PhysicsUpdate();
         }

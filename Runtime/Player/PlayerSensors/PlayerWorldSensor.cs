@@ -31,12 +31,12 @@ namespace HerosCode.Toolkit.Player
             values = _values;
         }
 
-        public void CollectData(PlayerContext context){ }
+        public void CollectData(PlayerContext context) { }
 
         public void FixedCollectData(PlayerContext context)
         {
             context.velocity = rb.linearVelocity;
-            
+
             CollectGroundingData(context);
 
             if (context.isClimbing)
@@ -47,9 +47,9 @@ namespace HerosCode.Toolkit.Player
             else
             {
                 context.xAxis = ProjectOnContactPlane(Vector3.right).normalized;
-		        context.zAxis = ProjectOnContactPlane(Vector3.forward).normalized;
+                context.zAxis = ProjectOnContactPlane(Vector3.forward).normalized;
             }
-            
+
             context.connectionVelocity = Vector3.zero;
             context.connectionAngularVelocity = Vector3.zero;
             if (connectedBody)
@@ -158,23 +158,25 @@ namespace HerosCode.Toolkit.Player
         private bool ProbeGround(PlayerContext context, out Vector3 normal)
         {
             normal = Vector3.up;
-            if (context.stepsSinceLastGrounded > 1 || context.stepsSinceImpulse <= 2) {
+            if (context.stepsSinceLastGrounded > 1 || context.stepsSinceImpulse <= 2)
+            {
                 return false;
             }
             var speed = context.velocity.magnitude;
-            if (speed > values.maxSnapSpeed) {
+            if (speed > values.maxSnapSpeed)
+            {
                 return false;
             }
             if (!Physics.Raycast(
                 rb.position,
                 Vector3.down,
-                out RaycastHit hit, 
-                values.probeDistance, 
-                values.probeMask, 
-                QueryTriggerInteraction.Ignore)) 
+                out RaycastHit hit,
+                values.probeDistance,
+                values.probeMask,
+                QueryTriggerInteraction.Ignore))
             {
-			    return false;
-		    }
+                return false;
+            }
             if (hit.normal.y < GetMinDot(hit.collider.gameObject.layer))
             {
                 return false;
@@ -182,7 +184,7 @@ namespace HerosCode.Toolkit.Player
             normal = hit.normal;
             connectedBody = hit.rigidbody;
             return true;
-	    }
+        }
 
         private bool ProbeWater()
         {
@@ -245,22 +247,25 @@ namespace HerosCode.Toolkit.Player
 
             var layer = collision.gameObject.layer;
             var minDot = GetMinDot(layer);
-            for (int i = 0; i < collision.contactCount; i++) {
+            for (int i = 0; i < collision.contactCount; i++)
+            {
                 Vector3 normal = collision.GetContact(i).normal;
                 // Ground check
-                if (normal.y >= minDot) {
+                if (normal.y >= minDot)
+                {
                     groundContactCount += 1;
                     localGroundContactNormal += normal;
                     connectedBody = collision.rigidbody;
                 }
-                else 
+                else
                 {
                     // Steep check
                     if (normal.y > -0.01f)
                     {
-                        steepContactCount +=1;
+                        steepContactCount += 1;
                         localSteepContactNormal += normal;
-                        if (groundContactCount == 0) {
+                        if (groundContactCount == 0)
+                        {
                             connectedBody = collision.rigidbody;
                         }
                     }
@@ -276,7 +281,7 @@ namespace HerosCode.Toolkit.Player
                     }
                 }
             }
-	    }
+        }
         /// <summary>
         /// Similar to a ground check, but for water. Also,
         /// we can measure how "in" the ground (water) we are, via
@@ -286,11 +291,11 @@ namespace HerosCode.Toolkit.Player
         {
             if (Physics.Raycast(rb.position + Vector3.up * values.submergenceOffset,
                 Vector3.down, out RaycastHit hit, values.submergenceRange + 1f,
-			    values.waterMask, QueryTriggerInteraction.Collide)
-                ) 
+                values.waterMask, QueryTriggerInteraction.Collide)
+                )
             {
-			    submergence = 1f - hit.distance / values.submergenceRange;
-		    }
+                submergence = 1f - hit.distance / values.submergenceRange;
+            }
             else
             {
                 submergence = 1f;
@@ -307,7 +312,7 @@ namespace HerosCode.Toolkit.Player
         /// </summary>
         /// <param name="normal"></param>
         /// <returns></returns>
-        private bool CheckSteepContacts (out Vector3 normal)
+        private bool CheckSteepContacts(out Vector3 normal)
         {
             normal = Vector3.up;
             // just a wall, not a crevice
@@ -337,12 +342,12 @@ namespace HerosCode.Toolkit.Player
             return true;
         }
 
-        private Vector3 ProjectOnContactPlane (Vector3 vector)
+        private Vector3 ProjectOnContactPlane(Vector3 vector)
         {
-		    return vector - localGroundContactNormal * Vector3.Dot(vector, localGroundContactNormal);
-	    }
+            return vector - localGroundContactNormal * Vector3.Dot(vector, localGroundContactNormal);
+        }
 
-        private float GetMinDot (int layer)
+        private float GetMinDot(int layer)
         {
             return (values.stairsMask & (1 << layer)) == 0 ?
                 values.MinGroundDotProduct : values.MinStairsDotProduct;
@@ -353,7 +358,7 @@ namespace HerosCode.Toolkit.Player
             if (connectedBody == previousConnectedBody)
             {
                 var connectionMovement = connectedBody.transform.TransformPoint(connectionLocalPosition) - connectionWorldPosition;
-                context.connectionVelocity = connectionMovement / Time.deltaTime;
+                context.connectionVelocity = connectionMovement / Time.fixedDeltaTime;
                 context.connectionAngularVelocity = connectedBody.angularVelocity;
             }
             connectionWorldPosition = rb.position;

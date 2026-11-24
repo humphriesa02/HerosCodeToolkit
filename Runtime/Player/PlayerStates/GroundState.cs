@@ -31,18 +31,18 @@ namespace HerosCode.Toolkit.Player
             PlayerStateUtil.AdjustVelocityClamped(context, values.maxAcceleration);
             PlayerStateUtil.FaceMoveDirection(context);
 
-            /// Gravity 
+            /// Gravity
             // Prevent sliding down slopes
             if (context.onGround && context.velocity.sqrMagnitude < 0.01f)
             {
-                context.velocity += context.contactNormal * (Vector3.Dot(Physics.gravity, context.contactNormal) * Time.deltaTime);
+                context.velocity += context.contactNormal * (Vector3.Dot(Physics.gravity, context.contactNormal) * Time.fixedDeltaTime);
             }
             else
             {
                 PlayerStateUtil.ApplyGravity(context, values);
             }
         }
-        
+
         public override void Exit()
         {
             base.Exit();

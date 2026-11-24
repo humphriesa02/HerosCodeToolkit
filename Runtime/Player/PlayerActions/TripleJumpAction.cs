@@ -6,7 +6,7 @@ namespace HerosCode.Toolkit.Player
     {
         private readonly PlayerValues values;
         int step;
-        private static string[] animTriggers = {"jump", "jump", "jump2", "jump3"};
+        private static string[] animTriggers = { "jump", "jump", "jump2", "jump3" };
 
         public TripleJumpAction(PlayerValues _values)
         {

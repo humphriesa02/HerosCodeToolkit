@@ -24,7 +24,7 @@ namespace HerosCode.Toolkit.Player
         private readonly Dictionary<Keybind, IPlayerAction> bindings = new();
         private PlayerValues values;
 
-        public void Bind (Keybind keybind, IPlayerAction action) => bindings.Add(keybind, action); 
+        public void Bind(Keybind keybind, IPlayerAction action) => bindings.Add(keybind, action);
         public PlayerActionUpdater(PlayerContext context, PlayerValues _values)
         {
             values = _values;
@@ -49,6 +49,6 @@ namespace HerosCode.Toolkit.Player
                     context.ConsumePress(keybind);
                 }
             }
-        } 
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace HerosCode.Toolkit.Save
     /// </summary>
     public interface ISaveable
     {
-        string SaveKey {get;} // The key to save this component in the data
+        string SaveKey { get; } // The key to save this component in the data
 
         SaveData Save();
         void Load(SaveData data);
@@ -39,12 +39,12 @@ namespace HerosCode.Toolkit.Save
     /// <summary>
     /// A per *Unity.Scene* SaveSystem. Creates and manages a save instance
     /// (dependent on DataSaverType, a .json file for example).
-    /// 
+    ///
     /// It is per Scene due to our use of stack-based memory stores to speed
     /// up loading; once a Scene loads we unpack its individual save instance,
     /// pulling that data into memory. We then clear that memory when leaving each
     /// scene. Scenes can be as basic or as advanced as needed.
-    /// 
+    ///
     /// Note - this class is a singleton so any code can access it quickly.
     /// </summary>
     public class SaveSystem : MonoBehaviour
@@ -97,12 +97,12 @@ namespace HerosCode.Toolkit.Save
         /// <returns></returns>
         public bool Has(string type, string id) => saver.Has(type, id);
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         private void Reset()
         {
             saveName = GenerateSnakeCaseSaveNameFromCamelCaseName();
         }
-        #endif
+#endif
 
         private string GenerateSnakeCaseSaveNameFromCamelCaseName()
         {
@@ -122,7 +122,7 @@ namespace HerosCode.Toolkit.Save
                 char c = sceneName[i];
                 if (char.IsUpper(c))
                 {
-                    if (sceneName[i-1] != '_')
+                    if (sceneName[i - 1] != '_')
                     {
                         sb.Append('_');
                     }

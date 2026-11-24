@@ -43,7 +43,7 @@ namespace HerosCode.Toolkit.Player
             // No gravity. Press into the wall so contact never drops
             context.velocity -= normal * (values.maxClimbAcceleration * 0.9f * Time.fixedDeltaTime);
         }
-        
+
         public override void Exit()
         {
             base.Exit();

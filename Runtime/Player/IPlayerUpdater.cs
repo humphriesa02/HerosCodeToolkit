@@ -10,7 +10,7 @@ namespace HerosCode.Toolkit.Player
     public interface IPlayerUpdater
     {
         abstract void Tick(PlayerContext context);
-        virtual void FixedTick(PlayerContext context) {}
-        virtual void LateTick(PlayerContext context) {}
+        virtual void FixedTick(PlayerContext context) { }
+        virtual void LateTick(PlayerContext context) { }
     }
 }

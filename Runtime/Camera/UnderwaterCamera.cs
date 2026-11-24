@@ -12,7 +12,7 @@ namespace HerosCode.Toolkit.Cameras
 
         private static readonly int AmountID = Shader.PropertyToID("_UnderwaterAmount");
 
-        private void OnEnable()  => Shader.SetGlobalFloat(AmountID, 0f);
+        private void OnEnable() => Shader.SetGlobalFloat(AmountID, 0f);
         private void OnDisable() => Shader.SetGlobalFloat(AmountID, 0f);
 
         private void LateUpdate()

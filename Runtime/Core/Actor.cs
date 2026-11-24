@@ -13,7 +13,7 @@ namespace HerosCode.Toolkit.Core
     [DisallowMultipleComponent]
     public class Actor : MonoBehaviour
     {
-        [SerializeField, Tooltip("The sole identifier for an actor. Used in saving, container membership, etc.")] 
+        [SerializeField, Tooltip("The sole identifier for an actor. Used in saving, container membership, etc.")]
         private string id;
         [SerializeField, Tooltip("Marking an actor persistant means it will become an addressable, and can be stored in different rooms")]
         private bool persistent;
@@ -23,7 +23,7 @@ namespace HerosCode.Toolkit.Core
         /// Make alive false when an actor persists in the system
         /// But is not available in the scene
         /// </summary>
-        public bool Alive {get; private set;} = false;
+        public bool Alive { get; private set; } = false;
         public bool Persistent => persistent;
 
         /// <summary>
@@ -31,13 +31,13 @@ namespace HerosCode.Toolkit.Core
         /// up when leaving a room.
         /// Or just in general things that won't get saved to disk
         /// </summary>
-        public bool ShouldSave {get; private set;} = true;
+        public bool ShouldSave { get; private set; } = true;
 
         public event Action OnCreated;
         public event Action OnDeleted;
         public event Action OnSpawned;
         public event Action OnDespawned;
-        
+
         // Called to spawn the actor the first time,
         // assigns id, etc.
         public void Create()
@@ -87,7 +87,7 @@ namespace HerosCode.Toolkit.Core
             // Component level data
             ISaveable[] saveables = GetComponents<ISaveable>();
             Dictionary<string, SaveData> componentData = new();
-            foreach(ISaveable save in saveables)
+            foreach (ISaveable save in saveables)
             {
                 componentData[save.SaveKey] = save.Save();
             }
@@ -111,26 +111,26 @@ namespace HerosCode.Toolkit.Core
             // Component state
             ISaveable[] saveables = GetComponents<ISaveable>();
             if (saveables.Length == 0) return;
-            foreach(ISaveable save in saveables)
+            foreach (ISaveable save in saveables)
             {
                 save.Load(saveData.components[save.SaveKey]);
             }
         }
-        
-        #if UNITY_EDITOR
+
+#if UNITY_EDITOR
         private void Reset()
         {
             id = GenerateSnakeCaseIdFromCamelCaseName();
         }
-        #endif
+#endif
 
         [ContextMenu("Regenerate Id")]
         private void RegenerateId()
         {
             id = GenerateSnakeCaseIdFromCamelCaseName();
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             UnityEditor.EditorUtility.SetDirty(this);
-            #endif
+#endif
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace HerosCode.Toolkit.Core
                 char c = objectName[i];
                 if (char.IsUpper(c))
                 {
-                    if (objectName[i-1] != '_')
+                    if (objectName[i - 1] != '_')
                     {
                         sb.Append('_');
                     }

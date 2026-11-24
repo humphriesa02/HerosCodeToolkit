@@ -51,7 +51,7 @@ namespace HerosCode.Toolkit.Core
                     // Collect the actors in the room from hierarchy
                     actorsInRoom = domainRoot.GetComponentsInChildren<Actor>().ToList();
                     // Call "Create" on each one.
-                    foreach(Actor actor in actorsInRoom)
+                    foreach (Actor actor in actorsInRoom)
                     {
                         actor.Create();
                     }
@@ -67,14 +67,14 @@ namespace HerosCode.Toolkit.Core
                 // Collect the actors in the room from hierarchy
                 actorsInRoom = domainRoot.GetComponentsInChildren<Actor>().ToList();
                 // Non save system branch, always a fresh room
-                foreach(Actor actor in actorsInRoom)
+                foreach (Actor actor in actorsInRoom)
                 {
                     actor.Create();
                 }
             }
-            
+
             // Call "Spawn" on each one.
-            foreach(Actor actor in actorsInRoom)
+            foreach (Actor actor in actorsInRoom)
             {
                 actor.Spawn();
             }
@@ -97,7 +97,7 @@ namespace HerosCode.Toolkit.Core
             }
 
             // Call "Despawn" on each one.
-            foreach(Actor actor in domainActors)
+            foreach (Actor actor in domainActors)
             {
                 actor.Despawn();
                 if (!actor.ShouldSave)
@@ -115,7 +115,7 @@ namespace HerosCode.Toolkit.Core
             RoomSaveData saveData = new();
             Actor[] domainActors = domainRoot.GetComponentsInChildren<Actor>();
             List<string> idList = new();
-            foreach(Actor actor in domainActors)
+            foreach (Actor actor in domainActors)
             {
                 if (!actor.ShouldSave) continue;
                 actor.Save();
@@ -162,19 +162,19 @@ namespace HerosCode.Toolkit.Core
             }
         }
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         private void Reset()
         {
             id = GenerateSnakeCaseIdFromCamelCaseName();
         }
-        #endif
+#endif
         [ContextMenu("Regenerate Id")]
         private void RegenerateId()
         {
             id = GenerateSnakeCaseIdFromCamelCaseName();
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             UnityEditor.EditorUtility.SetDirty(this);
-            #endif
+#endif
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace HerosCode.Toolkit.Core
             var sb = new StringBuilder();
             // Actor specific
             sb.Append("room_");
-            
+
             sb.Append(char.ToLowerInvariant(objectName[0]));
 
             for (var i = 1; i < objectName.Length; ++i)
@@ -199,7 +199,7 @@ namespace HerosCode.Toolkit.Core
                 char c = objectName[i];
                 if (char.IsUpper(c))
                 {
-                    if (objectName[i-1] != '_')
+                    if (objectName[i - 1] != '_')
                     {
                         sb.Append('_');
                     }

@@ -9,7 +9,7 @@ namespace HerosCode.Toolkit.Save
     /// <summary>
     /// Saves data into a JSON file.
     /// Also provides capability of JSON parsing to parse save data.
-    /// 
+    ///
     /// JSON Package: Newtonsoft
     /// </summary>
     public class JSONDataSaver : DataSaver
@@ -32,8 +32,8 @@ namespace HerosCode.Toolkit.Save
                 Formatting = Formatting.Indented,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
-            
-            filePath = Path.Combine(Application.persistentDataPath, fileName+".json");
+
+            filePath = Path.Combine(Application.persistentDataPath, fileName + ".json");
 
             if (File.Exists(filePath))
             {
@@ -56,10 +56,10 @@ namespace HerosCode.Toolkit.Save
         }
 
         // TBD if needed
-        public override void Activate(){ return; }
+        public override void Activate() { return; }
 
         // TBD if needed
-        public override void Deactivate(){ return; }
+        public override void Deactivate() { return; }
 
         public override void Save<T>(string type, string id, T data)
         {
@@ -70,7 +70,7 @@ namespace HerosCode.Toolkit.Save
             }
             bucket[id] = data;
             Flush();
-        }  
+        }
 
         public override T Load<T>(string type, string id)
         {
@@ -80,7 +80,7 @@ namespace HerosCode.Toolkit.Save
 
                 // After a real file round-trip, Newtonsoft hands back JObject
                 // rather than the original concrete type — reconstruct it.
-                return JObject.FromObject(raw).ToObject<T>(); 
+                return JObject.FromObject(raw).ToObject<T>();
             }
             return null;
         }

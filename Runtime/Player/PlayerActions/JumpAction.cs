@@ -32,24 +32,27 @@ namespace HerosCode.Toolkit.Player
             }
             else
             {
-                if (context.jumpPhase == 0) {
-				    context.jumpPhase = 1;
-			    }
+                if (context.jumpPhase == 0)
+                {
+                    context.jumpPhase = 1;
+                }
                 jumpDirection = context.contactNormal;
             }
             context.jumpPhase += 1;
             // vertical bias
             jumpDirection = (jumpDirection + Vector3.up).normalized;
 
-			var jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * values.jumpHeight);
-            if (context.inWater) {
+            var jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * values.jumpHeight);
+            if (context.inWater)
+            {
                 jumpSpeed *= Mathf.Max(0f, 1f - context.submergence / values.swimThreshold);
             }
-			var alignedSpeed = Vector3.Dot(context.velocity, jumpDirection);
-			if (alignedSpeed > 0f) {
-				jumpSpeed = Mathf.Max(jumpSpeed - alignedSpeed, 0f);
-			}
-			context.pendingImpulse += jumpDirection * jumpSpeed;
+            var alignedSpeed = Vector3.Dot(context.velocity, jumpDirection);
+            if (alignedSpeed > 0f)
+            {
+                jumpSpeed = Mathf.Max(jumpSpeed - alignedSpeed, 0f);
+            }
+            context.pendingImpulse += jumpDirection * jumpSpeed;
             context.animTrigger = "jump";
         }
     }

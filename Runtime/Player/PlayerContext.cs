@@ -37,7 +37,7 @@ namespace HerosCode.Toolkit.Player
         public Vector2 lookInput;
         public float verticalInput;
         public bool lookViaMouse; // set to true if the action is done via the mouse movement deltas
-         
+
         // Swapped from bools to floats
         // to introduce input buffers
         public float primaryPressedTime = 999f;

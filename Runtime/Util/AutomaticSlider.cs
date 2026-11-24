@@ -4,7 +4,7 @@ using UnityEngine.Events;
 namespace HerosCode.Toolkit.Util
 {
     [System.Serializable]
-	public class OnValueChangedEvent : UnityEvent<float> { }
+    public class OnValueChangedEvent : UnityEvent<float> { }
     /// <summary>
     /// A "slider" moving a value automatically from 0 to 1
     /// for as long as "duration"
@@ -26,7 +26,7 @@ namespace HerosCode.Toolkit.Util
         private bool started = false;
         // Can be set externally
         public bool Reversed { get; set; }
-        public bool AutoReverse { get => autoReverse; set => autoReverse = value;}
+        public bool AutoReverse { get => autoReverse; set => autoReverse = value; }
         private float SmoothedValue => 3f * value * value - 2f * value * value * value;
 
         private void Awake()

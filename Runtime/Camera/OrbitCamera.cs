@@ -30,16 +30,16 @@ namespace HerosCode.Toolkit.Cameras
 
         [SerializeField, Range(1f, 720f), Tooltip("Automatic alignment turn rate in degrees per second")]
         private float autoAlignSpeed = 180f;
- 
+
         [SerializeField, Range(0f, 90f), Tooltip("Within this many degrees of aligned (or exactly opposite), the turn rate eases off")]
         private float alignSmoothRange = 45f;
- 
+
         [SerializeField, Min(0f), Tooltip("Focus speed (units/sec) below which automatic alignment does nothing")]
         private float minAlignSpeed = 0.5f;
- 
+
         [SerializeField, Min(0.1f), Tooltip("Focus speed (units/sec) at which automatic alignment reaches its full turn rate")]
         private float alignFullSpeed = 3f;
- 
+
         [SerializeField, Min(0.01f), Tooltip("Smoothing time for the measured focus velocity (seconds). Removes noise at very high frame rates")]
         private float velocitySmoothTime = 0.1f;
 
@@ -68,9 +68,9 @@ namespace HerosCode.Toolkit.Cameras
         private float lastManualRotationTime;
 
         private Camera regularCamera;
-        Vector3 CameraHalfExtends 
+        Vector3 CameraHalfExtends
         {
-            get 
+            get
             {
                 Vector3 halfExtends;
                 halfExtends.y = regularCamera.nearClipPlane * Mathf.Tan(0.5f * Mathf.Deg2Rad * regularCamera.fieldOfView);
@@ -82,9 +82,10 @@ namespace HerosCode.Toolkit.Cameras
 
         private void OnValidate()
         {
-            if (maxVerticalAngle < minVerticalAngle) {
-			    maxVerticalAngle = minVerticalAngle;
-		    }
+            if (maxVerticalAngle < minVerticalAngle)
+            {
+                maxVerticalAngle = minVerticalAngle;
+            }
         }
 
         private void Awake()
@@ -126,7 +127,7 @@ namespace HerosCode.Toolkit.Cameras
                 lookRotation, castDistance, obstructionMask, QueryTriggerInteraction.Ignore))
             {
                 rectPosition = castFrom + castDirection * hit.distance;
-			    lookPosition = rectPosition - rectOffset;
+                lookPosition = rectPosition - rectOffset;
             }
             transform.SetPositionAndRotation(lookPosition, lookRotation);
         }
@@ -169,18 +170,18 @@ namespace HerosCode.Toolkit.Cameras
         /// <summary>
         /// Called externally. Typically via the PlayerController,
         /// but can be anywhere
-        /// 
+        ///
         /// returns true if we rotated this frame
         /// </summary>
         /// <param name="input"></param>
         private bool ManualRotation(Vector2 input, bool mouseBased, float dt)
         {
-            if (input.x < -ROTATION_EPSILON  ||
-                input.x > ROTATION_EPSILON  ||
+            if (input.x < -ROTATION_EPSILON ||
+                input.x > ROTATION_EPSILON ||
                 input.y < -ROTATION_EPSILON ||
                 input.y > ROTATION_EPSILON)
             {
-                
+
                 orbitAngles += GetAngleFromInput(input, mouseBased, dt);
                 lastManualRotationTime = Time.unscaledTime;
                 return true;
@@ -222,13 +223,13 @@ namespace HerosCode.Toolkit.Cameras
             {
                 return false;
             }
- 
+
             var headingAngle = GetAngle(smoothedFocusVelocity / focusSpeed);
             var deltaAbs = Mathf.Abs(Mathf.DeltaAngle(orbitAngles.y, headingAngle));
- 
+
             // Degrees per second * seconds, scaled up to full rate as the focus speeds up
             var rotationChange = autoAlignSpeed * dt * Mathf.Clamp01(focusSpeed / alignFullSpeed);
- 
+
             // Ease off when nearly aligned, or nearly opposite (avoids abrupt starts and stops)
             if (deltaAbs < alignSmoothRange)
             {
@@ -238,7 +239,7 @@ namespace HerosCode.Toolkit.Cameras
             {
                 rotationChange *= (180f - deltaAbs) / alignSmoothRange;
             }
- 
+
             orbitAngles.y = Mathf.MoveTowardsAngle(orbitAngles.y, headingAngle, rotationChange);
             return true;
         }
@@ -254,20 +255,20 @@ namespace HerosCode.Toolkit.Cameras
             return direction.x < 0f ? 360 - angle : angle;
         }
 
-        private Vector2 GetAngleFromInput(Vector2 input, bool mouseBased,  float dt)
+        private Vector2 GetAngleFromInput(Vector2 input, bool mouseBased, float dt)
         {
             if (mouseBased)
             {
                 input = Vector2.ClampMagnitude(input, maxMouseDelta);
             }
- 
+
             Vector2 correctedInput = new Vector2(-input.y, input.x);
             return mouseBased ? correctedInput * mouseSensitivity : correctedInput * (joyStickRotationSpeed * dt);
         }
 
         public void SnapToFocus()
         {
-            
+
         }
     }
 }

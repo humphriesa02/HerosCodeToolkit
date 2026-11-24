@@ -7,9 +7,9 @@ namespace HerosCode.Toolkit.Player
         // Set context velocity via desired velocity and a given acceleration
         public static void AdjustVelocityClamped(PlayerContext context, float acceleration)
         {
-            Vector3 relativeVelocity = context.velocity - context.connectionVelocity;
+            var relativeVelocity = context.velocity - context.connectionVelocity;
 
-            Vector2 adjustment = new Vector2(
+            var adjustment = new Vector2(
                 context.desiredVelocity.x - Vector3.Dot(relativeVelocity, context.xAxis),
                 context.desiredVelocity.z - Vector3.Dot(relativeVelocity, context.zAxis));
 
@@ -35,10 +35,10 @@ namespace HerosCode.Toolkit.Player
         // based on max speed and the player's input space, if one exists (else world space)
         public static void ConvertMoveInputToDesiredVelocity(PlayerContext context, float maxSpeed)
         {
-            Vector2 input = Vector2.ClampMagnitude(context.moveInput, 1f);
+            var input = Vector2.ClampMagnitude(context.moveInput, 1f);
             if (context.playerInputSpace && !context.isClimbing)
             {
-			    Vector3 forward = context.playerInputSpace.forward;
+                Vector3 forward = context.playerInputSpace.forward;
                 forward.y = 0f;
                 forward.Normalize();
 
@@ -71,7 +71,7 @@ namespace HerosCode.Toolkit.Player
         /// <param name="c"></param>
         public static void FaceMoveDirection(PlayerContext c)
         {
-            Vector3 dir = c.desiredVelocity;
+            var dir = c.desiredVelocity;
             dir.y = 0f;
             if (dir.sqrMagnitude > 0.0001f) c.lookDirection = dir;
         }
@@ -83,7 +83,9 @@ namespace HerosCode.Toolkit.Player
         public static void ResetJumpPhase(PlayerContext context)
         {
             if (context.onGround && context.stepsSinceImpulse > 1 && context.pendingImpulse == Vector3.zero)
+            {
                 context.jumpPhase = 0;
+            }
         }
 
         /// <summary>
@@ -92,7 +94,7 @@ namespace HerosCode.Toolkit.Player
         /// <param name="direction"></param>
         /// <param name="normal"></param>
         /// <returns></returns>
-        public static Vector3 ProjectOnPlane(Vector3 direction, Vector3 normal)=> (direction - normal * Vector3.Dot(direction, normal)).normalized;
+        public static Vector3 ProjectOnPlane(Vector3 direction, Vector3 normal) => (direction - normal * Vector3.Dot(direction, normal)).normalized;
 
         public static void ApplyWaterDrag(PlayerContext context, float waterDrag)
         {

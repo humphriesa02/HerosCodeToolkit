@@ -4,7 +4,7 @@ namespace HerosCode.Toolkit.Player
 {
     /// <summary>
     /// Values to be loaded into <see cref="PlayerController"/>
-    /// 
+    ///
     /// Dictates both how the Player controls, and the values
     /// that go with it.
     /// </summary>
@@ -68,7 +68,7 @@ namespace HerosCode.Toolkit.Player
         public float buoyancy = 1.5f;
 
         // Swimming
-        public enum WaterMovement 
+        public enum WaterMovement
         {
             None, // Can't swim, only sinks
             Free, // Can swim omnidirectionally

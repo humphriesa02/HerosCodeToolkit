@@ -30,7 +30,7 @@ namespace HerosCode.Toolkit.Player
             PlayerStateUtil.AdjustVelocityClamped(context, acceleration);
             PlayerStateUtil.ApplyGravity(context, values);
         }
-        
+
         public override void Exit()
         {
             base.Exit();

@@ -18,7 +18,7 @@ namespace HerosCode.Toolkit.Player
     /// A state purely represents locomotion available
     /// the player. Things like basic land movement,
     /// swimming, falling, etc.
-    /// 
+    ///
     /// Actions are triggers for locomotion changes,
     /// or, simply do things within a locomotion state.
     /// (Ground combat vs air combat)

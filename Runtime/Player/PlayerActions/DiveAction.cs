@@ -34,7 +34,7 @@ namespace HerosCode.Toolkit.Player
             // // Pick a direction and add an impulse
             // var dir = context.facing;
             // context.impulseVelocity = dir * values.diveSpeed;
-            
+
             // // Add some air to the dive
             // context.gravityVelocity.y = Mathf.Max(context.gravityVelocity.y, values.diveHop);
             // context.lookDirection = dir;

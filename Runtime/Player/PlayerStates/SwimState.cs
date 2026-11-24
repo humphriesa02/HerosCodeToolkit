@@ -31,7 +31,7 @@ namespace HerosCode.Toolkit.Player
                 // TODO - mario style movement
             }
         }
-        
+
         public override void Exit()
         {
             base.Exit();
