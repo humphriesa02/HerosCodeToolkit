@@ -13,7 +13,8 @@ namespace HerosCode.Toolkit.Player
     public class PlayerController : MonoBehaviour
     {
         [Header("Player Control")]
-        [SerializeField] private PlayerValues playerValues;
+        [SerializeField, Tooltip("The values that dictate how the player works.")]
+        private PlayerValues playerValues;
 
         // Context
         private PlayerContext context;

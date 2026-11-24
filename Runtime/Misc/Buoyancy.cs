@@ -28,7 +28,7 @@ namespace HerosCode.Toolkit.Misc
         [SerializeField, Range(0f, 10f), Tooltip("How quickly water slows movement and spin")]
         private float waterDrag = 1f;
 
-        [SerializeField]
+        [SerializeField, Tooltip("The layer that represents water")]
         private LayerMask waterMask = 0;
 
         private Rigidbody body;

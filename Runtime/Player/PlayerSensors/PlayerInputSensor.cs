@@ -12,10 +12,9 @@ namespace HerosCode.Toolkit.Player
     {
         /// Input
         private PlayerInput playerInput;
-        [SerializeField] private Transform playerFocus;
-        
+
         private InputAction moveAction; // Movement
-        private InputAction lookAction; // For camera, mainly 
+        private InputAction lookAction; // For camera, mainly
         private InputAction primaryButtonAction;
         private InputAction secondaryButtonAction;
 
@@ -23,10 +22,6 @@ namespace HerosCode.Toolkit.Player
 
         public void Initialize(PlayerContext context, PlayerValues values)
         {
-            if (playerFocus == null)
-            {
-                playerFocus = UnityEngine.Camera.main.transform;
-            }
             playerInput = GetComponent<PlayerInput>();
             moveAction = playerInput.actions["Move"];
             lookAction = playerInput.actions["Look"];
@@ -43,12 +38,12 @@ namespace HerosCode.Toolkit.Player
             context.lookInput = lookAction.ReadValue<Vector2>();
             context.lookViaMouse = lookAction.activeControl?.device is Mouse;
 
-            context.primaryPressedTime   = primaryButtonAction.WasPressedThisFrame()   ? 0f : Mathf.Min(context.primaryPressedTime + Time.deltaTime, MaxPressAge);
+            context.primaryPressedTime = primaryButtonAction.WasPressedThisFrame() ? 0f : Mathf.Min(context.primaryPressedTime + Time.deltaTime, MaxPressAge);
             context.secondaryPressedTime = secondaryButtonAction.WasPressedThisFrame() ? 0f : Mathf.Min(context.secondaryPressedTime + Time.deltaTime, MaxPressAge);
         }
 
         public void ClearData(PlayerContext context) { }
 
-        public void FixedCollectData(PlayerContext context){ }
+        public void FixedCollectData(PlayerContext context) { }
     }
 }

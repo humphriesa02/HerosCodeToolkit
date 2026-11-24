@@ -17,8 +17,10 @@ namespace HerosCode.Toolkit.Combat
     [RequireComponent(typeof(Actor))]
     public class Health : MonoBehaviour, ISaveable
     {
-        [SerializeField] private float currentHealth;
-        [SerializeField] private float maxHealth;
+        [SerializeField, Tooltip("The current health of the actor")]
+        private float currentHealth;
+        [SerializeField, Tooltip("The max health of the actor")]
+        private float maxHealth;
         private Actor actor;
 
         private void Awake()
