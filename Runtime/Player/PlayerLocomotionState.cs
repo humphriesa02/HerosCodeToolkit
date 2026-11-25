@@ -3,18 +3,6 @@ using HerosCode.Toolkit.Core;
 namespace HerosCode.Toolkit.Player
 {
     /// <summary>
-    /// Locomotion states set these,
-    /// and are read by actions to determine
-    /// which can be done when
-    /// </summary>
-    public enum PlayerLocomotionTags
-    {
-        Grounded,
-        Airborne,
-        Submerged
-    }
-
-    /// <summary>
     /// A state purely represents locomotion available
     /// the player. Things like basic land movement,
     /// swimming, falling, etc.

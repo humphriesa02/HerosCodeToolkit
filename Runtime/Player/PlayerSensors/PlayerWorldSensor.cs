@@ -320,7 +320,7 @@ namespace HerosCode.Toolkit.Player
 
             // The culmination of all the surrounding steep contacts,
             // if they're less than mingrounddot - we know we're on a "flat floor"
-            Vector3 n = localSteepContactNormal.normalized;
+            var n = localSteepContactNormal.normalized;
             if (n.y < values.MinGroundDotProduct) return false;
 
             normal = n;
