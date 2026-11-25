@@ -50,6 +50,7 @@ namespace HerosCode.Toolkit.Misc
             }
             colliders.Add(other);
         }
+
         private void OnTriggerExit(Collider other)
         {
             if (colliders.Remove(other) && colliders.Count == 0)

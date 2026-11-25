@@ -37,7 +37,7 @@ namespace HerosCode.Toolkit.Misc
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Vector3 localEnd = transform.position + (transform.up * 2f);
+            var localEnd = transform.position + (transform.up * 2f);
             Gizmos.DrawLine(transform.position, localEnd);
         }
     }

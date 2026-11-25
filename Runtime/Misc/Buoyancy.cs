@@ -48,11 +48,11 @@ namespace HerosCode.Toolkit.Misc
 
         private void FixedUpdate()
         {
-            int count = buoyancyOffsets.Length;
-            float buoyancyFactor = -buoyancy / count;
-            float totalSubmergence = 0f;
+            var count = buoyancyOffsets.Length;
+            var buoyancyFactor = -buoyancy / count;
+            var totalSubmergence = 0f;
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 if (submergence[i] <= 0f) continue;
 
@@ -73,7 +73,7 @@ namespace HerosCode.Toolkit.Misc
 
             // One drag for the whole body, based on the average submergence.
             // Exponential drag is always between 0 and 1 and behaves the same at any step size
-            float drag = Mathf.Exp(-waterDrag * (totalSubmergence / count) * Time.fixedDeltaTime);
+            var drag = Mathf.Exp(-waterDrag * (totalSubmergence / count) * Time.fixedDeltaTime);
             body.linearVelocity *= drag;
             body.angularVelocity *= drag;
         }
@@ -100,11 +100,11 @@ namespace HerosCode.Toolkit.Misc
         /// </summary>
         private void EvaluateSubmergence()
         {
-            Vector3 probeOffset = Vector3.up * submergenceOffset;
+            var probeOffset = Vector3.up * submergenceOffset;
 
-            for (int i = 0; i < buoyancyOffsets.Length; i++)
+            for (var i = 0; i < buoyancyOffsets.Length; i++)
             {
-                Vector3 p = probeOffset + transform.TransformPoint(buoyancyOffsets[i]);
+                var p = probeOffset + transform.TransformPoint(buoyancyOffsets[i]);
 
                 if (Physics.Raycast(
                         p, Vector3.down, out RaycastHit hit, submergenceRange + 1f,
